@@ -1,17 +1,16 @@
 export const forms = [
-  { id: 'masu', label: 'Polite', jp: 'ます形', level: 'N5', hint: 'polite present / future' },
-  { id: 'te', label: 'Te-form', jp: 'て形', level: 'N5', hint: 'connect actions / requests' },
-  { id: 'ta', label: 'Past', jp: 'た形', level: 'N5', hint: 'plain past' },
-  { id: 'nai', label: 'Negative', jp: 'ない形', level: 'N5', hint: 'plain negative' },
-  { id: 'nakatta', label: 'Past negative', jp: 'なかった形', level: 'N5', hint: 'plain past negative' },
-  { id: 'potential', label: 'Potential', jp: '可能形', level: 'N4', hint: 'can do' },
-  { id: 'volitional', label: 'Volitional', jp: '意向形', level: 'N4', hint: "let's / intend to" },
-  { id: 'imperative', label: 'Imperative', jp: '命令形', level: 'N4', hint: 'direct command' },
-  { id: 'prohibitive', label: 'Prohibitive', jp: '禁止形', level: 'N4', hint: "don't!" },
-  { id: 'ba', label: 'Conditional', jp: 'ば形', level: 'N4', hint: 'if' },
-  { id: 'passive', label: 'Passive', jp: '受身形', level: 'N4', hint: 'be done' },
-  { id: 'causative', label: 'Causative', jp: '使役形', level: 'N4', hint: 'make / let do' },
-  { id: 'causativePassive', label: 'Causative-passive', jp: '使役受身形', level: 'N3', hint: 'be made to do' },
+  { id: 'masu', label: 'Thể lịch sự', jp: 'ます形', level: 'N5', hint: 'làm / sẽ làm' },
+  { id: 'te', label: 'Thể て', jp: 'て形', level: 'N5', hint: 'nối câu, yêu cầu' },
+  { id: 'ta', label: 'Thể quá khứ', jp: 'た形', level: 'N5', hint: 'đã làm' },
+  { id: 'nai', label: 'Thể phủ định', jp: 'ない形', level: 'N5', hint: 'không làm' },
+  { id: 'nakatta', label: 'Thể phủ định quá khứ', jp: 'なかった形', level: 'N5', hint: 'đã không làm' },
+  { id: 'potential', label: 'Thể khả năng', jp: '可能形', level: 'N4', hint: 'có thể làm' },
+  { id: 'volitional', label: 'Thể ý chí', jp: '意向形', level: 'N4', hint: 'hãy cùng / sẽ làm' },
+  { id: 'imperative', label: 'Thể mệnh lệnh', jp: '命令形', level: 'N4', hint: 'hãy làm!' },
+  { id: 'prohibitive', label: 'Thể cấm chỉ', jp: '禁止形', level: 'N4', hint: 'đừng làm!' },
+  { id: 'ba', label: 'Thể điều kiện', jp: 'ば形', level: 'N4', hint: 'nếu làm' },
+  { id: 'passive', label: 'Thể bị động', jp: '受身形', level: 'N4', hint: 'bị làm' },
+  { id: 'causative', label: 'Thể sai khiến', jp: '使役形', level: 'N4', hint: 'bắt / cho làm' },
 ];
 
 export const verbs = [
@@ -80,3 +79,4 @@ export function toRomaji(kanaText) {
 }
 
 export const normalize = (text) => text.trim().toLowerCase().replace(/[\s\-']/g,'').replace(/ō/g,'ou').replace(/ū/g,'uu');
+
