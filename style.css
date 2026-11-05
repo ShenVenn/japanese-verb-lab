@@ -630,22 +630,18 @@ main {
 
 .pagoda-art {
   height: 36%;
-  background-image:
-    linear-gradient(
-      to bottom,
-      rgba(255, 255, 255, 0),
-      rgba(255, 255, 255, 0) 30%
-    ),
-    url('./card-pagoda.png');
+  background-image: url('./card-pagoda.png');
   background-position: center bottom;
-  background-size: cover;
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 
 .torii-art {
   height: 56%;
   background-image: url('./card-torii.png');
   background-position: center bottom;
-  background-size: cover;
+  background-size: contain;
+  background-repeat: no-repeat;
   opacity: .98;
 }
 
