@@ -15,20 +15,15 @@
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
+
+/* NỀN PHONG CẢNH NHẬT BẢN */
 body {
-  min-height: 100vh;
-  margin: 0;
-  padding: 0 0 34px;
-  color: var(--ink);
-  font-family: 'Be Vietnam Pro', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  background-color: #eef5fb;
-  /* Đổi tên file bên dưới nếu ảnh nền của anh đang dùng tên khác. */
-  background-image: url('./japan-background.png');
-  background-repeat: no-repeat;
-  background-position: center top;
-  background-size: 100% auto;
-  background-attachment: scroll;
+    background-image: url("japan-background.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 100% 100%;
+    background-attachment: fixed;
+    background-color: #edf4ff;
 }
 
 button, input { font: inherit; }
@@ -442,7 +437,12 @@ footer { position: fixed; right: 18px; bottom: 12px; z-index: 4; padding: 7px 11
 }
 
 @media (max-width: 680px) {
-  body { padding-bottom: 12px; background-size: auto 100vh; background-position: center top; }
+  body {
+  padding-bottom: 12px;
+  background-size: 100% 100vh;
+  background-position: center top;
+  background-attachment: fixed;
+}
   .site-header { height: auto; min-height: 58px; }
   .header-inner { display: flex; justify-content: space-between; width: calc(100% - 28px); min-height: 58px; }
   .brand { font-size: 15px; }
