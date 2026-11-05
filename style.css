@@ -1,3 +1,722 @@
-@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;600;700;800&display=swap');
-:root{--ink:#182522;--green:#177d54;--mint:#e1f3e6;--paper:#f7f6f0;--card:#fffefa;--line:#d8ddd7;--pink:#fdebe8;--muted:#65716c}*{box-sizing:border-box}body{min-height:100vh;margin:0;padding-bottom:56px;background:var(--paper);color:var(--ink);font-family:'Be Vietnam Pro',sans-serif}header{display:flex;justify-content:space-between;align-items:center;padding:21px max(5vw,24px);background:#fffefa;border-bottom:1px solid var(--line)}.brand{font-size:21px;font-weight:800}.brand span{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:7px;background:var(--green);color:#fff;font-family:'Noto Sans JP'}header p{font-size:13px;color:var(--muted)}main{max-width:1110px;margin:auto;padding:52px 24px}.panel,.practice-card,.result-card{padding:34px;border:1px solid var(--line);border-radius:16px;background:var(--card);box-shadow:0 9px 28px #1834250c}.kicker{margin:16px 0 8px;color:var(--green);font-size:11px;font-weight:800;letter-spacing:.1em}.panel>.kicker{margin-top:0}.panel h1{margin:0 0 30px;font-size:36px}.setup-grid{display:grid;grid-template-columns:1fr 1.25fr .85fr;gap:16px}.choice-panel{padding:18px;border:1px solid var(--line);border-radius:11px}.choice-panel h2{margin:0 0 14px;font-size:16px}.level-columns,.forms{display:grid;gap:8px}.level,.count-buttons button{padding:12px;border:1px solid var(--line);border-radius:8px;background:#fff;text-align:left;cursor:pointer;font-family:inherit}.level b,.level small{display:block}.level small,.form small,.muted{margin-top:3px;color:var(--muted);font-size:11px}.level.selected,.form.selected,.count-buttons button.selected{border-color:var(--green);background:var(--mint);box-shadow:inset 0 0 0 1px var(--green)}.form{display:flex;align-items:start;gap:8px;padding:8px;border:1px solid var(--line);border-radius:7px;cursor:pointer}.form input{margin-top:3px;accent-color:var(--green)}.form span{display:grid;flex:1;gap:2px}.form b{font-size:13px}.form em{color:var(--green);font-size:10px;font-style:normal}.count-buttons{display:flex;gap:7px}.count-buttons button{min-width:55px;font-size:16px;font-weight:800;text-align:center}.primary{padding:13px 18px;border:0;border-radius:8px;background:var(--green);color:#fff;font:700 14px 'Be Vietnam Pro';cursor:pointer}.panel>.primary{margin-top:24px}.practice-card,.result-card{max-width:720px;margin:auto}.progress{display:flex;justify-content:space-between;padding-bottom:13px;border-bottom:1px solid var(--line);color:var(--muted);font-size:12px}.practice-card h2{margin:0 0 22px;font-size:27px}.practice-card h2 span{color:var(--green)}.source{display:grid;gap:7px;margin-bottom:22px;padding:22px;border-radius:10px;background:#eef6f0}.source b{font:800 46px 'Noto Sans JP';letter-spacing:-.06em}.source small{color:#34705a;font:700 19px 'Noto Sans JP';letter-spacing:-.03em}.answer-label{font-size:13px;font-weight:700}.answer-row{display:flex;gap:9px;margin-top:8px}.answer-row input{flex:1;padding:14px;border:1px solid #aab8b0;border-radius:8px;font:20px 'Noto Sans JP';outline-color:var(--green)}.enter-hint{margin:14px 0 0;font-size:13px}.result-card h2{margin:0;font-size:30px}.summary{color:var(--muted)}.result-list{display:grid;gap:8px;margin:24px 0}.result{display:grid;grid-template-columns:28px 1.2fr 1fr 1fr;align-items:center;gap:12px;padding:12px;border:1px solid;border-radius:9px}.result>span{font-weight:800}.result small{display:block;margin-top:3px;color:#2d684f;font:700 16px 'Noto Sans JP';letter-spacing:-.03em}.result.correct{border-color:#99caab;background:var(--mint)}.result.incorrect{border-color:#e5a7a0;background:var(--pink)}.user-answer{font-size:13px}footer{position:fixed;right:18px;bottom:12px;padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:#fffefaeb;color:var(--muted);font-size:11px}@media(max-width:800px){body{padding-bottom:0}header p{display:none}main{padding:24px 14px}.panel,.practice-card,.result-card{padding:20px}.panel h1{font-size:29px}.setup-grid{grid-template-columns:1fr}.source b{font-size:38px}.result{grid-template-columns:25px 1fr}.user-answer{grid-column:2}.answer-row{flex-direction:column}footer{position:static;display:block;width:max-content;max-width:calc(100% - 28px);margin:0 14px 18px}}
 
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;600;700;800&display=swap');
+
+/* ==============================
+   1. BẢNG MÀU
+================================ */
+
+:root {
+  --ink: #263b33;
+  --ink-soft: #40574d;
+  --green: #398568;
+  --green-dark: #247455;
+  --mint: #e5f3e9;
+  --mint-light: #f0f8f2;
+  --paper: #f4f7f3;
+  --card: #ffffff;
+  --line: #dfe8e0;
+  --muted: #718078;
+  --pink: #fcebea;
+
+  --shadow-sm: 0 3px 12px rgba(38, 59, 51, 0.045);
+  --shadow-md: 0 8px 28px rgba(38, 59, 51, 0.075);
+  --shadow-lg: 0 15px 45px rgba(38, 59, 51, 0.09);
+}
+
+/* ==============================
+   2. THIẾT LẬP CHUNG
+================================ */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  padding-bottom: 56px;
+  background:
+    radial-gradient(ellipse at 15% 10%, rgba(218, 240, 226, 0.45), transparent 35%),
+    radial-gradient(ellipse at 90% 15%, rgba(222, 237, 244, 0.4), transparent 35%),
+    var(--paper);
+  color: var(--ink);
+  font-family: 'Be Vietnam Pro', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input {
+  font-family: inherit;
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ==============================
+   3. HEADER
+================================ */
+
+header {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 62px;
+  padding: 10px max(5vw, 24px);
+  background: rgba(255, 255, 255, 0.88);
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--ink);
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.brand span {
+  display: inline-grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: linear-gradient(145deg, #48a982, #247455);
+  color: white;
+  font-family: 'Noto Sans JP', sans-serif;
+  box-shadow: 0 3px 8px rgba(57, 133, 104, 0.2);
+}
+
+header p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+/* ==============================
+   4. KHUNG NỘI DUNG
+================================ */
+
+main {
+  width: 100%;
+  max-width: 1220px;
+  margin: auto;
+  padding: 38px 24px;
+}
+
+.panel,
+.practice-card,
+.result-card {
+  padding: 30px;
+  border: 1px solid rgba(210, 225, 214, 0.9);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: var(--shadow-md);
+}
+
+/* ==============================
+   5. TIÊU ĐỀ
+================================ */
+
+.kicker {
+  margin: 12px 0 8px;
+  color: var(--green);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+}
+
+.panel > .kicker {
+  margin-top: 0;
+}
+
+.panel h1 {
+  margin: 0 0 24px;
+  color: var(--ink);
+  font-size: 34px;
+  font-weight: 800;
+  letter-spacing: -1.1px;
+  line-height: 1.3;
+}
+
+/* ==============================
+   6. BỐ CỤC BA CỘT
+================================ */
+
+.setup-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.35fr 0.85fr;
+  gap: 14px;
+  align-items: stretch;
+}
+
+.choice-panel {
+  min-width: 0;
+  padding: 17px 14px;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  background: linear-gradient(145deg, #ffffff, #fcfefc);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.choice-panel:hover {
+  border-color: #cadfd0;
+  box-shadow: var(--shadow-sm);
+}
+
+.choice-panel h2 {
+  margin: 0 0 13px;
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 800;
+}
+
+/* ==============================
+   7. LỰA CHỌN CẤP ĐỘ
+================================ */
+
+.level-columns {
+  display: grid;
+  gap: 8px;
+}
+
+.level {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.level b {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.level small {
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.level:hover {
+  border-color: #9fcbb0;
+  background: #f8fcf9;
+  transform: translateY(-1px);
+}
+
+.level.selected {
+  border-color: var(--green);
+  background: var(--mint);
+  box-shadow: inset 0 0 0 1px var(--green);
+}
+
+/* ==============================
+   8. DANH SÁCH THỂ CHIA
+================================ */
+
+.forms {
+  display: grid;
+  gap: 5px;
+}
+
+.form {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 40px;
+  padding: 6px 9px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.form:hover {
+  border-color: #a8cdb5;
+  background: #f7fbf8;
+}
+
+.form.selected {
+  border-color: var(--green);
+  background: var(--mint);
+  box-shadow: inset 0 0 0 1px rgba(57, 133, 104, 0.25);
+}
+
+.form input {
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  margin: 0;
+  accent-color: var(--green);
+  cursor: pointer;
+}
+
+.form span {
+  display: grid;
+  flex: 1;
+  min-width: 0;
+  gap: 2px;
+}
+
+.form b {
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.form small {
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.form em {
+  flex-shrink: 0;
+  padding: 3px 6px;
+  border-radius: 5px;
+  background: #e7f5eb;
+  color: #32805b;
+  font-size: 9px;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.form:nth-child(n+6) em {
+  background: #e8f2fc;
+  color: #4282b7;
+}
+
+/* ==============================
+   9. SỐ LƯỢNG ĐỘNG TỪ
+================================ */
+
+.count-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.count-buttons button {
+  min-width: 55px;
+  padding: 11px 14px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: #fff;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 800;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.count-buttons button:hover {
+  border-color: #9fcbb0;
+  background: #f5faf6;
+  transform: translateY(-1px);
+}
+
+.count-buttons button.selected {
+  border-color: var(--green);
+  background: var(--mint);
+  color: var(--green-dark);
+  box-shadow: inset 0 0 0 1px var(--green);
+}
+
+.muted {
+  margin-top: 7px;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+/* ==============================
+   10. NÚT BẮT ĐẦU
+================================ */
+
+.primary {
+  padding: 13px 22px;
+  border: 0;
+  border-radius: 9px;
+  background: linear-gradient(135deg, #43a77a, #247b58);
+  color: #fff;
+  font: 700 14px 'Be Vietnam Pro', sans-serif;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(57, 133, 104, 0.2);
+  transition: all 0.2s ease;
+}
+
+.primary:hover {
+  background: linear-gradient(135deg, #358f68, #1d694a);
+  box-shadow: 0 7px 18px rgba(57, 133, 104, 0.27);
+  transform: translateY(-2px);
+}
+
+.primary:active {
+  transform: translateY(0);
+}
+
+.panel > .primary {
+  margin-top: 22px;
+}
+
+/* ==============================
+   11. MÀN HÌNH LUYỆN TẬP
+================================ */
+
+.practice-card,
+.result-card {
+  max-width: 760px;
+  margin: auto;
+}
+
+.progress {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.practice-card h2 {
+  margin: 0 0 22px;
+  color: var(--ink);
+  font-size: 27px;
+}
+
+.practice-card h2 span {
+  color: var(--green);
+}
+
+.source {
+  display: grid;
+  gap: 7px;
+  margin-bottom: 22px;
+  padding: 24px;
+  border: 1px solid #dcece0;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #eff8f1, #e5f3e9);
+}
+
+.source b {
+  color: var(--ink);
+  font: 800 46px 'Noto Sans JP', sans-serif;
+  letter-spacing: -0.06em;
+}
+
+.source small {
+  color: var(--green-dark);
+  font: 700 19px 'Noto Sans JP', sans-serif;
+  letter-spacing: -0.03em;
+}
+
+.answer-label {
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.answer-row {
+  display: flex;
+  gap: 9px;
+  margin-top: 8px;
+}
+
+.answer-row input {
+  flex: 1;
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid #cbd9ce;
+  border-radius: 9px;
+  background: #fff;
+  color: var(--ink);
+  font: 20px 'Noto Sans JP', sans-serif;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.answer-row input:focus {
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px rgba(57, 133, 104, 0.12);
+}
+
+.enter-hint {
+  margin: 14px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+/* ==============================
+   12. MÀN HÌNH KẾT QUẢ
+================================ */
+
+.result-card h2 {
+  margin: 0;
+  color: var(--ink);
+  font-size: 30px;
+}
+
+.summary {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.result-list {
+  display: grid;
+  gap: 8px;
+  margin: 24px 0;
+}
+
+.result {
+  display: grid;
+  grid-template-columns: 28px 1.2fr 1fr 1fr;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid;
+  border-radius: 10px;
+}
+
+.result > span {
+  color: var(--ink);
+  font-weight: 800;
+}
+
+.result small {
+  display: block;
+  margin-top: 3px;
+  color: var(--green-dark);
+  font: 700 16px 'Noto Sans JP', sans-serif;
+  letter-spacing: -0.03em;
+}
+
+.result.correct {
+  border-color: #b6d9c0;
+  background: #edf7ef;
+}
+
+.result.incorrect {
+  border-color: #e9c3bd;
+  background: #fff1ef;
+}
+
+.user-answer {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+/* ==============================
+   13. FOOTER
+================================ */
+
+footer {
+  position: fixed;
+  right: 18px;
+  bottom: 12px;
+  z-index: 3;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.88);
+  color: var(--muted);
+  font-size: 10px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* ==============================
+   14. HIỆU ỨNG FOCUS
+================================ */
+
+button:focus-visible,
+input:focus-visible {
+  outline: 3px solid rgba(57, 133, 104, 0.25);
+  outline-offset: 2px;
+}
+
+/* ==============================
+   15. TABLET
+================================ */
+
+@media (max-width: 950px) {
+  main {
+    max-width: 760px;
+    padding: 28px 20px;
+  }
+
+  .setup-grid {
+    grid-template-columns: 1fr 1.3fr;
+  }
+
+  .choice-panel:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .count-buttons {
+    gap: 10px;
+  }
+}
+
+/* ==============================
+   16. ĐIỆN THOẠI
+================================ */
+
+@media (max-width: 600px) {
+  body {
+    padding-bottom: 15px;
+  }
+
+  header {
+    min-height: 58px;
+    padding: 10px 16px;
+  }
+
+  .brand {
+    font-size: 16px;
+  }
+
+  .brand span {
+    width: 28px;
+    height: 28px;
+  }
+
+  header p {
+    display: none;
+  }
+
+  main {
+    padding: 20px 12px;
+  }
+
+  .panel,
+  .practice-card,
+  .result-card {
+    padding: 19px;
+    border-radius: 14px;
+  }
+
+  .panel h1 {
+    margin-bottom: 20px;
+    font-size: 25px;
+    letter-spacing: -0.6px;
+  }
+
+  .setup-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .choice-panel:last-child {
+    grid-column: auto;
+  }
+
+  .choice-panel {
+    padding: 15px;
+  }
+
+  .choice-panel h2 {
+    font-size: 14px;
+  }
+
+  .form {
+    min-height: 42px;
+  }
+
+  .form b {
+    font-size: 12px;
+  }
+
+  .form small {
+    font-size: 10px;
+  }
+
+  .count-buttons button {
+    flex: 1;
+  }
+
+  .panel > .primary {
+    width: 100%;
+    margin-top: 18px;
+  }
+
+  .practice-card h2 {
+    font-size: 23px;
+  }
+
+  .source {
+    padding: 18px;
+  }
+
+  .source b {
+    font-size: 38px;
+  }
+
+  .answer-row {
+    flex-direction: column;
+  }
+
+  .answer-row .primary {
+    width: 100%;
+  }
+
+  .result-card h2 {
+    font-size: 24px;
+  }
+
+  .result {
+    grid-template-columns: 25px 1fr;
+    gap: 8px;
+  }
+
+  .user-answer {
+    grid-column: 2;
+  }
+
+  footer {
+    position: static;
+    display: block;
+    width: max-content;
+    max-width: calc(100% - 24px);
+    margin: 12px auto;
+    text-align: center;
+  }
+}
+
+/* ==============================
+   17. GIẢM CHUYỂN ĐỘNG
+================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
