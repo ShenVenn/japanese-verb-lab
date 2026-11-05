@@ -1,4 +1,165 @@
-<!doctype html><html lang="vi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Luyện chia động từ tiếng Nhật</title><link rel="stylesheet" href="style.css"></head><body>
-<header><div class="brand"><span>動</span> Luyện chia động từ</div><p>Nhập đáp án bằng hiragana hoặc romaji</p></header>
-<main><section id="setup" class="panel"><p class="kicker">THIẾT LẬP BÀI LUYỆN</p><h1>Bạn muốn luyện phần nào?</h1><div class="setup-grid"><section class="choice-panel"><h2>1. Cấp độ & động từ</h2><div id="levelChoices" class="level-columns"></div></section><section class="choice-panel"><h2>2. Chọn thể cần chia</h2><p class="muted">Động từ luôn được cho ở thể <b>ます</b>. Hãy đổi sang thể đã chọn.</p><div id="formChoices" class="forms"></div></section><section class="choice-panel"><h2>3. Số lượng động từ</h2><div class="count-buttons" id="countChoices"><button data-count="10" class="selected">10</button><button data-count="20">20</button><button data-count="30">30</button></div><p class="muted">Nếu số lượng chọn lớn hơn ngân hàng, động từ sẽ được lặp lại ngẫu nhiên.</p></section></div><button id="start" class="primary">Bắt đầu luyện tập →</button></section><section id="practice" hidden></section></main><footer>Verb Lab · Luyện chia động từ tiếng Nhật N5 và N4</footer><script type="module" src="app.js?v=4"></script></body></html>
 
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#eef6fc">
+  <title>Luyện chia động từ tiếng Nhật</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- THANH ĐIỀU HƯỚNG -->
+  <header class="site-header">
+    <div class="header-inner">
+
+      <a href="#setup" class="brand">
+        <span class="brand-icon">動</span>
+        <span>Luyện chia động từ</span>
+      </a>
+
+      <nav class="main-nav">
+        <a href="#setup" class="nav-item active">
+          <span>✎</span> Luyện tập
+        </a>
+
+        <span class="nav-item">
+          <span>▥</span> Thống kê
+        </span>
+
+        <span class="nav-item">
+          <span>⚙</span> Cài đặt
+        </span>
+      </nav>
+
+      <div class="header-search">
+        <span aria-hidden="true">⌕</span>
+        <input
+          type="search"
+          placeholder="Nhập đáp án bằng hiragana hoặc romaji"
+          aria-label="Tìm kiếm"
+        >
+      </div>
+
+    </div>
+  </header>
+
+
+  <!-- NỘI DUNG CHÍNH -->
+  <main>
+
+    <section id="setup" class="panel setup-panel">
+
+      <!-- TIÊU ĐỀ -->
+      <div class="hero-heading">
+        <span class="kicker">Thiết lập bài luyện</span>
+
+        <h1>Bạn muốn luyện phần nào?</h1>
+
+        <p class="hero-description">
+          Chọn cấp độ, thể chia và số lượng động từ để bắt đầu luyện tập.
+        </p>
+      </div>
+
+
+      <!-- BA KHUNG LỰA CHỌN -->
+      <div class="setup-grid">
+
+        <!-- KHUNG 1: CẤP ĐỘ -->
+        <section class="choice-panel choice-panel-level">
+
+          <h2>
+            <span class="section-icon">▰</span>
+            1. Cấp độ &amp; động từ
+          </h2>
+
+          <div id="levelChoices" class="level-columns"></div>
+
+          <!-- Hình trang trí chùa Nhật Bản -->
+          <div
+            class="card-illustration card-illustration-pagoda"
+            aria-hidden="true">
+          </div>
+
+        </section>
+
+
+        <!-- KHUNG 2: CHỌN THỂ -->
+        <section class="choice-panel choice-panel-forms">
+
+          <h2>
+            <span class="section-icon">◧</span>
+            2. Chọn thể cần chia
+          </h2>
+
+          <p class="muted">
+            Động từ luôn được cho ở thể <b>ます</b>.
+            Hãy đổi sang thể đã chọn.
+          </p>
+
+          <div id="formChoices" class="forms"></div>
+
+        </section>
+
+
+        <!-- KHUNG 3: SỐ LƯỢNG -->
+        <section class="choice-panel choice-panel-count">
+
+          <h2>
+            <span class="section-icon">◷</span>
+            3. Số lượng động từ
+          </h2>
+
+          <div class="count-buttons" id="countChoices">
+            <button type="button" data-count="10" class="selected">10</button>
+            <button type="button" data-count="20">20</button>
+            <button type="button" data-count="30">30</button>
+          </div>
+
+          <p class="muted">
+            Nếu số lượng chọn lớn hơn ngân hàng,
+            động từ sẽ được lặp lại ngẫu nhiên.
+          </p>
+
+          <!-- Hình trang trí cổng Torii -->
+          <div
+            class="card-illustration card-illustration-torii"
+            aria-hidden="true">
+          </div>
+
+        </section>
+
+      </div>
+
+
+      <!-- NÚT BẮT ĐẦU -->
+      <div class="start-container">
+        <button type="button" id="start" class="primary">
+          <span aria-hidden="true">▷</span>
+          Bắt đầu luyện tập
+          <span aria-hidden="true">→</span>
+        </button>
+      </div>
+
+    </section>
+
+
+    <!-- KHU VỰC LUYỆN TẬP -->
+    <section id="practice" hidden></section>
+
+  </main>
+
+
+  <!-- CHÂN TRANG -->
+  <footer>
+    Verb Lab · Luyện chia động từ tiếng Nhật N5 và N4
+  </footer>
+
+
+  <!-- JAVASCRIPT -->
+  <script type="module" src="app.js?v=4"></script>
+
+</body>
+</html>
