@@ -1996,3 +1996,120 @@ html[data-theme="dark"] .result-card .primary.review {
 @media (prefers-reduced-motion: reduce) {
   .answer-row input.shake { animation: none; }
 }
+
+
+/* =========================================
+   THANH CHỌN NHÓM ĐỘNG TỪ (trong thẻ luyện tập)
+   Mốc: Nhóm 1 → Nhóm 2 → Nhóm 3 → Tất cả. Càng về cuối màu càng đậm,
+   đi từ sắc nhạt đến màu của nút "Tiếp theo".
+   ========================================= */
+.progress { align-items: center; }
+
+.group-slider {
+  --gs0: #86d6a9;
+  --gs1: #4cc486;
+  --gs2: #12a063;
+  --gs3: #00695a;
+  --track: #dbe7ee;
+  --tick-on: rgba(255, 255, 255, .95);
+  --tick-off: rgba(100, 123, 136, .42);
+  --f: 0;
+  --cur: var(--gs0);
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex: 0 0 auto;
+}
+
+.gs-label {
+  min-width: 52px;
+  text-align: right;
+  color: var(--ink-soft);
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+#gsRange {
+  --gs-fill: calc(8px + (100% - 16px) * var(--f));
+  --gs-img:
+    radial-gradient(circle 2.5px at calc(8px + (100% - 16px) * 0 / 3) 50%, var(--d0, var(--tick-on)) 0 99%, transparent 100%),
+    radial-gradient(circle 2.5px at calc(8px + (100% - 16px) * 1 / 3) 50%, var(--d1, var(--tick-off)) 0 99%, transparent 100%),
+    radial-gradient(circle 2.5px at calc(8px + (100% - 16px) * 2 / 3) 50%, var(--d2, var(--tick-off)) 0 99%, transparent 100%),
+    radial-gradient(circle 2.5px at calc(8px + (100% - 16px) * 3 / 3) 50%, var(--d3, var(--tick-off)) 0 99%, transparent 100%),
+    linear-gradient(90deg, var(--gs0), var(--cur));
+  --gs-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, var(--gs-fill) 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  width: 118px;
+  height: 16px;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+#gsRange::-webkit-slider-runnable-track {
+  height: 8px;
+  border-radius: 999px;
+  background-color: var(--track);
+  background-image: var(--gs-img);
+  background-size: var(--gs-size);
+  background-repeat: no-repeat;
+}
+
+#gsRange::-moz-range-track {
+  height: 8px;
+  border-radius: 999px;
+  background-color: var(--track);
+  background-image: var(--gs-img);
+  background-size: var(--gs-size);
+  background-repeat: no-repeat;
+}
+
+#gsRange::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  margin-top: -4px;
+  border: 3px solid var(--cur);
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(20, 50, 70, .3);
+  transition: transform .15s ease;
+}
+
+#gsRange::-moz-range-thumb {
+  box-sizing: border-box;
+  width: 16px;
+  height: 16px;
+  border: 3px solid var(--cur);
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(20, 50, 70, .3);
+}
+
+#gsRange:active::-webkit-slider-thumb { transform: scale(1.12); }
+#gsRange:focus-visible { outline-offset: 5px; border-radius: 999px; }
+
+.group-slider.nope { animation: gs-nope .35s ease; }
+@keyframes gs-nope {
+  25% { transform: translateX(-3px); }
+  75% { transform: translateX(3px); }
+}
+
+html[data-theme="dark"] .group-slider {
+  --gs0: #9aa8f4;
+  --gs1: #7585ea;
+  --gs2: #5c64d9;
+  --gs3: #4a45c6;
+  --track: rgba(140, 160, 255, .2);
+  --tick-on: rgba(255, 255, 255, .9);
+  --tick-off: rgba(190, 205, 255, .4);
+}
+html[data-theme="dark"] #gsRange::-webkit-slider-thumb { background: #eef1ff; box-shadow: 0 0 8px rgba(120, 130, 255, .5); }
+html[data-theme="dark"] #gsRange::-moz-range-thumb { background: #eef1ff; box-shadow: 0 0 8px rgba(120, 130, 255, .5); }
+
+@media (max-width: 520px) {
+  .group-slider { width: 100%; justify-content: flex-end; }
+}
