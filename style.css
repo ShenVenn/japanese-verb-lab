@@ -1871,11 +1871,11 @@ html[data-theme="dark"] footer {
 /* Đèn chùa sáng rực hơn về đêm */
 html[data-theme="dark"] .pl-lamp {
   box-shadow:
-    0 0 .45vw .12vw rgba(255, 214, 120, 1),
-    0 0 1.3vw .45vw rgba(255, 170, 70, .6);
+    0 0 .28vw .06vw rgba(255, 214, 120, .75),
+    0 0 .8vw .2vw rgba(255, 170, 70, .3);
 }
 html[data-theme="dark"] .pl-halo {
-  background: radial-gradient(ellipse at center, rgba(255, 200, 110, .55) 0%, rgba(255, 170, 80, .22) 45%, rgba(255, 170, 80, 0) 72%);
+  background: radial-gradient(ellipse at center, rgba(255, 200, 110, .3) 0%, rgba(255, 170, 80, .12) 45%, rgba(255, 170, 80, 0) 72%);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1912,7 +1912,7 @@ html[data-theme="dark"] .pl-halo {
 }
 
 /* Chế độ tối */
-html[data-theme="dark"] .pagoda-lights { opacity: 1; }
+html[data-theme="dark"] .pagoda-lights { opacity: .75; }
 html[data-theme="dark"] .pl-glow { display: block; }
 
 html[data-theme="dark"] #start.primary,
