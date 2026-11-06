@@ -2033,10 +2033,10 @@ html[data-theme="dark"] .result-card .primary.review {
 #gsRange {
   --gs-fill: calc(8px + (100% - 16px) * var(--f));
   --gs-img:
-    radial-gradient(circle 2.5px at calc(8px + (100% - 16px) * 0 / 3) 50%, var(--d0, var(--tick-on)) 0 99%, transparent 100%),
-    radial-gradient(circle 2.5px at calc(8px + (100% - 16px) * 1 / 3) 50%, var(--d1, var(--tick-off)) 0 99%, transparent 100%),
-    radial-gradient(circle 2.5px at calc(8px + (100% - 16px) * 2 / 3) 50%, var(--d2, var(--tick-off)) 0 99%, transparent 100%),
-    radial-gradient(circle 2.5px at calc(8px + (100% - 16px) * 3 / 3) 50%, var(--d3, var(--tick-off)) 0 99%, transparent 100%),
+    radial-gradient(circle 3.5px at calc(8px + (100% - 16px) * 0 / 3) 50%, var(--d0, var(--tick-on)) 0 45%, transparent 100%),
+    radial-gradient(circle 3.5px at calc(8px + (100% - 16px) * 1 / 3) 50%, var(--d1, var(--tick-off)) 0 45%, transparent 100%),
+    radial-gradient(circle 3.5px at calc(8px + (100% - 16px) * 2 / 3) 50%, var(--d2, var(--tick-off)) 0 45%, transparent 100%),
+    radial-gradient(circle 3.5px at calc(8px + (100% - 16px) * 3 / 3) 50%, var(--d3, var(--tick-off)) 0 45%, transparent 100%),
     linear-gradient(90deg, var(--gs0), var(--cur));
   --gs-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, var(--gs-fill) 100%;
   -webkit-appearance: none;
