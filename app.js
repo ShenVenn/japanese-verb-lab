@@ -91,3 +91,63 @@ function attachKana(input){
   input.addEventListener('compositionend',()=>{composing=false;convert()});
   input.addEventListener('input',convert);
 }
+
+/* ===== Cánh hoa anh đào bay theo gió (chỉ chạy ở trang chủ) ===== */
+(function sakura(){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  const cv=document.createElement('canvas'),ctx=cv.getContext('2d');
+  cv.id='petals';cv.setAttribute('aria-hidden','true');
+  cv.style.cssText='position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:6';
+  document.body.appendChild(cv);
+  let W=0,H=0,dpr=1,petals=[],raf=0,last=0;
+  const rnd=(a,b)=>a+Math.random()*(b-a);
+  function resize(){
+    dpr=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;
+    cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
+    const n=Math.max(14,Math.min(34,Math.round(W/65)));
+    while(petals.length<n)petals.push(spawn(true));
+    petals.length=n;
+  }
+  function spawn(anywhere){
+    const fromTop=Math.random()<.65,p={
+      s:rnd(5,9),rot:rnd(0,6.28),spin:rnd(-.025,.025),flip:rnd(0,6.28),flipSpd:rnd(.02,.05),
+      vy:rnd(.45,1.1),vx:rnd(.5,1.3),phase:rnd(0,6.28),sway:rnd(.4,.9),a:rnd(.55,.9),
+    };
+    if(anywhere){p.x=rnd(-20,W);p.y=rnd(-20,H)}
+    else if(fromTop){p.x=rnd(-60,W);p.y=rnd(-30,-8)}
+    else{p.x=rnd(-30,-8);p.y=rnd(-20,H*.7)}
+    return p;
+  }
+  function draw(p){
+    const s=p.s;
+    ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot);ctx.scale(1,.35+.65*Math.abs(Math.cos(p.flip)));
+    const g=ctx.createLinearGradient(0,-s,0,s);g.addColorStop(0,'#ffe3ec');g.addColorStop(1,'#ff9fba');
+    ctx.globalAlpha=p.a;ctx.fillStyle=g;
+    ctx.beginPath();ctx.moveTo(0,-s);
+    ctx.bezierCurveTo(s*.95,-s*.7,s*.8,s*.55,s*.12,s);
+    ctx.lineTo(0,s*.78);ctx.lineTo(-s*.12,s);
+    ctx.bezierCurveTo(-s*.8,s*.55,-s*.95,-s*.7,0,-s);
+    ctx.fill();ctx.restore();
+  }
+  function frame(t){
+    raf=requestAnimationFrame(frame);
+    const dt=Math.min((t-(last||t))/16.67,3);last=t;
+    // gió: lúc mạnh lúc nhẹ, thổi từ trái sang phải
+    const wind=1+.7*Math.sin(t/2600)+.35*Math.sin(t/900+1.3);
+    ctx.clearRect(0,0,W,H);
+    for(let i=0;i<petals.length;i++){
+      const p=petals[i];
+      p.phase+=.025*dt;p.flip+=p.flipSpd*dt;p.rot+=(p.spin+.01*wind)*dt;
+      p.x+=(p.vx*wind+Math.sin(p.phase)*p.sway)*dt;
+      p.y+=(p.vy+.25*Math.max(wind,0)+Math.cos(p.phase*.8)*.25)*dt;
+      if(p.x>W+30||p.y>H+30||p.x<-80)petals[i]=spawn(false);else draw(p);
+    }
+  }
+  function start(){if(!raf&&!document.hidden){last=0;raf=requestAnimationFrame(frame)}}
+  function stop(){cancelAnimationFrame(raf);raf=0;ctx.clearRect(0,0,W,H)}
+  const sync=()=>{$('#setup').hidden?stop():start()};
+  new MutationObserver(sync).observe($('#setup'),{attributes:true,attributeFilter:['hidden']});
+  document.addEventListener('visibilitychange',()=>document.hidden?cancelAnimationFrame(raf)||(raf=0):sync());
+  addEventListener('resize',resize);
+  resize();sync();
+})();

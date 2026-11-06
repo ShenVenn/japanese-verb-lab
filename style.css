@@ -286,8 +286,7 @@ main {
     0 0 0 1px rgba(196, 214, 230, .5),
     0 4px 10px rgba(60, 95, 130, .06),
     0 16px 36px rgba(60, 95, 130, .12);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  /* không dùng backdrop-filter ở đây: khung đã gần như đặc, và bỏ đi giúp hoa anh đào bay mượt hơn */
 }
 
 .choice-panel > *:not(.panel-art) {
