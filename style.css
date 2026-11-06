@@ -1441,3 +1441,74 @@ footer {
   text-align: center;
   align-self: stretch;
 }
+
+/* =========================================
+   ÁNH ĐÈN LỒNG TRONG CHÙA (nền)
+   ========================================= */
+
+.pagoda-lights {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.pagoda-lights i {
+  position: absolute;
+  display: block;
+  transform: translate(-50%, -50%);
+}
+
+/* cửa sổ sáng đèn */
+.pl-lamp {
+  width: .3vw;
+  height: .46vw;
+  min-width: 3px;
+  min-height: 4px;
+  border-radius: 40% 40% 35% 35%;
+  background: radial-gradient(circle at 50% 40%, #fffbe6 0%, #ffe08a 45%, #ffb347 100%);
+  box-shadow:
+    0 0 .35vw .08vw rgba(255, 214, 120, .95),
+    0 0 .9vw .25vw rgba(255, 170, 70, .45);
+  animation: pl-flicker var(--t, 3s) ease-in-out var(--d, 0s) infinite;
+}
+
+.pl-top {
+  width: .38vw;
+  height: .38vw;
+  min-width: 4px;
+  min-height: 4px;
+  border-radius: 50%;
+}
+
+/* quầng sáng ấm toả ra từng tầng */
+.pl-halo {
+  width: 6vw;
+  height: 1.8vw;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(255, 200, 110, .38) 0%, rgba(255, 170, 80, .14) 45%, rgba(255, 170, 80, 0) 72%);
+  mix-blend-mode: screen;
+  animation: pl-breathe var(--t, 4s) ease-in-out var(--d, 0s) infinite;
+}
+
+@keyframes pl-flicker {
+  0%, 100% { opacity: .95; }
+  18%      { opacity: .62; }
+  35%      { opacity: 1; }
+  52%      { opacity: .74; }
+  70%      { opacity: .98; }
+  86%      { opacity: .68; }
+}
+
+@keyframes pl-breathe {
+  0%, 100% { opacity: .55; }
+  50%      { opacity: 1; }
+}
+
+@media (max-width: 760px) {
+  .pagoda-lights { opacity: .9; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pl-lamp, .pl-halo { animation: none; }
+}

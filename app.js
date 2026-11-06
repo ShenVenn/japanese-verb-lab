@@ -151,3 +151,36 @@ function attachKana(input){
   addEventListener('resize',resize);
   resize();sync();
 })();
+
+/* ===== Ánh đèn lồng lấp ló trong các tầng của ngôi chùa (nền) ===== */
+(function pagodaLights(){
+  // Toạ độ tính theo % của ảnh nền japan-background.png (3344 x 1882).
+  // Nền đang để 100% 100% + fixed nên overlay fixed khớp đúng với ảnh.
+  const W=3344,H=1882;
+  const tiers=[
+    {y:291,xs:[2829,2842,2857,2871,2885]},          // tầng 1 (trên)
+    {y:340,xs:[2820,2834,2849,2864,2879,2893]},     // tầng 2
+    {y:393,xs:[2815,2833,2853,2873,2893]},          // tầng 3 (dưới)
+  ];
+  const layer=document.createElement('div');
+  layer.className='pagoda-lights';
+  layer.setAttribute('aria-hidden','true');
+  const add=(cls,x,y,delay,dur)=>{
+    const d=document.createElement('i');
+    d.className=cls;
+    d.style.left=(x/W*100)+'%';
+    d.style.top=(y/H*100)+'%';
+    d.style.setProperty('--d',delay+'s');
+    d.style.setProperty('--t',dur+'s');
+    layer.appendChild(d);
+  };
+  tiers.forEach((t,ti)=>{
+    // quầng sáng mờ phía sau mỗi tầng
+    const cx=t.xs.reduce((a,b)=>a+b,0)/t.xs.length;
+    add('pl-halo',cx,t.y,ti*.7,4+ti);
+    t.xs.forEach((x,i)=>add('pl-lamp',x,t.y,(Math.random()*3).toFixed(2),(2.2+Math.random()*2.2).toFixed(2)));
+  });
+  // đèn lồng nhỏ vàng ở đỉnh chùa
+  add('pl-lamp pl-top',2857,232,.4,3);
+  document.body.appendChild(layer);
+})();
