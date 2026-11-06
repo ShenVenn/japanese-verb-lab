@@ -1942,3 +1942,57 @@ html[data-theme="dark"] #start.primary:hover {
   width: 100%;
   height: 100%;
 }
+
+/* =========================================
+   LUYỆN TẬP: báo lỗi khi để trống + nút ôn lại từ sai
+   ========================================= */
+
+.input-error {
+  margin: 8px 2px 0;
+  color: #d64550;
+  font-size: 12.5px;
+  font-weight: 600;
+}
+.input-error[hidden] { display: none; }
+
+.answer-row input[aria-invalid="true"] {
+  border-color: #e0626b !important;
+  box-shadow: 0 0 0 3px rgba(224, 98, 107, .18) !important;
+}
+.answer-row input.shake { animation: ans-shake .38s ease; }
+
+@keyframes ans-shake {
+  0%, 100% { transform: translateX(0); }
+  20%      { transform: translateX(-7px); }
+  40%      { transform: translateX(6px); }
+  60%      { transform: translateX(-4px); }
+  80%      { transform: translateX(3px); }
+}
+
+.result-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 22px;
+}
+.result-actions .primary { margin: 0; }
+
+.primary.review {
+  background: linear-gradient(105deg, #ff9a62, #e8506f);
+  box-shadow: 0 8px 20px rgba(232, 80, 111, .28);
+}
+.primary.review:hover { filter: brightness(1.06); }
+
+html[data-theme="dark"] .input-error { color: #ff9a9f; }
+html[data-theme="dark"] .result-card .primary.review {
+  background: linear-gradient(105deg, #e8764f, #c43d6b);
+  color: #fff;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), 0 0 0 1px rgba(255, 170, 150, .3), 0 10px 24px rgba(190, 60, 100, .4);
+}
+
+@media (max-width: 760px) {
+  .result-actions .primary { flex: 1 1 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .answer-row input.shake { animation: none; }
+}

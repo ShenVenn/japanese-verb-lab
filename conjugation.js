@@ -80,3 +80,11 @@ export function toRomaji(kanaText) {
 
 export const normalize = (text) => text.trim().toLowerCase().replace(/[\s\-']/g,'').replace(/ō/g,'ou').replace(/ū/g,'uu');
 
+/* Các thể mà kết quả chia ra là động từ thể từ điển (〜る).
+   Vì đề bài cho ở thể ます nên đáp án cũng phải trả về thể ます (〜ます). */
+const POLITE_ANSWER_FORMS = new Set(['potential', 'passive', 'causative', 'causativePassive']);
+
+export function answerFor(v, form) {
+  const base = conjugate(v, form);
+  return POLITE_ANSWER_FORMS.has(form) ? base.replace(/る$/, 'ます') : base;
+}
