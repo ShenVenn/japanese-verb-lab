@@ -1415,3 +1415,35 @@ footer {
 .header-search input::-webkit-search-cancel-button {
   display: none;
 }
+
+/* =========================================
+   TINH CHỈNH: logo "動" + dòng chú thích thể ます
+   ========================================= */
+
+/* Chữ 動 nằm chính giữa ô vuông */
+.brand-icon {
+  display: grid !important;
+  place-items: center;
+  padding: 0 !important;
+  line-height: 1 !important;
+  font-size: 21px !important;
+  text-align: center;
+}
+.brand-icon::before {
+  content: "";
+}
+.brand-icon {
+  /* bù lệch baseline của font Nhật */
+  padding-top: 2px !important;
+  padding-left: 1px !important;
+  box-sizing: border-box;
+}
+
+/* Dòng "Động từ luôn được cho ở thể ます..." nhỏ hơn, thấp xuống, căn giữa */
+.choice-panel-forms > .muted {
+  margin: 22px 0 -2px !important;
+  font-size: 10.5px !important;
+  line-height: 1.4;
+  text-align: center;
+  align-self: stretch;
+}
