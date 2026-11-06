@@ -1,4 +1,4 @@
-import { forms, verbs, conjugate, answerFor, toRomaji, normalize } from './conjugation.js';
+import { forms, verbs, conjugate, answerFor, toRomaji, normalize, skipForms } from './conjugation.js?v=2';
 /* ===== Gõ romaji -> tự đổi sang hiragana (không cần bật bộ gõ tiếng Nhật của Windows) ===== */
 const KANA_MAP = (() => {
   const m = {};
@@ -67,11 +67,11 @@ function toKana(input, flush = false) {
 const $=s=>document.querySelector(s),shuffle=a=>[...a].sort(()=>Math.random()-.5);
 const n5=new Set(['かく','はなす','のむ','あそぶ','よむ','まつ','かう','およぐ','しぬ','いく','ある','たべる','みる','ねる','おきる','かりる','でる','する','くる']);
 const state={level:null,forms:new Set(),count:10,deck:[],index:0,results:[],review:false};
-function levelOf(v){return n5.has(v.reading)?'N5':'N4'}
-function masuKanji(v){const kana=conjugate(v,'masu');if(v.group==='kuru')return '来ます';if(v.group==='suru')return kana;const readingStem=v.reading.slice(0,-1),writtenStem=v.word.slice(0,-1);return writtenStem+kana.slice(readingStem.length)}
+function levelOf(v){return v.level||(n5.has(v.reading)?'N5':'N4')}
+function masuKanji(v){const kana=conjugate(v,'masu');if(v.group==='kuru')return '来ます';if(v.group==='suru'){if(v.word==='する')return kana;const rs=v.reading.slice(0,-2),ws=v.word.slice(0,-2);return ws+kana.slice(rs.length)}const readingStem=v.reading.slice(0,-1),writtenStem=v.word.slice(0,-1);return writtenStem+kana.slice(readingStem.length)}
 function lowerFirst(text){return text.charAt(0).toLowerCase()+text.slice(1)}
 function renderSetup(){const levels=[['N5','Động từ N5','Chỉ động từ cấp N5'],['N4','Động từ N4','Chỉ động từ cấp N4'],['all','Tất cả','Gộp động từ N5 + N4']];$('#levelChoices').innerHTML=levels.map(([id,title,sub])=>`<button class="level ${state.level===id?'selected':''}" data-level="${id}"><b>${title}</b><small>${sub}</small></button>`).join('');document.querySelectorAll('.level').forEach(b=>b.onclick=()=>{state.level=b.dataset.level;renderSetup()});$('#formChoices').innerHTML=forms.filter(f=>f.level==='N5'||f.level==='N4').map(f=>`<label class="form ${state.forms.has(f.id)?'selected':''}"><input type="checkbox" value="${f.id}" ${state.forms.has(f.id)?'checked':''}><span><b>${f.label}</b><small>${f.jp} · ${f.hint}</small></span><em>${f.level}</em></label>`).join('');document.querySelectorAll('.form input').forEach(x=>x.onchange=()=>{x.checked?state.forms.add(x.value):state.forms.delete(x.value);renderSetup()});document.querySelectorAll('#countChoices button').forEach(b=>b.onclick=()=>{state.count=+b.dataset.count;document.querySelectorAll('#countChoices button').forEach(x=>x.classList.toggle('selected',x===b))})}
-function makeDeck(){if(!state.level)return alert('Hãy chọn cấp độ động từ.');const candidates=verbs.filter(v=>state.level==='all'||levelOf(v)===state.level),fs=forms.filter(f=>state.forms.has(f.id));let pool=candidates.flatMap(v=>fs.map(f=>({v,f})));if(!pool.length)return alert('Hãy chọn ít nhất một thể cần chia.');state.deck=[];while(state.deck.length<state.count)state.deck.push(...shuffle(pool));state.deck=state.deck.slice(0,state.count);state.index=0;state.results=[];state.review=false;$('#setup').hidden=true;$('#practice').hidden=false;renderQuestion()}
+function makeDeck(){if(!state.level)return alert('Hãy chọn cấp độ động từ.');const candidates=verbs.filter(v=>state.level==='all'||levelOf(v)===state.level),fs=forms.filter(f=>state.forms.has(f.id));let pool=candidates.flatMap(v=>fs.filter(f=>!(skipForms[v.reading]||[]).includes(f.id)).map(f=>({v,f})));if(!pool.length)return alert('Hãy chọn ít nhất một thể cần chia.');state.deck=[];while(state.deck.length<state.count)state.deck.push(...shuffle(pool));state.deck=state.deck.slice(0,state.count);state.index=0;state.results=[];state.review=false;$('#setup').hidden=true;$('#practice').hidden=false;renderQuestion()}
 function renderQuestion(){if(state.index>=state.deck.length)return finish();const {v,f}=state.deck[state.index],source=conjugate(v,'masu');$('#practice').innerHTML=`<section class="practice-card"><div class="progress"><span>${state.review?'Ôn lại · ':''}Động từ ${state.index+1}/${state.deck.length}</span><span>${f.level} · ${f.jp}</span></div><p class="kicker">HÃY CHIA ĐỘNG TỪ</p><h2>Đổi sang <span>${lowerFirst(f.label)}</span></h2><div class="source"><b>${source}</b><small>${masuKanji(v)}</small></div><label class="answer-label" for="answer">Đáp án của bạn</label><div class="answer-row"><input id="answer" lang="ja" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="Gõ romaji, tự đổi sang hiragana" aria-describedby="answerError"><button id="next" class="primary">Tiếp theo →</button></div><p class="input-error" id="answerError" role="alert" hidden>Hãy nhập ít nhất một ký tự để tiếp tục.</p><p class="enter-hint">Gõ romaji (vd: <b>tabeta</b> → たべた), gõ <b>nn</b> để ra ん. Nhấn Enter để sang động từ tiếp theo.</p></section>`;attachKana($('#answer'));$('#answer').addEventListener('input',clearAnswerError);$('#answer').focus();$('#answer').onkeydown=e=>{if(e.key==='Enter'&&!e.isComposing)nextQuestion()};$('#next').onclick=nextQuestion}
 function showAnswerError(){const input=$('#answer'),err=$('#answerError');err.hidden=false;input.setAttribute('aria-invalid','true');input.classList.remove('shake');void input.offsetWidth;input.classList.add('shake');input.focus()}
 function clearAnswerError(){const input=$('#answer'),err=$('#answerError');if(!input||!err)return;err.hidden=true;input.removeAttribute('aria-invalid');input.classList.remove('shake')}
@@ -86,11 +86,16 @@ document.querySelectorAll('.brand, a.nav-item').forEach(a=>a.addEventListener('c
 
 /* Gắn bộ chuyển romaji -> hiragana vào ô nhập */
 function attachKana(input){
-  let composing=false;
+  let composing=false,prev='',nnEnd=false;
   const convert=()=>{
     if(composing)return;
-    const before=input.value,after=toKana(before);
-    if(after!==before){input.value=after;input.setSelectionRange(after.length,after.length)}
+    let before=input.value;
+    // vừa gõ "nn" (ra ん) rồi gõ tiếp nguyên âm/y -> hiểu là ん + na/ni/nu/ne/no/nya... (vd: annai -> あんない)
+    if(nnEnd&&before.length===prev.length+1&&before.startsWith(prev)&&'aiueoy'.includes(before.slice(-1).toLowerCase()))before=prev+'n'+before.slice(-1);
+    const after=toKana(before);
+    nnEnd=/nn$/i.test(before)&&after.endsWith('ん');
+    prev=after;
+    if(after!==input.value){input.value=after;input.setSelectionRange(after.length,after.length)}
   };
   input.addEventListener('compositionstart',()=>{composing=true});
   input.addEventListener('compositionend',()=>{composing=false;convert()});
