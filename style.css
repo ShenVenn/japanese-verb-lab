@@ -1349,16 +1349,21 @@ footer {
    ========================================= */
 
 .brand-icon {
-  display: grid;
-  place-items: center;
-  width: 36px;
-  height: 36px;
-  flex: 0 0 36px;
-  border-radius: 10px;
-  color: #fff;
-  background: linear-gradient(145deg, #19b886, #08806f);
-  box-shadow: 0 4px 10px rgba(8, 125, 112, .25);
-  font: 800 22px "Noto Sans JP", sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 36px;
+    height: 36px;
+    flex: 0 0 36px;
+
+    border-radius: 10px;
+    color: #fff;
+    background: linear-gradient(145deg, #19b886, #08806f);
+    box-shadow: 0 4px 10px rgba(8, 125, 112, .25);
+
+    font: 800 22px/1 "Noto Sans JP", sans-serif;
+    text-align: center;
 }
 
 .nav-item svg {
