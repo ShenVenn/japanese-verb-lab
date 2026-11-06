@@ -174,6 +174,7 @@ function attachKana(input){
     d.style.setProperty('--t',dur+'s');
     layer.appendChild(d);
   };
+  add('pl-glow',2857,305,0,0); // vầng sáng trăng quanh chùa (chỉ hiện ở chế độ tối)
   tiers.forEach((t,ti)=>{
     // quầng sáng mờ phía sau mỗi tầng
     const cx=t.xs.reduce((a,b)=>a+b,0)/t.xs.length;
