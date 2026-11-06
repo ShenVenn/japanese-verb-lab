@@ -278,12 +278,13 @@ main {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  border: 1px solid rgba(215, 229, 239, .95);
-  border-radius: 22px;
-  background: var(--glass);
+  border: 2px solid rgba(255, 255, 255, .92);
+  border-radius: 26px;
+  background: linear-gradient(180deg, rgba(246, 247, 255, .88), rgba(250, 253, 254, .86));
   box-shadow:
-    0 5px 12px rgba(55, 88, 115, .045),
-    0 12px 28px rgba(55, 88, 115, .075);
+    0 0 0 1px rgba(196, 214, 230, .5),
+    0 4px 10px rgba(60, 95, 130, .06),
+    0 16px 36px rgba(60, 95, 130, .12);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
 }
@@ -314,10 +315,17 @@ main {
   flex: 0 0 28px;
   width: 28px;
   height: 28px;
-  color: #0aa58d;
-  font-size: 29px;
-  font-weight: 800;
+  flex-basis: 30px;
+  width: 30px;
+  height: 30px;
+  color: #0f9a6c;
   line-height: 1;
+}
+
+.section-icon svg {
+  display: block;
+  width: 30px;
+  height: 30px;
 }
 
 .layers-icon {
@@ -349,13 +357,13 @@ main {
   width: 100%;
   min-height: 67px;
   padding: 12px 44px 11px 15px;
-  border: 1px solid #dce7ed;
-  border-radius: 13px;
-  background: rgba(255, 255, 255, .82);
+  border: 1px solid #d6e2ea;
+  border-radius: 15px;
+  background: rgba(255, 255, 255, .94);
   color: var(--ink);
   text-align: left;
   cursor: pointer;
-  box-shadow: 0 3px 8px rgba(53, 85, 105, .045);
+  box-shadow: 0 3px 10px rgba(53, 85, 105, .07);
   transition:
     border-color .18s ease,
     background .18s ease,
@@ -368,9 +376,9 @@ main {
   position: absolute;
   top: 50%;
   right: 16px;
-  width: 18px;
-  height: 18px;
-  border: 2px solid #9aabba;
+  width: 25px;
+  height: 25px;
+  border: 2px solid #8696a6;
   border-radius: 50%;
   transform: translateY(-50%);
   background: rgba(255, 255, 255, .7);
@@ -380,10 +388,10 @@ main {
   content: '✓';
   display: grid;
   place-items: center;
-  border-color: #0c9867;
-  background: #0c9867;
+  border-color: #0a8a52;
+  background: #0a8a52;
   color: white;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 800;
 }
 
@@ -409,11 +417,11 @@ main {
 }
 
 .level.selected {
-  border-color: #0b9a68;
-  background: rgba(215, 246, 226, .9);
+  border-color: #1d9c63;
+  background: #d8f4e5;
   box-shadow:
-    inset 0 0 0 1px #0b9a68,
-    0 5px 13px rgba(20, 143, 94, .08);
+    inset 0 0 0 1px #1d9c63,
+    0 6px 16px rgba(20, 143, 94, .14);
 }
 
 /* =========================================
@@ -586,14 +594,14 @@ main {
   min-width: 0;
   min-height: 46px;
   padding: 9px 12px;
-  border: 1px solid #dce7ed;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, .88);
-  color: #18292e;
-  font-size: 15px;
+  border: 1px solid #e0e9ef;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, .97);
+  color: #111c20;
+  font-size: 16px;
   font-weight: 800;
   cursor: pointer;
-  box-shadow: 0 4px 10px rgba(52, 85, 105, .07);
+  box-shadow: 0 5px 14px rgba(52, 85, 105, .09);
   transition:
     transform .18s ease,
     box-shadow .18s ease,
@@ -605,10 +613,37 @@ main {
 }
 
 .count-buttons button.selected {
-  border-color: #0b9b6c;
-  background: linear-gradient(135deg, #13ad70, #087d67);
+  border-color: #077a4c;
+  background: linear-gradient(145deg, #1ba55f 0%, #0b8a52 50%, #05724a 100%);
   color: #fff;
-  box-shadow: 0 5px 13px rgba(11, 151, 102, .2);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .22),
+    0 9px 20px rgba(6, 120, 74, .32);
+}
+
+/* ghi chú có biểu tượng chữ i */
+.choice-panel-count > .muted {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  margin-top: 16px;
+  color: #3f5a6a;
+  font-size: 12.5px;
+  line-height: 1.55;
+}
+
+.choice-panel-count > .muted::before {
+  content: 'i';
+  flex: 0 0 18px;
+  width: 18px;
+  height: 18px;
+  margin-top: 1px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #12a06b;
+  color: #fff;
+  font: 800 12px/1 'Be Vietnam Pro', sans-serif;
 }
 
 .count-note {
@@ -666,13 +701,15 @@ main {
   padding: 12px 24px;
   border: 0;
   border-radius: 999px;
-  background: linear-gradient(105deg, #13a968, #07836e);
+  background: linear-gradient(90deg, #1ea55e 0%, #0b8a5c 55%, #00695a 100%);
   color: #fff;
   font-family: 'Be Vietnam Pro', sans-serif;
   font-size: 17px;
   font-weight: 800;
   cursor: pointer;
-  box-shadow: 0 8px 20px rgba(12, 153, 105, .25);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .2),
+    0 10px 24px rgba(0, 110, 80, .32);
   transition:
     transform .18s ease,
     box-shadow .18s ease,
@@ -681,7 +718,9 @@ main {
 
 #start.primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 11px 25px rgba(12, 153, 105, .3);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .2),
+    0 13px 28px rgba(0, 110, 80, .38);
   filter: saturate(1.05);
 }
 
@@ -1250,4 +1289,71 @@ footer {
     scroll-behavior: auto !important;
     transition-duration: .01ms !important;
   }
+}
+
+/* =========================================
+   HEADER ICONS / LOGO / SEARCH (theo ảnh mẫu)
+   ========================================= */
+
+.brand-icon {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  flex: 0 0 36px;
+  border-radius: 10px;
+  color: #fff;
+  background: linear-gradient(145deg, #19b886, #08806f);
+  box-shadow: 0 4px 10px rgba(8, 125, 112, .25);
+  font: 800 22px "Noto Sans JP", sans-serif;
+}
+
+.nav-item svg {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+}
+
+.header-search {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 326px;
+  max-width: 100%;
+  height: 40px;
+  padding: 0 14px;
+  border: 1px solid #e0e9ef;
+  border-radius: 13px;
+  background: rgba(255, 255, 255, .92);
+  box-shadow: 0 4px 12px rgba(48, 83, 104, .08);
+  color: #5d7282;
+}
+
+.header-search svg {
+  width: 19px;
+  height: 19px;
+  flex: 0 0 19px;
+}
+
+.header-search input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #1b2b31;
+  font-size: 12.5px;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.header-search input::placeholder {
+  color: #8798a4;
+}
+
+.header-search input::-webkit-search-cancel-button {
+  display: none;
 }
