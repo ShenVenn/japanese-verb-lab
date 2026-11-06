@@ -180,7 +180,5 @@ function attachKana(input){
     add('pl-halo',cx,t.y,ti*.7,4+ti);
     t.xs.forEach((x,i)=>add('pl-lamp',x,t.y,(Math.random()*3).toFixed(2),(2.2+Math.random()*2.2).toFixed(2)));
   });
-  // đèn lồng nhỏ vàng ở đỉnh chùa
-  add('pl-lamp pl-top',2857,232,.4,3);
   document.body.appendChild(layer);
 })();

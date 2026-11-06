@@ -1473,14 +1473,6 @@ footer {
   animation: pl-flicker var(--t, 3s) ease-in-out var(--d, 0s) infinite;
 }
 
-.pl-top {
-  width: .38vw;
-  height: .38vw;
-  min-width: 4px;
-  min-height: 4px;
-  border-radius: 50%;
-}
-
 /* quầng sáng ấm toả ra từng tầng */
 .pl-halo {
   width: 6vw;
