@@ -1420,23 +1420,17 @@ footer {
    TINH CHỈNH: logo "動" + dòng chú thích thể ます
    ========================================= */
 
-/* Chữ 動 nằm chính giữa ô vuông */
+/* Chữ 動: giữ cỡ 22px như ban đầu, căn chính giữa ô, không bị đẩy xuống */
 .brand-icon {
-  display: grid !important;
-  place-items: center;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
   padding: 0 !important;
+  font-size: 22px !important;
   line-height: 1 !important;
-  font-size: 21px !important;
   text-align: center;
-}
-.brand-icon::before {
-  content: "";
-}
-.brand-icon {
-  /* bù lệch baseline của font Nhật */
-  padding-top: 2px !important;
-  padding-left: 1px !important;
-  box-sizing: border-box;
+  text-indent: 0;
+  letter-spacing: 0;
 }
 
 /* Dòng "Động từ luôn được cho ở thể ます..." nhỏ hơn, thấp xuống, căn giữa */
