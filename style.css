@@ -448,7 +448,7 @@ main {
 .choice-panel-forms > .muted {
   order: 3;
   flex: 0 0 auto;
-  margin: 11px 0 0;
+  margin: 16px 0 -5px;
   font-size: 12px;
 }
 
@@ -748,7 +748,7 @@ main {
   width: 100%;
   max-width: 760px;
   margin: 25px auto;
-  padding: 30px 36px 32px;
+  padding: 30px 36px 26px;
   border: 2px solid rgba(255, 255, 255, .92);
   border-radius: 24px;
   background: linear-gradient(180deg, rgba(246, 247, 255, .92), rgba(251, 253, 254, .92));
@@ -826,13 +826,18 @@ main {
   flex: 1;
   min-width: 0;
   height: 58px;
-  padding: 0 20px;
+  padding: 0 20px 5px;
   border: 1px solid #cbd9df;
   border-radius: 15px;
   background: #fff;
   box-shadow: 0 4px 12px rgba(52, 85, 105, .06);
   font: 22px 'Noto Sans JP', sans-serif;
   outline-color: var(--green);
+}
+
+.answer-row input:focus,
+.answer-row input:focus-visible {
+  outline: none;
 }
 
 .answer-row input::placeholder {
@@ -859,7 +864,7 @@ main {
 }
 
 .enter-hint {
-  margin: 14px 0 0;
+  margin: 25px 0 0;
   color: var(--muted);
   font-size: 12.5px;
   line-height: 1.6;
