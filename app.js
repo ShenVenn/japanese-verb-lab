@@ -182,3 +182,42 @@ function attachKana(input){
   });
   document.body.appendChild(layer);
 })();
+
+/* ===== Cài đặt: chế độ sáng / tối (bầu trời đêm) ===== */
+(function themeSettings(){
+  const root=document.documentElement,KEY='verbLabTheme';
+  const btn=$('#settingsBtn'),menu=$('#settingsMenu');
+  const choices=[...document.querySelectorAll('[data-theme-choice]')];
+  const meta=document.querySelector('meta[name="theme-color"]');
+
+  /* Lớp bầu trời đêm: nằm phía sau mọi nội dung, chỉ hiện ở chế độ tối */
+  const sky=document.createElement('div');
+  sky.className='night-sky';sky.setAttribute('aria-hidden','true');
+  sky.innerHTML='<div class="ns-tint"></div><div class="ns-moon"></div><i class="ns-shoot"></i>';
+  const rnd=(a,b)=>a+Math.random()*(b-a);
+  for(let i=0;i<85;i++){
+    const x=rnd(1,99),y=rnd(1,58);
+    if(x<15&&y<32)continue;               // tránh cành hoa anh đào góc trái
+    const s=document.createElement('i');
+    s.className='ns-star'+(Math.random()<.14?' big':'');
+    s.style.cssText=`left:${x}%;top:${y}%;--d:${rnd(0,6).toFixed(2)}s;--t:${rnd(2.5,6).toFixed(2)}s`;
+    sky.appendChild(s);
+  }
+  document.body.insertBefore(sky,document.body.firstChild);
+
+  function apply(theme,save){
+    const dark=theme==='dark';
+    if(dark)root.setAttribute('data-theme','dark');else root.removeAttribute('data-theme');
+    choices.forEach(c=>c.setAttribute('aria-checked',String(c.dataset.themeChoice===(dark?'dark':'light'))));
+    if(meta)meta.setAttribute('content',dark?'#0d1235':'#eef6fc');
+    if(save){try{localStorage.setItem(KEY,dark?'dark':'light')}catch(e){}}
+  }
+  apply(root.getAttribute('data-theme')==='dark'?'dark':'light',false);
+  choices.forEach(c=>c.addEventListener('click',()=>apply(c.dataset.themeChoice,true)));
+
+  const setOpen=open=>{menu.hidden=!open;btn.setAttribute('aria-expanded',String(open))};
+  btn.addEventListener('click',e=>{e.stopPropagation();setOpen(menu.hidden)});
+  menu.addEventListener('click',e=>e.stopPropagation());
+  document.addEventListener('click',()=>setOpen(false));
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!menu.hidden){setOpen(false);btn.focus()}});
+})();
