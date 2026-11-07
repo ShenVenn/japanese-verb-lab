@@ -2264,3 +2264,15 @@ html[data-theme="dark"] .why-title { color: #ff9aaa; }
 html[data-theme="dark"] .why-cause { background: rgba(255, 110, 135, .14); color: #ffb3bf; }
 html[data-theme="dark"] .why-pop i { color: #9db0cf; }
 html[data-theme="dark"] .why-meta { border-top-color: rgba(255, 130, 150, .3); }
+
+/* Tên thể (tiếng Việt) cạnh động từ ở màn kết quả: chữ nhỏ cho cân đối */
+.result .to { display: inline-block; margin-left: 4px; color: var(--muted); font-size: 12px; font-weight: 600; }
+html[data-theme="dark"] .result .to { color: #9db0cf; }
+
+/* Ô nổi bật cho phần đáp án cần nhớ trong quy tắc (kiểu D) */
+.why-pop .pill {
+  display: inline-block; margin: 0 1px; padding: 0 7px; border-radius: 6px;
+  background: #ffe3e8; color: #c0304d;
+  font: 800 13.5px/1.55 'Noto Sans JP', 'Be Vietnam Pro', sans-serif; letter-spacing: 0;
+}
+html[data-theme="dark"] .why-pop .pill { background: rgba(255, 110, 135, .2); color: #ffb3bf; }
