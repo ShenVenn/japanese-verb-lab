@@ -1770,15 +1770,18 @@ html[data-theme="dark"] .choice-panel h2 { color: #eaf0ff; }
 html[data-theme="dark"] .section-icon { color: #4de0a6; }
 html[data-theme="dark"] .muted,
 html[data-theme="dark"] .choice-panel-count > .muted { color: #a9b9d9; }
-html[data-theme="dark"] .panel-art { filter: brightness(.72) saturate(1.1); }
+/* Ảnh nền hai card: nhuộm navy để hòa với tông tối chung */
+html[data-theme="dark"] .panel-art { filter: saturate(.8) hue-rotate(-8deg); }
 html[data-theme="dark"] .pagoda-art {
   background-image:
-    linear-gradient(180deg, rgba(15, 21, 58, .97) 0%, rgba(17, 24, 66, .86) 42%, rgba(20, 34, 78, .35) 78%, rgba(20, 40, 84, .1) 100%),
+    linear-gradient(180deg, rgba(15, 21, 58, .97) 0%, rgba(17, 24, 66, .88) 42%, rgba(19, 30, 76, .62) 78%, rgba(20, 32, 80, .5) 100%),
+    linear-gradient(rgba(16, 24, 70, .45), rgba(16, 24, 70, .45)),
     url('./card-pagoda.png');
 }
 html[data-theme="dark"] .torii-art {
   background-image:
-    linear-gradient(180deg, rgba(15, 21, 58, .97) 0%, rgba(17, 24, 66, .84) 40%, rgba(20, 34, 78, .3) 75%, rgba(20, 40, 84, .08) 100%),
+    linear-gradient(180deg, rgba(15, 21, 58, .97) 0%, rgba(17, 24, 66, .88) 40%, rgba(19, 30, 76, .6) 75%, rgba(20, 32, 80, .48) 100%),
+    linear-gradient(rgba(16, 24, 70, .45), rgba(16, 24, 70, .45)),
     url('./card-torii.png');
 }
 
