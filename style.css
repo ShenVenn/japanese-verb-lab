@@ -564,7 +564,7 @@ main {
   text-align: center;
 }
 
-.form:nth-child(n+6) em {
+.form:nth-child(n+7) em {
   background: #e0efff;
   color: #2586d7;
 }
@@ -1825,7 +1825,7 @@ html[data-theme="dark"] .form.selected {
 html[data-theme="dark"] .form b { color: #eaf0ff; }
 html[data-theme="dark"] .form small { color: #9db0cf; }
 html[data-theme="dark"] .form em { background: rgba(63, 220, 156, .16); color: #6df0b8; }
-html[data-theme="dark"] .form:nth-child(n+6) em { background: rgba(100, 170, 255, .18); color: #8ec5ff; }
+html[data-theme="dark"] .form:nth-child(n+7) em { background: rgba(100, 170, 255, .18); color: #8ec5ff; }
 html[data-theme="dark"] .forms { scrollbar-color: #3b4a8a transparent; }
 html[data-theme="dark"] .forms::-webkit-scrollbar-thumb { background: #3b4a8a; }
 html[data-theme="dark"] .forms::-webkit-scrollbar-thumb:hover { background: #5666b0; }

@@ -7,6 +7,8 @@ const cases = [
 for (const [verb, form, expected] of cases) assert.equal(conjugate(find(verb),form),expected,`${verb} ${form}`);
 assert.equal(toRomaji('かいて'),'kaite');
 assert.equal(toRomaji('まって'),'matte');
+const dictCases = [['かく','かく'],['たべる','たべる'],['いく','いく'],['ある','ある'],['する','する'],['くる','くる']];
+for (const [verb, expected] of dictCases) assert.equal(answerFor(find(verb),'dictionary'),expected,`dictionary ${verb}`);
 const politeCases = [
   ['つくる','potential','つくれます'],['はなす','potential','はなせます'],['たべる','potential','たべられます'],
   ['する','potential','できます'],['くる','potential','こられます'],
@@ -15,4 +17,4 @@ const politeCases = [
   ['かく','te','かいて'],['かく','volitional','かこう'],['かく','imperative','かけ'],
 ];
 for (const [verb, form, expected] of politeCases) assert.equal(answerFor(find(verb),form),expected,`answerFor ${verb} ${form}`);
-console.log(`✓ ${cases.length + 1 + politeCases.length} conjugation checks passed`);
+console.log(`✓ ${cases.length + 1 + dictCases.length + politeCases.length} conjugation checks passed`);

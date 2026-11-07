@@ -1,4 +1,4 @@
-import { forms, verbs, conjugate, answerFor, toRomaji, normalize, skipForms } from './conjugation.js?v=2';
+import { forms, verbs, conjugate, answerFor, toRomaji, normalize, skipForms } from './conjugation.js?v=3';
 /* ===== Gõ romaji -> tự đổi sang hiragana (không cần bật bộ gõ tiếng Nhật của Windows) ===== */
 const KANA_MAP = (() => {
   const m = {};

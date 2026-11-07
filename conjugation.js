@@ -1,5 +1,6 @@
 export const forms = [
   { id: 'masu', label: 'Thể lịch sự', jp: 'ます形', level: 'N5', hint: 'làm / sẽ làm' },
+  { id: 'dictionary', label: 'Thể từ điển', jp: '辞書形', level: 'N5', hint: 'dạng gốc, thân mật' },
   { id: 'te', label: 'Thể て', jp: 'て形', level: 'N5', hint: 'nối câu, yêu cầu' },
   { id: 'ta', label: 'Thể quá khứ', jp: 'た形', level: 'N5', hint: 'đã làm' },
   { id: 'nai', label: 'Thể phủ định', jp: 'ない形', level: 'N5', hint: 'không làm' },
@@ -289,6 +290,7 @@ function godanTe(v, past = false) {
 }
 
 export function conjugate(v, form) {
+  if (form === 'dictionary') return v.reading; // thể từ điển = chính cách đọc gốc (〜る, 〜く, 〜う...)
   if (v.group === 'suru') return (v.reading === 'する' ? '' : v.reading.slice(0, -2)) + ({ masu:'します',te:'して',ta:'した',nai:'しない',nakatta:'しなかった',potential:'できる',volitional:'しよう',imperative:'しろ',prohibitive:'するな',ba:'すれば',passive:'される',causative:'させる',causativePassive:'させられる' })[form];
   if (v.group === 'kuru') return ({ masu:'きます',te:'きて',ta:'きた',nai:'こない',nakatta:'こなかった',potential:'こられる',volitional:'こよう',imperative:'こい',prohibitive:'くるな',ba:'くれば',passive:'こられる',causative:'こさせる',causativePassive:'こさせられる' })[form];
   if (v.reading === 'ある' && form === 'nai') return 'ない';
