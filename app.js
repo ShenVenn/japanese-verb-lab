@@ -86,7 +86,7 @@ function renderQuestion(){if(state.index>=state.deck.length)return finish();cons
 function showAnswerError(){const input=$('#answer'),err=$('#answerError');err.hidden=false;input.setAttribute('aria-invalid','true');input.classList.remove('shake');void input.offsetWidth;input.classList.add('shake');input.focus()}
 function clearAnswerError(){const input=$('#answer'),err=$('#answerError');if(!input||!err)return;err.hidden=true;input.removeAttribute('aria-invalid');input.classList.remove('shake')}
 function nextQuestion(){const {v,f}=state.deck[state.index],expected=answerFor(v,f.id),entered=$('#answer').value;if(!entered.trim()){showAnswerError();return}const ok=[normalize(expected),normalize(toRomaji(expected))].includes(normalize(entered))||normalize(toKana(entered,true))===normalize(expected);state.results.push({v,f,expected,entered,ok});recordAnswer(v,f,ok);state.index++;renderQuestion()}
-function finish(){if(!state.review)bumpSession();const total=state.results.length,correct=state.results.filter(r=>r.ok).length,wrong=state.results.filter(r=>!r.ok),summary=wrong.length?'Xem lại từng đáp án bên dưới. Ô xanh là đúng, ô đỏ là cần ôn lại.':'Tuyệt vời! Bạn đã làm đúng tất cả các câu.';$('#practice').innerHTML=`<section class="result-card"><p class="kicker">HOÀN THÀNH</p><h2>${state.review?'Kết quả ôn lại':'Kết quả'}: ${correct}/${total} đúng</h2><p class="summary">${summary}</p><div class="result-list">${state.results.map((r,i)=>`<article class="result ${r.ok?'correct':'incorrect'}"><span>${i+1}</span><div><b>${conjugate(r.v,'masu')} <span class="to">→ ${r.f.label}</span></b><small>${masuKanji(r.v)}</small></div><div class="user-answer">Bạn nhập: ${r.entered||'—'}</div><div class="ans"><strong>${r.expected}</strong>${r.ok?'':whyHTML(r)}</div></article>`).join('')}</div><div class="result-actions">${wrong.length?`<button id="review" class="primary review">Ôn lại ${wrong.length} từ đã sai</button>`:''}<button id="restart" class="primary">Luyện bài mới</button></div></section>`;
+function finish(){if(!state.review)bumpSession();const total=state.results.length,correct=state.results.filter(r=>r.ok).length,wrong=state.results.filter(r=>!r.ok),summary=wrong.length?'Xem lại từng đáp án bên dưới. Ô xanh là đúng, ô đỏ là cần ôn lại.':'Tuyệt vời! Bạn đã làm đúng tất cả các câu.';$('#practice').innerHTML=`<section class="result-card"><p class="kicker">HOÀN THÀNH</p><h2>${state.review?'Kết quả ôn lại':'Kết quả'}: ${correct}/${total} đúng</h2><p class="summary">${summary}</p><div class="result-list">${state.results.map((r,i)=>`<article class="result ${r.ok?'correct':'incorrect'}"><span>${i+1}</span><div><b>${conjugate(r.v,'masu')}</b><small>${masuKanji(r.v)}</small></div><div class="to">→ ${r.f.label}</div><div class="user-answer">Bạn nhập: ${r.entered||'—'}</div><div class="ans"><strong>${r.expected}</strong>${r.ok?'':whyHTML(r)}</div></article>`).join('')}</div><div class="result-actions">${wrong.length?`<button id="review" class="primary review">Ôn lại ${wrong.length} từ đã sai</button>`:''}<button id="restart" class="primary">Luyện bài mới</button></div></section>`;
   attachWhy();const reviewBtn=$('#review');
   if(reviewBtn)reviewBtn.onclick=()=>{state.deck=shuffle(wrong.map(r=>({v:r.v,f:r.f})));state.index=0;state.results=[];state.review=true;renderQuestion();window.scrollTo({top:0,behavior:'smooth'})};
   $('#restart').onclick=()=>{state.review=false;$('#setup').hidden=false;$('#practice').hidden=true;location.hash='setup'}}
@@ -132,37 +132,32 @@ function renderStats(){
 
 /* ===== Giải thích vì sao sai: dấu "!" ở mỗi câu sai ===== */
 const GROUP_NAME={godan:'Nhóm 1',ichidan:'Nhóm 2',suru:'Nhóm 3',kuru:'Nhóm 3'};
-const VOWEL={a:'あ',e:'え',o:'お'};
-const GODAN_ROW={nai:['a','ない'],nakatta:['a','なかった'],potential:['e','ます'],volitional:['o','う'],imperative:['e',''],ba:['e','ば'],passive:['a','れます'],causative:['a','せます']};
-const ICHIDAN_RULE={te:'bỏ る + [[て]]',ta:'bỏ る + [[た]]',nai:'bỏ る + [[ない]]',nakatta:'bỏ る + [[なかった]]',potential:'bỏ る + [[られます]]',volitional:'bỏ る + [[よう]]',imperative:'bỏ る + [[ろ]]',prohibitive:'thể từ điển + [[な]]',ba:'bỏ る + [[れば]]',passive:'bỏ る + [[られます]]',causative:'bỏ る + [[させます]]'};
+const VOWEL={a:'あ',e:'え',o:'お',u:'う'};
+const GODAN_ROW={dictionary:['u',''],nai:['a','ない'],nakatta:['a','なかった'],potential:['e','ます'],volitional:['o','う'],imperative:['e',''],prohibitive:['u','な'],ba:['e','ば'],passive:['a','れます'],causative:['a','せます']};
+const ICHIDAN_RULE={dictionary:'る',te:'て',ta:'た',nai:'ない',nakatta:'なかった',potential:'られます',volitional:'よう',imperative:'ろ',prohibitive:'るな',ba:'れば',passive:'られます',causative:'させます'};
 const TE_TA={'う':'って','つ':'って','る':'って','む':'んで','ぶ':'んで','ぬ':'んで','く':'いて','ぐ':'いで','す':'して'};
 
-/* Quy tắc: phần đáp án cần nhớ được bọc trong [[...]] để hiển thị thành ô nổi bật */
+/* Quy tắc luôn đi từ thể ます (trước → sau khi chia).
+   Phần đáp án cần nhớ bọc trong [[...]] để hiện thành ô nổi bật; "\n" = xuống dòng. */
 function ruleFor(v,f){
   const id=f.id,e=v.reading.slice(-1);
   if(id==='masu')return 'Đề đã cho sẵn thể ます, chỉ cần viết lại.';
-  if(id==='dictionary'){
-    return v.group==='godan'?`Nhóm 1: cột い → [[う]] (${conjugate(v,'masu')} → ${v.reading}).`
-      :v.group==='ichidan'?`Nhóm 2: bỏ ます + [[る]] (${conjugate(v,'masu')} → ${v.reading}).`
-      :`Nhóm 3 bất quy tắc: ${conjugate(v,'masu')} → [[${v.reading}]].`;
-  }
   if(v.group==='suru'||v.group==='kuru'){
     const base=v.group==='suru'?{group:'suru',reading:'する'}:{group:'kuru',reading:'くる'};
-    let r=`Nhóm 3 bất quy tắc, cần học thuộc: ${base.reading} → [[${answerFor(base,id)}]].`;
-    if(v.group==='suru'&&v.reading!=='する')r+=` Giữ nguyên phần danh từ (${v.reading.slice(0,-2)}), chỉ đổi する.`;
+    let r=`Nhóm 3: bất quy tắc, cần học thuộc.\n${conjugate(base,'masu')} → [[${answerFor(base,id)}]]`;
+    if(v.group==='suru'&&v.reading!=='する')r+=`\nGiữ nguyên phần danh từ (${v.reading.slice(0,-2)}), chỉ đổi する.`;
     return r;
   }
-  if(v.group==='ichidan')return `Nhóm 2: ${ICHIDAN_RULE[id]}.`;
+  if(v.group==='ichidan')return `Nhóm 2: bỏ ます → [[${ICHIDAN_RULE[id]}]]`;
   if(id==='te'||id==='ta'){
     const past=id==='ta';
-    if(v.reading==='いく')return `Ngoại lệ của 行く: [[${past?'いった':'いって'}]] (không phải ${past?'いた':'いいて'}).`;
+    if(v.reading==='いく')return `Ngoại lệ của 行く: [[${past?'いった':'いって'}]] (không phải ${past?'いた':'いいて'})`;
     const suf=TE_TA[e];
-    return `Nhóm 1: đuôi ${e} → [[${past?suf.replace(/て$/,'た').replace(/で$/,'だ'):suf}]].`;
+    return `Nhóm 1: ${kana[e].i} → [[${past?suf.replace(/て$/,'た').replace(/で$/,'だ'):suf}]]`;
   }
-  if(id==='prohibitive')return 'Nhóm 1: thể từ điển + [[な]].';
-  if(v.reading==='ある'&&(id==='nai'||id==='nakatta'))return `Ngoại lệ của ある: thể phủ định là [[${id==='nai'?'ない':'なかった'}]] (không phải あらない).`;
+  if(v.reading==='ある'&&(id==='nai'||id==='nakatta'))return `Ngoại lệ của ある: thể phủ định là [[${id==='nai'?'ない':'なかった'}]] (không phải あらない)`;
   const [row,suf]=GODAN_ROW[id];
-  return `Nhóm 1: cột い → [[${VOWEL[row]}${suf?`+${suf}`:''}]].`;
+  return `Nhóm 1: cột い → [[${VOWEL[row]}${suf?`+${suf}`:''}]]`;
 }
 const pillify=t=>t.replace(/\[\[(.+?)\]\]/g,'<span class="pill" lang="ja">$1</span>');
 
@@ -184,7 +179,7 @@ function causeFor(r){
 
 function whyHTML(r){
   const {v,f}=r,cause=causeFor(r);
-  return `<span class="why"><button type="button" class="why-btn" aria-expanded="false" aria-label="Xem vì sao sai">!</button><span class="why-pop" role="tooltip"><b class="why-title">Vì sao sai?</b>${cause?`<span class="why-cause">${esc(cause)}</span>`:''}<span class="why-rule"><i>Quy tắc</i>${pillify(esc(ruleFor(v,f)))}</span><span class="why-meta"><span><i>Nhóm</i>${esc(GROUP_NAME[v.group])}</span><span><i>Nghĩa</i>${esc(v.meaning)}</span></span></span></span>`;
+  return `<span class="why"><button type="button" class="why-btn" aria-expanded="false" aria-label="Xem vì sao sai">!</button><span class="why-pop" role="tooltip"><b class="why-title">Vì sao sai?</b>${cause?`<span class="why-cause">${esc(cause)}</span>`:''}<span class="why-rule"><i>Quy tắc</i>${ruleFor(v,f).split('\n').map(l=>`<span class="rl">${pillify(esc(l))}</span>`).join('')}</span><span class="why-meta"><span><i>Nhóm</i>${esc(GROUP_NAME[v.group])}</span><span><i>Nghĩa</i>${esc(v.meaning)}</span></span></span></span>`;
 }
 function closeWhy(except){document.querySelectorAll('.why.open').forEach(w=>{if(w!==except){w.classList.remove('open');w.querySelector('.why-btn').setAttribute('aria-expanded','false')}})}
 function attachWhy(){

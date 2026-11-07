@@ -2265,9 +2265,6 @@ html[data-theme="dark"] .why-cause { background: rgba(255, 110, 135, .14); color
 html[data-theme="dark"] .why-pop i { color: #9db0cf; }
 html[data-theme="dark"] .why-meta { border-top-color: rgba(255, 130, 150, .3); }
 
-/* Tên thể (tiếng Việt) cạnh động từ ở màn kết quả: chữ nhỏ cho cân đối */
-.result .to { display: inline-block; margin-left: 4px; color: var(--muted); font-size: 12px; font-weight: 600; }
-html[data-theme="dark"] .result .to { color: #9db0cf; }
 
 /* Ô nổi bật cho phần đáp án cần nhớ trong quy tắc (kiểu D) */
 .why-pop .pill {
@@ -2276,3 +2273,29 @@ html[data-theme="dark"] .result .to { color: #9db0cf; }
   font: 800 13.5px/1.55 'Noto Sans JP', 'Be Vietnam Pro', sans-serif; letter-spacing: 0;
 }
 html[data-theme="dark"] .why-pop .pill { background: rgba(255, 110, 135, .2); color: #ffb3bf; }
+
+/* Dòng kết quả: 5 cột — số · động từ · tên thể · bạn nhập · đáp án đúng */
+.result {
+  grid-template-columns: 28px minmax(0, 1.05fr) minmax(0, .8fr) minmax(0, 1fr) minmax(0, 1fr);
+  column-gap: 14px;
+}
+.result .to { align-self: center; color: var(--muted); font-size: 12px; font-weight: 600; line-height: 1.35; }
+html[data-theme="dark"] .result .to { color: #9db0cf; }
+.result .user-answer { padding-left: 16px; }
+.result .ans { padding-left: 12px; padding-right: 4px; }
+
+/* Dấu "!" nhỏ lại một chút */
+.why-btn { width: 20px; height: 20px; font-size: 12px; box-shadow: 0 0 0 2px rgba(240, 80, 110, .18); }
+.why-btn:hover, .why.open .why-btn { box-shadow: 0 0 0 4px rgba(240, 80, 110, .22); }
+.why-pop { top: calc(100% + 9px); }
+
+/* Mỗi dòng quy tắc xuống hàng riêng */
+.why-rule .rl { display: block; margin-top: 4px; }
+.why-rule .rl:first-of-type { margin-top: 0; }
+.why-rule i + .rl { margin-top: 0; }
+
+@media (max-width: 800px) {
+  .result { grid-template-columns: 25px minmax(0, 1fr); column-gap: 8px; }
+  .result .to, .result .user-answer, .result .ans { grid-column: 2; }
+  .result .user-answer, .result .ans { padding-left: 0; }
+}
