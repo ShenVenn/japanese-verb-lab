@@ -2233,7 +2233,7 @@ html[data-theme="dark"] .st-reset.armed { border-color: #ee5470; background: #ee
 
 .why-pop {
   display: none; position: absolute; z-index: 40; right: -6px; top: calc(100% + 11px);
-  width: min(340px, calc(100vw - 72px)); padding: 14px 16px 13px;
+  width: min(420px, calc(100vw - 72px)); padding: 14px 16px 13px;
   border: 1px solid #f1c5cd; border-radius: 14px; background: #fff;
   box-shadow: 0 14px 34px rgba(70, 40, 60, .22);
   color: var(--ink); font-size: 13px; font-weight: 500; line-height: 1.55; text-align: left;
@@ -2274,15 +2274,21 @@ html[data-theme="dark"] .why-meta { border-top-color: rgba(255, 130, 150, .3); }
 }
 html[data-theme="dark"] .why-pop .pill { background: rgba(255, 110, 135, .2); color: #ffb3bf; }
 
+/* Màn kết quả rộng hơn một chút để đáp án dài không bị xuống dòng */
+#practice:has(.result-card):not([hidden]) { width: min(860px, 100%); }
+.result-card { max-width: 860px; padding-left: 30px; padding-right: 30px; }
+
 /* Dòng kết quả: 5 cột — số · động từ · tên thể · bạn nhập · đáp án đúng */
 .result {
-  grid-template-columns: 28px minmax(0, 1.05fr) minmax(0, .8fr) minmax(0, 1fr) minmax(0, 1fr);
-  column-gap: 14px;
+  grid-template-columns: 26px minmax(120px, 1fr) 130px minmax(170px, 1.15fr) minmax(190px, 1.3fr);
+  column-gap: 12px;
 }
-.result .to { align-self: center; color: var(--muted); font-size: 12px; font-weight: 600; line-height: 1.35; }
+.result .to, .result .user-answer { line-height: 1.4; }
+.result .to { align-self: center; color: var(--muted); font-size: 12px; font-weight: 600; }
 html[data-theme="dark"] .result .to { color: #9db0cf; }
-.result .user-answer { padding-left: 16px; }
+.result .user-answer { align-self: center; padding-left: 16px; white-space: nowrap; }
 .result .ans { padding-left: 12px; padding-right: 4px; }
+.result .ans strong { white-space: nowrap; }
 
 /* Dấu "!" nhỏ lại một chút */
 .why-btn { width: 20px; height: 20px; font-size: 12px; box-shadow: 0 0 0 2px rgba(240, 80, 110, .18); }
@@ -2298,4 +2304,5 @@ html[data-theme="dark"] .result .to { color: #9db0cf; }
   .result { grid-template-columns: 25px minmax(0, 1fr); column-gap: 8px; }
   .result .to, .result .user-answer, .result .ans { grid-column: 2; }
   .result .user-answer, .result .ans { padding-left: 0; }
+  .result .user-answer { white-space: normal; }
 }

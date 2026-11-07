@@ -86,7 +86,7 @@ function renderQuestion(){if(state.index>=state.deck.length)return finish();cons
 function showAnswerError(){const input=$('#answer'),err=$('#answerError');err.hidden=false;input.setAttribute('aria-invalid','true');input.classList.remove('shake');void input.offsetWidth;input.classList.add('shake');input.focus()}
 function clearAnswerError(){const input=$('#answer'),err=$('#answerError');if(!input||!err)return;err.hidden=true;input.removeAttribute('aria-invalid');input.classList.remove('shake')}
 function nextQuestion(){const {v,f}=state.deck[state.index],expected=answerFor(v,f.id),entered=$('#answer').value;if(!entered.trim()){showAnswerError();return}const ok=[normalize(expected),normalize(toRomaji(expected))].includes(normalize(entered))||normalize(toKana(entered,true))===normalize(expected);state.results.push({v,f,expected,entered,ok});recordAnswer(v,f,ok);state.index++;renderQuestion()}
-function finish(){if(!state.review)bumpSession();const total=state.results.length,correct=state.results.filter(r=>r.ok).length,wrong=state.results.filter(r=>!r.ok),summary=wrong.length?'Xem lại từng đáp án bên dưới. Ô xanh là đúng, ô đỏ là cần ôn lại.':'Tuyệt vời! Bạn đã làm đúng tất cả các câu.';$('#practice').innerHTML=`<section class="result-card"><p class="kicker">HOÀN THÀNH</p><h2>${state.review?'Kết quả ôn lại':'Kết quả'}: ${correct}/${total} đúng</h2><p class="summary">${summary}</p><div class="result-list">${state.results.map((r,i)=>`<article class="result ${r.ok?'correct':'incorrect'}"><span>${i+1}</span><div><b>${conjugate(r.v,'masu')}</b><small>${masuKanji(r.v)}</small></div><div class="to">→ ${r.f.label}</div><div class="user-answer">Bạn nhập: ${r.entered||'—'}</div><div class="ans"><strong>${r.expected}</strong>${r.ok?'':whyHTML(r)}</div></article>`).join('')}</div><div class="result-actions">${wrong.length?`<button id="review" class="primary review">Ôn lại ${wrong.length} từ đã sai</button>`:''}<button id="restart" class="primary">Luyện bài mới</button></div></section>`;
+function finish(){if(!state.review)bumpSession();const total=state.results.length,correct=state.results.filter(r=>r.ok).length,wrong=state.results.filter(r=>!r.ok),summary=wrong.length?'Xem lại từng đáp án bên dưới. Ô xanh là đúng, ô đỏ là cần ôn lại.':'Tuyệt vời! Bạn đã làm đúng tất cả các câu.';$('#practice').innerHTML=`<section class="result-card"><p class="kicker">HOÀN THÀNH</p><h2>${state.review?'Kết quả ôn lại':'Kết quả'}: ${correct}/${total} đúng</h2><p class="summary">${summary}</p><div class="result-list">${state.results.map((r,i)=>`<article class="result ${r.ok?'correct':'incorrect'}"><span>${i+1}</span><div><b>${conjugate(r.v,'masu')}</b><small>${masuKanji(r.v)}</small></div><div class="to">${r.f.label}</div><div class="user-answer">Bạn nhập: ${r.entered||'—'}</div><div class="ans"><strong>${r.expected}</strong>${r.ok?'':whyHTML(r)}</div></article>`).join('')}</div><div class="result-actions">${wrong.length?`<button id="review" class="primary review">Ôn lại ${wrong.length} từ đã sai</button>`:''}<button id="restart" class="primary">Luyện bài mới</button></div></section>`;
   attachWhy();const reviewBtn=$('#review');
   if(reviewBtn)reviewBtn.onclick=()=>{state.deck=shuffle(wrong.map(r=>({v:r.v,f:r.f})));state.index=0;state.results=[];state.review=true;renderQuestion();window.scrollTo({top:0,behavior:'smooth'})};
   $('#restart').onclick=()=>{state.review=false;$('#setup').hidden=false;$('#practice').hidden=true;location.hash='setup'}}
@@ -139,13 +139,13 @@ const TE_TA={'う':'って','つ':'って','る':'って','む':'んで','ぶ':'
 
 /* Quy tắc luôn đi từ thể ます (trước → sau khi chia).
    Phần đáp án cần nhớ bọc trong [[...]] để hiện thành ô nổi bật; "\n" = xuống dòng. */
-function ruleFor(v,f){
+function baseRule(v,f){
   const id=f.id,e=v.reading.slice(-1);
   if(id==='masu')return 'Đề đã cho sẵn thể ます, chỉ cần viết lại.';
   if(v.group==='suru'||v.group==='kuru'){
     const base=v.group==='suru'?{group:'suru',reading:'する'}:{group:'kuru',reading:'くる'};
     let r=`Nhóm 3: bất quy tắc, cần học thuộc.\n${conjugate(base,'masu')} → [[${answerFor(base,id)}]]`;
-    if(v.group==='suru'&&v.reading!=='する')r+=`\nGiữ nguyên phần danh từ (${v.reading.slice(0,-2)}), chỉ đổi する.`;
+    if(v.group==='suru'&&v.reading!=='する')r+=`\nGiữ nguyên phần danh từ (${v.reading.slice(0,-2)}), chỉ đổi します`;
     return r;
   }
   if(v.group==='ichidan')return `Nhóm 2: bỏ ます → [[${ICHIDAN_RULE[id]}]]`;
@@ -159,6 +159,8 @@ function ruleFor(v,f){
   const [row,suf]=GODAN_ROW[id];
   return `Nhóm 1: cột い → [[${VOWEL[row]}${suf?`+${suf}`:''}]]`;
 }
+/* Thể cấm chỉ: thêm dòng công thức chung Vる+な lên trước, rồi mới tới cách chia theo nhóm */
+function ruleFor(v,f){const r=baseRule(v,f);return f.id==='prohibitive'?'[[Vる+な]]\n'+r:r}
 const pillify=t=>t.replace(/\[\[(.+?)\]\]/g,'<span class="pill" lang="ja">$1</span>');
 
 function causeFor(r){
