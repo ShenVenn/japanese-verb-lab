@@ -19,3 +19,7 @@ The app supports 13 forms across Godan, Ichidan, する, and 来る verbs, inclu
 ## Thống kê
 
 Tab **Thống kê** lưu kết quả từng câu vào `localStorage` của trình duyệt (khóa `verbLabStats`, chỉ vài KB): tổng số câu, độ chính xác, ngày liên tiếp, biểu đồ 7 ngày, độ chính xác theo từng thể và các động từ hay sai. Có nút xóa thống kê (bấm 2 lần để xác nhận).
+
+## Giải thích câu sai
+
+Ở màn kết quả, mỗi câu sai có dấu chấm than trắng trong vòng tròn đỏ hồng. Rê chuột (hoặc chạm/nhấn) để xem nguyên nhân sai, quy tắc chia, nhóm động từ và nghĩa tiếng Việt. Nghĩa tiếng Việt nằm ở cột thứ 4 của mảng `verbs` trong `conjugation.js`.

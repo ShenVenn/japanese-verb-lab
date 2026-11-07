@@ -17,4 +17,5 @@ const politeCases = [
   ['かく','te','かいて'],['かく','volitional','かこう'],['かく','imperative','かけ'],
 ];
 for (const [verb, form, expected] of politeCases) assert.equal(answerFor(find(verb),form),expected,`answerFor ${verb} ${form}`);
+for (const v of verbs) assert.ok(v.meaning && !/^to /.test(v.meaning) && /[^\x00-\x7F]|[a-z]/.test(v.meaning), `nghĩa tiếng Việt: ${v.word}`);
 console.log(`✓ ${cases.length + 1 + dictCases.length + politeCases.length} conjugation checks passed`);

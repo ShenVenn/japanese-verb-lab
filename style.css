@@ -2215,3 +2215,52 @@ html[data-theme="dark"] .st-actions { border-top-color: #33406f; }
 html[data-theme="dark"] .st-reset { border-color: #3b4a8a; color: #9db0cf; }
 html[data-theme="dark"] .st-reset:hover { border-color: #ff8da1; color: #ff9aaa; }
 html[data-theme="dark"] .st-reset.armed { border-color: #ee5470; background: #ee5470; color: #fff; }
+
+/* =========================================
+   DẤU "!" GIẢI THÍCH CÂU SAI
+   ========================================= */
+.result .ans { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-width: 0; }
+.why { position: relative; flex: none; }
+.why-btn {
+  display: grid; place-items: center; width: 24px; height: 24px; padding: 0;
+  border: 0; border-radius: 50%; background: #f0506e; color: #fff;
+  font: 800 14px/1 'Be Vietnam Pro', sans-serif; cursor: pointer;
+  box-shadow: 0 0 0 3px rgba(240, 80, 110, .18);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.why-btn:hover, .why.open .why-btn { transform: scale(1.12); box-shadow: 0 0 0 5px rgba(240, 80, 110, .22); }
+.why-btn:focus-visible { outline: 3px solid rgba(240, 80, 110, .4); outline-offset: 3px; }
+
+.why-pop {
+  display: none; position: absolute; z-index: 40; right: -6px; top: calc(100% + 11px);
+  width: min(340px, calc(100vw - 72px)); padding: 14px 16px 13px;
+  border: 1px solid #f1c5cd; border-radius: 14px; background: #fff;
+  box-shadow: 0 14px 34px rgba(70, 40, 60, .22);
+  color: var(--ink); font-size: 13px; font-weight: 500; line-height: 1.55; text-align: left;
+}
+.why-pop::before { content: ""; position: absolute; left: 0; right: 0; top: -12px; height: 12px; }  /* cầu nối để rê chuột không bị mất */
+.why-pop::after {
+  content: ""; position: absolute; top: -6px; right: 14px; width: 10px; height: 10px;
+  border-top: 1px solid #f1c5cd; border-left: 1px solid #f1c5cd; background: #fff; transform: rotate(45deg);
+}
+.why.open .why-pop, .why-btn:focus-visible ~ .why-pop { display: block; }
+@media (hover: hover) { .why:hover .why-pop { display: block; } }
+
+.why-pop > * { display: block; }
+.why-title { margin-bottom: 6px; color: #d63a58; font-size: 14px; font-weight: 800; }
+.why-cause { margin-bottom: 8px; padding: 8px 10px; border-radius: 9px; background: #fff1f3; color: #a42a42; font-weight: 700; }
+.why-rule { margin-bottom: 10px; }
+.why-pop i { display: block; margin-bottom: 1px; color: var(--muted); font-size: 11px; font-style: normal; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+.why-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding-top: 10px; border-top: 1px dashed #f1c5cd; }
+.why-meta > span { min-width: 0; font-weight: 700; }
+
+@media (max-width: 560px) {
+  .why-meta { grid-template-columns: 1fr; gap: 6px; }
+}
+
+html[data-theme="dark"] .why-pop { border-color: rgba(255, 130, 150, .42); background: #1b2359; color: #e6ecff; box-shadow: 0 14px 34px rgba(0, 0, 20, .6); }
+html[data-theme="dark"] .why-pop::after { border-color: rgba(255, 130, 150, .42); background: #1b2359; }
+html[data-theme="dark"] .why-title { color: #ff9aaa; }
+html[data-theme="dark"] .why-cause { background: rgba(255, 110, 135, .14); color: #ffb3bf; }
+html[data-theme="dark"] .why-pop i { color: #9db0cf; }
+html[data-theme="dark"] .why-meta { border-top-color: rgba(255, 130, 150, .3); }
