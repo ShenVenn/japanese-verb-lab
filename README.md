@@ -15,3 +15,7 @@ node tests.mjs
 ```
 
 The app supports 13 forms across Godan, Ichidan, する, and 来る verbs, including the key 行く and ある exceptions. It accepts answers in kana or simplified romaji.
+
+## Thống kê
+
+Tab **Thống kê** lưu kết quả từng câu vào `localStorage` của trình duyệt (khóa `verbLabStats`, chỉ vài KB): tổng số câu, độ chính xác, ngày liên tiếp, biểu đồ 7 ngày, độ chính xác theo từng thể và các động từ hay sai. Có nút xóa thống kê (bấm 2 lần để xác nhận).

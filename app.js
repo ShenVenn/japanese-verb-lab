@@ -85,14 +85,60 @@ function makeDeck(){if(!state.level)return alert('Hãy chọn cấp độ độn
 function renderQuestion(){if(state.index>=state.deck.length)return finish();const {v,f}=state.deck[state.index],source=conjugate(v,'masu');$('#practice').innerHTML=`<section class="practice-card"><div class="progress"><span>${state.review?'Ôn lại · ':''}Động từ ${state.index+1}/${state.deck.length}</span>${state.review?`<span>${f.level} · ${f.jp}</span>`:groupSliderHTML()}</div><p class="kicker">HÃY CHIA ĐỘNG TỪ</p><h2>Đổi sang <span>${lowerFirst(f.label)}</span></h2><div class="source"><b>${source}</b><small>${masuKanji(v)}</small></div><label class="answer-label" for="answer">Đáp án của bạn</label><div class="answer-row"><input id="answer" lang="ja" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="Gõ romaji, tự đổi sang hiragana" aria-describedby="answerError"><button id="next" class="primary">Tiếp theo →</button></div><p class="input-error" id="answerError" role="alert" hidden>Hãy nhập ít nhất một ký tự để tiếp tục.</p><p class="enter-hint">Gõ romaji (vd: <b>tabeta</b> → たべた), gõ <b>nn</b> để ra ん. Nhấn Enter để sang động từ tiếp theo.</p></section>`;attachGroupSlider();attachKana($('#answer'));$('#answer').addEventListener('input',clearAnswerError);$('#answer').focus();$('#answer').onkeydown=e=>{if(e.key==='Enter'&&!e.isComposing)nextQuestion()};$('#next').onclick=nextQuestion}
 function showAnswerError(){const input=$('#answer'),err=$('#answerError');err.hidden=false;input.setAttribute('aria-invalid','true');input.classList.remove('shake');void input.offsetWidth;input.classList.add('shake');input.focus()}
 function clearAnswerError(){const input=$('#answer'),err=$('#answerError');if(!input||!err)return;err.hidden=true;input.removeAttribute('aria-invalid');input.classList.remove('shake')}
-function nextQuestion(){const {v,f}=state.deck[state.index],expected=answerFor(v,f.id),entered=$('#answer').value;if(!entered.trim()){showAnswerError();return}const ok=[normalize(expected),normalize(toRomaji(expected))].includes(normalize(entered))||normalize(toKana(entered,true))===normalize(expected);state.results.push({v,f,expected,entered,ok});state.index++;renderQuestion()}
-function finish(){const total=state.results.length,correct=state.results.filter(r=>r.ok).length,wrong=state.results.filter(r=>!r.ok),summary=wrong.length?'Xem lại từng đáp án bên dưới. Ô xanh là đúng, ô đỏ là cần ôn lại.':'Tuyệt vời! Bạn đã làm đúng tất cả các câu.';$('#practice').innerHTML=`<section class="result-card"><p class="kicker">HOÀN THÀNH</p><h2>${state.review?'Kết quả ôn lại':'Kết quả'}: ${correct}/${total} đúng</h2><p class="summary">${summary}</p><div class="result-list">${state.results.map((r,i)=>`<article class="result ${r.ok?'correct':'incorrect'}"><span>${i+1}</span><div><b>${conjugate(r.v,'masu')} → ${r.f.jp}</b><small>${masuKanji(r.v)}</small></div><div class="user-answer">Bạn nhập: ${r.entered||'—'}</div><div><strong>${r.expected}</strong></div></article>`).join('')}</div><div class="result-actions">${wrong.length?`<button id="review" class="primary review">Ôn lại ${wrong.length} từ đã sai</button>`:''}<button id="restart" class="primary">Luyện bài mới</button></div></section>`;
+function nextQuestion(){const {v,f}=state.deck[state.index],expected=answerFor(v,f.id),entered=$('#answer').value;if(!entered.trim()){showAnswerError();return}const ok=[normalize(expected),normalize(toRomaji(expected))].includes(normalize(entered))||normalize(toKana(entered,true))===normalize(expected);state.results.push({v,f,expected,entered,ok});recordAnswer(v,f,ok);state.index++;renderQuestion()}
+function finish(){if(!state.review)bumpSession();const total=state.results.length,correct=state.results.filter(r=>r.ok).length,wrong=state.results.filter(r=>!r.ok),summary=wrong.length?'Xem lại từng đáp án bên dưới. Ô xanh là đúng, ô đỏ là cần ôn lại.':'Tuyệt vời! Bạn đã làm đúng tất cả các câu.';$('#practice').innerHTML=`<section class="result-card"><p class="kicker">HOÀN THÀNH</p><h2>${state.review?'Kết quả ôn lại':'Kết quả'}: ${correct}/${total} đúng</h2><p class="summary">${summary}</p><div class="result-list">${state.results.map((r,i)=>`<article class="result ${r.ok?'correct':'incorrect'}"><span>${i+1}</span><div><b>${conjugate(r.v,'masu')} → ${r.f.jp}</b><small>${masuKanji(r.v)}</small></div><div class="user-answer">Bạn nhập: ${r.entered||'—'}</div><div><strong>${r.expected}</strong></div></article>`).join('')}</div><div class="result-actions">${wrong.length?`<button id="review" class="primary review">Ôn lại ${wrong.length} từ đã sai</button>`:''}<button id="restart" class="primary">Luyện bài mới</button></div></section>`;
   const reviewBtn=$('#review');
   if(reviewBtn)reviewBtn.onclick=()=>{state.deck=shuffle(wrong.map(r=>({v:r.v,f:r.f})));state.index=0;state.results=[];state.review=true;renderQuestion();window.scrollTo({top:0,behavior:'smooth'})};
   $('#restart').onclick=()=>{state.review=false;$('#setup').hidden=false;$('#practice').hidden=true;location.hash='setup'}}
 $('#start').onclick=makeDeck;renderSetup();
-function backToSetup(e){e.preventDefault();$('#practice').hidden=true;$('#practice').innerHTML='';$('#setup').hidden=false;window.scrollTo({top:0,behavior:'smooth'})}
-document.querySelectorAll('.brand, a.nav-item').forEach(a=>a.addEventListener('click',backToSetup));
+/* ===== Thống kê: lưu vào localStorage (vài KB, chỉ ghi khi xong một câu) ===== */
+const STATS_KEY='verbLabStats',WD=['CN','T2','T3','T4','T5','T6','T7'];
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
+const dayKey=(d=new Date())=>{const z=n=>String(n).padStart(2,'0');return d.getFullYear()+'-'+z(d.getMonth()+1)+'-'+z(d.getDate())};
+const emptyStats=()=>({t:0,c:0,sessions:0,days:{},forms:{},verbs:{}});
+function loadStats(){try{const s=JSON.parse(localStorage.getItem(STATS_KEY));if(s&&typeof s==='object')return {...emptyStats(),...s}}catch(e){}return emptyStats()}
+function saveStats(s){try{localStorage.setItem(STATS_KEY,JSON.stringify(s))}catch(e){}}
+function recordAnswer(v,f,ok){const s=loadStats(),k=dayKey(),n=ok?1:0;s.t++;s.c+=n;const d=s.days[k]||(s.days[k]={t:0,c:0});d.t++;d.c+=n;const fm=s.forms[f.id]||(s.forms[f.id]={t:0,c:0});fm.t++;fm.c+=n;const vb=s.verbs[v.reading]||(s.verbs[v.reading]={t:0,w:0,word:v.word});vb.t++;vb.w+=1-n;saveStats(s)}
+function bumpSession(){const s=loadStats();s.sessions++;saveStats(s)}
+function streakOf(days){let n=0;const d=new Date();if(!days[dayKey(d)])d.setDate(d.getDate()-1);while(days[dayKey(d)]){n++;d.setDate(d.getDate()-1)}return n}
+const pctOf=(c,t)=>t?Math.round(c/t*100):0,tone=p=>p>=85?'hi':p>=60?'mid':'lo';
+
+function renderStats(){
+  const s=loadStats(),el=$('#stats'),head='<p class="kicker">THỐNG KÊ</p><h2>Tiến độ <span>luyện tập</span></h2>';
+  if(!s.t){
+    el.innerHTML=`<section class="practice-card stats-card">${head}<div class="st-empty"><b>Chưa có dữ liệu</b><p>Làm một bài luyện tập, kết quả từng câu sẽ được lưu ở đây (chỉ trên trình duyệt này).</p><button type="button" class="primary" id="stGo">Bắt đầu luyện tập</button></div></section>`;
+    $('#stGo').onclick=()=>showView('setup');return;
+  }
+  const week=[];for(let i=6;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);week.push({x:s.days[dayKey(d)]||{t:0,c:0},l:i===0?'Nay':WD[d.getDay()]})}
+  const max=Math.max(1,...week.map(w=>w.x.t));
+  const fr=forms.map(f=>({f,x:s.forms[f.id]})).filter(r=>r.x&&r.x.t).sort((a,b)=>a.x.c/a.x.t-b.x.c/b.x.t);
+  const vr=Object.entries(s.verbs).filter(([,x])=>x.w>0).sort((a,b)=>b[1].w-a[1].w||a[1].t-b[1].t).slice(0,6);
+  const tile=(b,l)=>`<div class="st-stat"><b>${b}</b><small>${l}</small></div>`;
+  el.innerHTML=`<section class="practice-card stats-card">${head}
+    <div class="st-summary">${tile(s.t,'Câu đã làm')}${tile(pctOf(s.c,s.t)+'%','Độ chính xác')}${tile(streakOf(s.days),'Ngày liên tiếp')}${tile(s.sessions,'Bài hoàn thành')}</div>
+    <h3>7 ngày gần nhất <small><i class="ok"></i>đúng <i class="wr"></i>sai</small></h3>
+    <div class="st-week">${week.map(w=>`<div class="st-col" title="${w.x.t} câu · ${w.x.c} đúng"><div class="st-plot"><div class="st-bar" style="height:${w.x.t/max*100}%;${w.x.t?'min-height:5px':''}"><i class="wr" style="flex:${w.x.t-w.x.c}"></i><i class="ok" style="flex:${w.x.c}"></i></div></div><small class="st-day">${w.l}</small><small class="st-cnt">${w.x.t}</small></div>`).join('')}</div>
+    <h3>Độ chính xác theo thể <small>thể yếu nhất ở trên cùng</small></h3>
+    <div class="st-forms">${fr.map(({f,x})=>{const p=pctOf(x.c,x.t);return `<div class="st-row"><span class="st-name">${esc(f.label)}<small>${esc(f.jp)}</small></span><div class="st-track"><i class="${tone(p)}" style="width:${p}%"></i></div><span class="st-pct">${p}%<small>${x.c}/${x.t}</small></span></div>`}).join('')}</div>
+    <h3>Động từ hay sai</h3>
+    ${vr.length?`<ul class="st-verbs">${vr.map(([r,x])=>`<li><span class="st-vw" lang="ja">${esc(x.word||r)}</span><span class="st-vr" lang="ja">${esc(r)}</span><em>sai ${x.w}/${x.t} lần</em></li>`).join('')}</ul>`:'<p class="st-none">Chưa có động từ nào bị sai. Giỏi quá!</p>'}
+    <div class="st-actions"><button type="button" class="st-reset" id="stReset">Xóa thống kê</button></div></section>`;
+  $('#stReset').onclick=function(){
+    if(this.dataset.arm){try{localStorage.removeItem(STATS_KEY)}catch(e){}renderStats();return}
+    this.dataset.arm='1';this.textContent='Bấm lần nữa để xóa hết';this.classList.add('armed');
+    setTimeout(()=>{if(this.isConnected){delete this.dataset.arm;this.textContent='Xóa thống kê';this.classList.remove('armed')}},4000);
+  };
+}
+
+/* Chuyển giữa trang Luyện tập và trang Thống kê */
+function showView(view){
+  $('#practice').hidden=true;$('#practice').innerHTML='';
+  $('#setup').hidden=view!=='setup';$('#stats').hidden=view!=='stats';
+  document.querySelectorAll('a.nav-item').forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+view));
+  if(view==='stats')renderStats();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+document.querySelectorAll('.brand, a.nav-item').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();showView(a.getAttribute('href')==='#stats'?'stats':'setup')}));
 
 /* Gắn bộ chuyển romaji -> hiragana vào ô nhập */
 function attachKana(input){
