@@ -1,4 +1,5 @@
 import { forms, verbs, conjugate, answerFor, toRomaji, normalize, skipForms, kana } from './conjugation.js?v=4';
+import { initQuiz } from './quiz.js?v=3';
 /* ===== Gõ romaji -> tự đổi sang hiragana (không cần bật bộ gõ tiếng Nhật của Windows) ===== */
 const KANA_MAP = (() => {
   const m = {};
@@ -66,7 +67,7 @@ function toKana(input, flush = false) {
 
 const $=s=>document.querySelector(s),shuffle=a=>[...a].sort(()=>Math.random()-.5);
 const n5=new Set(['かく','はなす','のむ','あそぶ','よむ','まつ','かう','およぐ','しぬ','いく','ある','たべる','みる','ねる','おきる','かりる','でる','する','くる']);
-const state={level:null,forms:new Set(),count:10,deck:[],index:0,results:[],review:false,group:'all'};
+const state={level:null,forms:new Set(),count:10,deck:[],index:0,results:[],review:false,group:'all',randN:null};
 /* ===== Nhóm động từ: Nhóm 1 = godan, Nhóm 2 = ichidan, Nhóm 3 = する + 来る ===== */
 const GROUPS=[['g1','Nhóm 1','五段 · godan'],['g2','Nhóm 2','一段 · ichidan'],['g3','Nhóm 3','する · 来る'],['all','Tất cả','Cả 3 nhóm']];
 const groupOf=v=>v.group==='godan'?'g1':v.group==='ichidan'?'g2':'g3';
@@ -80,7 +81,7 @@ function attachGroupSlider(){const r=$('#gsRange');if(!r)return;paintGroup(+r.va
 function levelOf(v){return v.level||(n5.has(v.reading)?'N5':'N4')}
 function masuKanji(v){const kana=conjugate(v,'masu');if(v.group==='kuru')return '来ます';if(v.group==='suru'){if(v.word==='する')return kana;const rs=v.reading.slice(0,-2),ws=v.word.slice(0,-2);return ws+kana.slice(rs.length)}const readingStem=v.reading.slice(0,-1),writtenStem=v.word.slice(0,-1);return writtenStem+kana.slice(readingStem.length)}
 function lowerFirst(text){return text.charAt(0).toLowerCase()+text.slice(1)}
-function renderSetup(){const levels=[['N5','Động từ N5','Chỉ động từ cấp N5'],['N4','Động từ N4','Chỉ động từ cấp N4'],['all','Tất cả','Gộp động từ N5 + N4']];$('#levelChoices').innerHTML=levels.map(([id,title,sub])=>`<button class="level ${state.level===id?'selected':''}" data-level="${id}"><b>${title}</b><small>${sub}</small></button>`).join('');document.querySelectorAll('.level').forEach(b=>b.onclick=()=>{state.level=b.dataset.level;renderSetup()});$('#formChoices').innerHTML=forms.filter(f=>f.level==='N5'||f.level==='N4').map(f=>`<label class="form ${state.forms.has(f.id)?'selected':''}"><input type="checkbox" value="${f.id}" ${state.forms.has(f.id)?'checked':''}><span><b>${f.label}</b><small>${f.jp} · ${f.hint}</small></span><em>${f.level}</em></label>`).join('');document.querySelectorAll('.form input').forEach(x=>x.onchange=()=>{x.checked?state.forms.add(x.value):state.forms.delete(x.value);renderSetup()});document.querySelectorAll('#countChoices button').forEach(b=>b.onclick=()=>{state.count=+b.dataset.count;document.querySelectorAll('#countChoices button').forEach(x=>x.classList.toggle('selected',x===b))})}
+function renderSetup(){const levels=[['N5','Động từ N5','Chỉ động từ cấp N5'],['N4','Động từ N4','Chỉ động từ cấp N4'],['all','Tất cả','Gộp động từ N5 + N4']];$('#levelChoices').innerHTML=levels.map(([id,title,sub])=>`<button class="level ${state.level===id?'selected':''}" data-level="${id}"><b>${title}</b><small>${sub}</small></button>`).join('');document.querySelectorAll('.level').forEach(b=>b.onclick=()=>{state.level=b.dataset.level;renderSetup()});$('#formChoices').innerHTML=forms.filter(f=>f.level==='N5'||f.level==='N4').map(f=>`<label class="form ${state.forms.has(f.id)?'selected':''}"><input type="checkbox" value="${f.id}" ${state.forms.has(f.id)?'checked':''}><span><b>${f.label}</b><small>${f.jp} · ${f.hint}</small></span><em>${f.level}</em></label>`).join('');document.querySelectorAll('.form input').forEach(x=>x.onchange=()=>{x.checked?state.forms.add(x.value):state.forms.delete(x.value);state.randN=null;paintRand();renderSetup()});document.querySelectorAll('#countChoices button').forEach(b=>b.onclick=()=>{state.count=+b.dataset.count;document.querySelectorAll('#countChoices button').forEach(x=>x.classList.toggle('selected',x===b))})}
 function makeDeck(){if(!state.level)return alert('Hãy chọn cấp độ động từ.');let pool=buildPool(state.group);if(!pool.length&&state.group!=='all'){state.group='all';pool=buildPool('all')}if(!pool.length)return alert('Hãy chọn ít nhất một thể cần chia.');state.deck=[];while(state.deck.length<state.count)state.deck.push(...shuffle(pool));state.deck=state.deck.slice(0,state.count);state.index=0;state.results=[];state.review=false;$('#setup').hidden=true;$('#practice').hidden=false;renderQuestion()}
 function renderQuestion(){if(state.index>=state.deck.length)return finish();const {v,f}=state.deck[state.index],source=conjugate(v,'masu');$('#practice').innerHTML=`<section class="practice-card"><div class="progress"><span>${state.review?'Ôn lại · ':''}Động từ ${state.index+1}/${state.deck.length}</span>${state.review?`<span>${f.level} · ${f.jp}</span>`:groupSliderHTML()}</div><p class="kicker">HÃY CHIA ĐỘNG TỪ</p><h2>Đổi sang <span>${lowerFirst(f.label)}</span></h2><div class="source"><b>${source}</b><small>${masuKanji(v)}</small></div><label class="answer-label" for="answer">Đáp án của bạn</label><div class="answer-row"><input id="answer" lang="ja" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="Gõ romaji, tự đổi sang hiragana" aria-describedby="answerError"><button id="next" class="primary">Tiếp theo →</button></div><p class="input-error" id="answerError" role="alert" hidden>Hãy nhập ít nhất một ký tự để tiếp tục.</p><p class="enter-hint">Gõ romaji (vd: <b>tabeta</b> → たべた), gõ <b>nn</b> để ra ん. Nhấn Enter để sang động từ tiếp theo.</p></section>`;attachGroupSlider();attachKana($('#answer'));$('#answer').addEventListener('input',clearAnswerError);$('#answer').focus();$('#answer').onkeydown=e=>{if(e.key==='Enter'&&!e.isComposing)nextQuestion()};$('#next').onclick=nextQuestion}
 function showAnswerError(){const input=$('#answer'),err=$('#answerError');err.hidden=false;input.setAttribute('aria-invalid','true');input.classList.remove('shake');void input.offsetWidth;input.classList.add('shake');input.focus()}
@@ -91,6 +92,18 @@ function finish(){if(!state.review)bumpSession();const total=state.results.lengt
   if(reviewBtn)reviewBtn.onclick=()=>{state.deck=shuffle(wrong.map(r=>({v:r.v,f:r.f})));state.index=0;state.results=[];state.review=true;renderQuestion();window.scrollTo({top:0,behavior:'smooth'})};
   $('#restart').onclick=()=>{state.review=false;$('#setup').hidden=false;$('#practice').hidden=true;location.hash='setup'}}
 $('#start').onclick=makeDeck;renderSetup();
+/* ===== Ngẫu nhiên thể: bấm nút -> hiện hàng số 2-6 -> chọn ngẫu nhiên đúng chừng đó thể =====
+   Bỏ thể ます khỏi nhóm bốc thăm vì đề đã cho sẵn thể ます (đổi sang chính nó thì không có gì để luyện). */
+const RAND_POOL=forms.filter(f=>f.id!=='masu').map(f=>f.id);
+function paintRand(){document.querySelectorAll('#randBar .rand-nums button').forEach(b=>b.classList.toggle('on',+b.dataset.n===state.randN))}
+function rollForms(n){
+  const picked=shuffle(RAND_POOL).slice(0,n);
+  state.forms=new Set(picked);state.randN=n;renderSetup();paintRand();
+  const first=document.querySelector('#formChoices .form.selected');if(first)first.scrollIntoView({block:'nearest'});
+  const btn=$('#randBtn');btn.classList.remove('rolling');void btn.offsetWidth;btn.classList.add('rolling');
+}
+$('#randBtn').onclick=()=>{const bar=$('#randBar'),open=bar.hidden;bar.hidden=!open;$('#randBtn').setAttribute('aria-expanded',String(open))};
+document.querySelectorAll('#randBar .rand-nums button').forEach(b=>b.onclick=()=>rollForms(+b.dataset.n));
 /* ===== Thống kê: lưu vào localStorage (vài KB, chỉ ghi khi xong một câu) ===== */
 const STATS_KEY='verbLabStats',WD=['CN','T2','T3','T4','T5','T6','T7'];
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
@@ -195,12 +208,14 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeWhy(null)});
 /* Chuyển giữa trang Luyện tập và trang Thống kê */
 function showView(view){
   $('#practice').hidden=true;$('#practice').innerHTML='';
-  $('#setup').hidden=view!=='setup';$('#stats').hidden=view!=='stats';
+  ['home','setup','quiz','stats'].forEach(id=>{$('#'+id).hidden=id!==view});
   document.querySelectorAll('a.nav-item').forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+view));
   if(view==='stats')renderStats();
   window.scrollTo({top:0,behavior:'smooth'});
 }
-document.querySelectorAll('.brand, a.nav-item').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();showView(a.getAttribute('href')==='#stats'?'stats':'setup')}));
+document.querySelectorAll('.brand, a.nav-item').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();showView(a.getAttribute('href').slice(1))}));
+document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.go)));
+initQuiz({$,shuffle,esc,toKana,attachKana,showView});
 
 /* Gắn bộ chuyển romaji -> hiragana vào ô nhập */
 function attachKana(input){
@@ -273,8 +288,9 @@ function attachKana(input){
   }
   function start(){if(!raf&&!document.hidden){last=0;raf=requestAnimationFrame(frame)}}
   function stop(){cancelAnimationFrame(raf);raf=0;ctx.clearRect(0,0,W,H)}
-  const sync=()=>{$('#setup').hidden?stop():start()};
-  new MutationObserver(sync).observe($('#setup'),{attributes:true,attributeFilter:['hidden']});
+  const spots=['#home','#setup','#quiz'].map($);
+  const sync=()=>{spots.some(el=>!el.hidden)?start():stop()};
+  spots.forEach(el=>new MutationObserver(sync).observe(el,{attributes:true,attributeFilter:['hidden']}));
   document.addEventListener('visibilitychange',()=>document.hidden?cancelAnimationFrame(raf)||(raf=0):sync());
   addEventListener('resize',resize);
   resize();sync();

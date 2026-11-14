@@ -2306,3 +2306,330 @@ html[data-theme="dark"] .result .to { color: #9db0cf; }
   .result .user-answer, .result .ans { padding-left: 0; }
   .result .user-answer { white-space: normal; }
 }
+
+
+/* =========================================================
+   TRANG CHỦ · NGẪU NHIÊN THỂ · KIỂM TRA TỪ VỰNG
+   ========================================================= */
+
+/* ---------- Trang chủ ---------- */
+.home-panel { animation: home-in .55s ease both; }
+@keyframes home-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+.home-hero { margin: 0 0 24px 4px; }
+.home-hero h1 {
+  margin: 6px 0 10px;
+  color: #11191d;
+  font-size: clamp(30px, 3.3vw, 44px);
+  line-height: 1.15;
+  letter-spacing: -1.2px;
+  font-weight: 800;
+}
+.home-hero .hero-description { margin: 0; color: #3f5560; font-size: 15px; }
+html[data-theme="dark"] .home-hero h1 { color: #f3f6ff; text-shadow: 0 2px 14px rgba(0, 0, 30, .5); }
+html[data-theme="dark"] .home-hero .hero-description { color: #c4d0ee; }
+
+.home-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.mode-card {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  min-height: 330px;
+  padding: 28px 30px 26px;
+  border: 2px solid rgba(255, 255, 255, .92);
+  border-radius: 28px;
+  background: linear-gradient(180deg, rgba(246, 247, 255, .92), rgba(250, 253, 254, .9));
+  box-shadow:
+    0 0 0 1px rgba(196, 214, 230, .5),
+    0 4px 10px rgba(60, 95, 130, .06),
+    0 18px 40px rgba(60, 95, 130, .14);
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.mode-card:hover { transform: translateY(-4px); box-shadow: 0 0 0 1px rgba(196, 214, 230, .6), 0 8px 16px rgba(60, 95, 130, .08), 0 24px 48px rgba(60, 95, 130, .2); }
+.mode-card:active { transform: translateY(-1px); }
+.mode-card:focus-visible { outline: 3px solid #1d9c63; outline-offset: 3px; }
+.mode-vocab:focus-visible { outline-color: #d94579; }
+
+.mode-glyph {
+  position: absolute;
+  top: -34px;
+  right: -8px;
+  color: rgba(17, 150, 107, .1);
+  font: 800 210px/1 'Noto Sans JP', sans-serif;
+  pointer-events: none;
+  user-select: none;
+}
+.mode-vocab .mode-glyph { color: rgba(224, 82, 122, .11); }
+.mode-card > :not(.mode-glyph) { position: relative; }
+
+.mode-demo {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 18px;
+  border: 1px solid #cfe7da;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, .96);
+  box-shadow: 0 6px 16px rgba(52, 85, 105, .09);
+  font: 700 20px 'Noto Sans JP', 'Be Vietnam Pro', sans-serif;
+}
+.mode-demo i { color: #0b8a5c; font-style: normal; }
+.mode-demo b { color: #087c5b; font-weight: 800; }
+.mode-vocab .mode-demo { border-color: #f3d3de; }
+.mode-vocab .mode-demo i, .mode-vocab .mode-demo b { color: #c93a6e; }
+
+.mode-title { margin-top: 8px; font-size: 28px; font-weight: 800; letter-spacing: -.7px; line-height: 1.2; }
+.mode-desc { max-width: 36ch; color: var(--muted); font-size: 14.5px; line-height: 1.65; }
+
+.mode-cta {
+  display: inline-flex;
+  align-items: center;
+  margin-top: auto;
+  padding: 13px 26px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #1ea55e 0%, #0b8a5c 55%, #00695a 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), 0 10px 22px rgba(0, 110, 80, .3);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 800;
+}
+.mode-vocab .mode-cta {
+  background: linear-gradient(90deg, #f0678f 0%, #d94579 55%, #b72f66 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .22), 0 10px 22px rgba(200, 60, 110, .3);
+}
+
+html[data-theme="dark"] .mode-card {
+  border-color: rgba(140, 160, 255, .22);
+  background: linear-gradient(180deg, rgba(23, 30, 70, .9), rgba(13, 19, 52, .9));
+  box-shadow: 0 0 0 1px rgba(90, 110, 200, .22), 0 4px 10px rgba(0, 0, 20, .3), 0 16px 36px rgba(0, 0, 20, .45);
+  color: #eaf0ff;
+}
+html[data-theme="dark"] .mode-card:hover { box-shadow: 0 0 0 1px rgba(150, 170, 255, .4), 0 8px 18px rgba(0, 0, 20, .35), 0 20px 44px rgba(20, 30, 120, .45); }
+html[data-theme="dark"] .mode-glyph { color: rgba(140, 160, 255, .12); }
+html[data-theme="dark"] .mode-desc { color: #a9b9d9; }
+html[data-theme="dark"] .mode-demo { border-color: #33406f; background: #111940; box-shadow: none; color: #eaf0ff; }
+html[data-theme="dark"] .mode-demo i, html[data-theme="dark"] .mode-demo b { color: #6df0b8; }
+html[data-theme="dark"] .mode-vocab .mode-demo i, html[data-theme="dark"] .mode-vocab .mode-demo b { color: #ff9fba; }
+html[data-theme="dark"] .mode-cta {
+  background: linear-gradient(90deg, #3a4fd0 0%, #5a46c2 52%, #2f78b8 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .22), 0 0 0 1px rgba(150, 170, 255, .28), 0 10px 26px rgba(40, 50, 170, .45);
+}
+html[data-theme="dark"] .mode-vocab .mode-cta {
+  background: linear-gradient(105deg, #e8764f, #c43d6b);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), 0 0 0 1px rgba(255, 170, 150, .3), 0 10px 24px rgba(190, 60, 100, .4);
+}
+
+/* ---------- Ngẫu nhiên thể ---------- */
+.forms-head {
+  position: relative;
+  z-index: 2;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 17px;
+}
+.forms-head > h2 { margin: 0 !important; min-width: 0; }
+
+.rand-btn {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+  padding: 0 13px 0 10px;
+  border: 1px solid #bfe0cf;
+  border-radius: 999px;
+  background: #fff;
+  color: #087c5b;
+  font: 800 12px 'Be Vietnam Pro', sans-serif;
+  cursor: pointer;
+  box-shadow: 0 3px 9px rgba(52, 85, 105, .08);
+  transition: background .16s ease, border-color .16s ease, transform .16s ease;
+}
+.rand-btn:hover { transform: translateY(-1px); border-color: #1d9c63; }
+.rand-btn[aria-expanded="true"] { border-color: #1d9c63; background: #d8f4e5; }
+.rand-btn:focus-visible, .rand-nums button:focus-visible, .mode-card:focus-visible, .q-skip:focus-visible { outline: 3px solid #1d9c63; outline-offset: 2px; }
+.rand-btn svg { display: block; flex: 0 0 auto; }
+.rand-btn.rolling svg { animation: dice-roll .5s ease; }
+@keyframes dice-roll { to { transform: rotate(360deg); } }
+
+.rand-bar {
+  position: relative;
+  z-index: 2;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 7px 10px 0;
+  padding: 6px 10px 6px 13px;
+  border: 1px dashed #8fd0ad;
+  border-radius: 12px;
+  background: rgba(229, 247, 235, .85);
+  color: #25664d;
+  font-size: 12px;
+  font-weight: 700;
+}
+.rand-bar[hidden] { display: none; }
+.rand-nums { display: flex; gap: 5px; margin-left: auto; }
+.rand-nums button {
+  width: 31px;
+  height: 29px;
+  padding: 0;
+  border: 1px solid #cfe3da;
+  border-radius: 9px;
+  background: #fff;
+  color: #10372d;
+  font: 800 13px 'Be Vietnam Pro', sans-serif;
+  cursor: pointer;
+  transition: transform .16s ease, background .16s ease;
+}
+.rand-nums button:hover { transform: translateY(-2px); }
+.rand-nums button.on {
+  border-color: #077a4c;
+  background: linear-gradient(145deg, #1ba55f 0%, #05724a 100%);
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(6, 120, 74, .3);
+}
+
+html[data-theme="dark"] .rand-btn { border-color: #3a4880; background: #111940; color: #6df0b8; box-shadow: none; }
+html[data-theme="dark"] .rand-btn[aria-expanded="true"] { border-color: #35c98a; background: rgba(53, 201, 138, .2); }
+html[data-theme="dark"] .rand-bar { border-color: #35c98a; background: rgba(53, 201, 138, .12); color: #b6f5da; }
+html[data-theme="dark"] .rand-nums button { border-color: #3a4880; background: #111940; color: #eaf0ff; }
+html[data-theme="dark"] .rand-nums button.on { border-color: #35c98a; background: linear-gradient(145deg, #2fbf86, #1b8f63); color: #fff; }
+
+@media (max-width: 1000px) and (min-width: 801px) { .rand-btn span { display: none; } .rand-btn { padding: 0 10px; } }
+
+/* ---------- Kiểm tra từ vựng: màn thiết lập ---------- */
+.quiz-panel .hero-heading { margin-bottom: 18px; }
+.quiz-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  align-items: stretch;
+}
+.quiz-grid .choice-panel { height: auto; min-height: 330px; overflow: visible; }
+.quiz-grid .choice-panel > .muted { margin-top: 14px; font-size: 12px; }
+.quiz-grid .level-columns { gap: 10px; }
+.quiz-grid .level { padding-right: 52px; }
+.quiz-grid .count-buttons button { font-size: 18px; }
+
+.q-custom { display: grid; gap: 7px; margin-top: 16px; color: var(--ink-soft); font-size: 13px; font-weight: 700; }
+.q-custom input {
+  width: 100%;
+  height: 46px;
+  padding: 0 14px;
+  border: 1px solid #d6e2ea;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, .97);
+  color: #111c20;
+  font: 800 17px 'Be Vietnam Pro', sans-serif;
+  box-shadow: 0 4px 12px rgba(52, 85, 105, .07);
+}
+.q-custom input:focus { outline: none; border-color: #1d9c63; box-shadow: 0 0 0 3px rgba(29, 156, 99, .18); }
+.q-custom input::placeholder { color: #8fa1ad; font-weight: 600; }
+.quiz-grid .input-error { margin: 8px 2px 0; }
+html[data-theme="dark"] .q-custom { color: #c4d0ee; }
+html[data-theme="dark"] .q-custom input { border-color: #3a4880; background: #111940; color: #eaf0ff; box-shadow: none; }
+html[data-theme="dark"] .q-custom input:focus { border-color: #35c98a; box-shadow: 0 0 0 3px rgba(53, 201, 138, .22); }
+
+.quiz-panel .start-container { display: flex; justify-content: center; }
+#qStart.primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 410px;
+  max-width: 100%;
+  min-height: 56px;
+  margin: 20px auto 0;
+  padding: 12px 24px;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #1ea55e 0%, #0b8a5c 55%, #00695a 100%);
+  color: #fff;
+  font: 800 17px 'Be Vietnam Pro', sans-serif;
+  cursor: pointer;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), 0 10px 24px rgba(0, 110, 80, .32);
+  transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+}
+#qStart.primary:hover { transform: translateY(-2px); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), 0 13px 28px rgba(0, 110, 80, .38); filter: saturate(1.05); }
+#qStart.primary:active { transform: translateY(0); }
+html[data-theme="dark"] #qStart.primary {
+  background: linear-gradient(90deg, #3a4fd0 0%, #5a46c2 52%, #2f78b8 100%);
+  color: #f3f6ff;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .22), 0 0 0 1px rgba(150, 170, 255, .28), 0 10px 26px rgba(40, 50, 170, .45), 0 0 26px rgba(120, 130, 255, .22);
+}
+
+/* ---------- Kiểm tra từ vựng: câu hỏi + kết quả ---------- */
+.quiz-source b { font: 800 clamp(26px, 4vw, 36px)/1.25 'Be Vietnam Pro', 'Noto Sans JP', sans-serif; letter-spacing: -.02em; overflow-wrap: anywhere; }
+
+.q-feedback {
+  display: grid;
+  gap: 4px;
+  margin-top: 14px;
+  padding: 13px 16px;
+  border: 1px solid;
+  border-radius: 12px;
+  font-size: 14px;
+}
+.q-feedback[hidden] { display: none; }
+.q-feedback b { font-weight: 800; }
+.q-feedback strong { font: 800 24px 'Noto Sans JP', sans-serif; color: var(--ink); }
+.q-feedback em { margin-left: 6px; color: var(--muted); font: 700 16px 'Noto Sans JP', sans-serif; font-style: normal; }
+.q-feedback small { color: var(--muted); font-size: 12.5px; }
+.q-feedback.ok { border-color: #b6d9c0; background: #edf7ef; color: #1a6b43; }
+.q-feedback.bad { border-color: #e9c3bd; background: #fff1ef; color: #b23a46; }
+html[data-theme="dark"] .q-feedback.ok { border-color: #2f8f66; background: rgba(40, 160, 100, .18); color: #7ff0bd; }
+html[data-theme="dark"] .q-feedback.bad { border-color: #a54b52; background: rgba(220, 80, 90, .16); color: #ffa3a9; }
+html[data-theme="dark"] .q-feedback strong { color: #eaf0ff; }
+html[data-theme="dark"] .q-feedback em, html[data-theme="dark"] .q-feedback small { color: #9db0cf; }
+
+.q-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; margin-top: 18px; }
+.q-foot .enter-hint { margin: 0; flex: 1 1 240px; text-align: right; }
+.q-skip { padding: 4px 2px; border: 0; background: transparent; color: var(--muted); font: 600 13px 'Be Vietnam Pro', sans-serif; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.q-skip:hover { color: var(--ink); }
+html[data-theme="dark"] .q-skip { color: #9db0cf; }
+html[data-theme="dark"] .q-skip:hover { color: #eaf0ff; }
+
+.result.vocab { grid-template-columns: 26px minmax(140px, 1.1fr) minmax(130px, 1fr) minmax(190px, 1.2fr); }
+.result.vocab .vq b { display: block; font-size: 14px; line-height: 1.35; }
+.result.vocab .vq em { display: block; margin-top: 3px; color: var(--muted); font-size: 11.5px; font-style: normal; font-weight: 600; }
+.result.vocab .user-answer { white-space: normal; overflow-wrap: anywhere; }
+.result.vocab .ans strong { font: 800 18px 'Noto Sans JP', sans-serif; }
+.result.vocab .vk { color: var(--muted); font: 600 14px 'Noto Sans JP', sans-serif; font-style: normal; }
+html[data-theme="dark"] .result.vocab .vq em, html[data-theme="dark"] .result.vocab .vk { color: #9db0cf; }
+
+/* ---------- Màn hình nhỏ ---------- */
+@media (max-width: 800px) {
+  .home-hero { margin: 0 4px 18px; }
+  .home-grid { grid-template-columns: 1fr; gap: 14px; }
+  .mode-card { min-height: 0; padding: 22px 22px 20px; border-radius: 22px; }
+  .mode-glyph { font-size: 150px; top: -22px; }
+  .mode-title { font-size: 24px; }
+  .mode-cta { margin-top: 6px; }
+  .quiz-grid { grid-template-columns: 1fr; gap: 12px; }
+  .quiz-grid .choice-panel { min-height: 0; padding: 17px; border-radius: 17px; }
+  #qStart.primary { width: min(100%, 410px); min-height: 52px; margin-top: 18px; font-size: 15px; }
+  .result.vocab { grid-template-columns: 25px minmax(0, 1fr); }
+  .q-foot .enter-hint { text-align: left; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-panel, .rand-btn.rolling svg { animation: none; }
+  .mode-card, .rand-btn, .rand-nums button { transition: none; }
+}
