@@ -205,17 +205,25 @@ function attachWhy(){
 document.addEventListener('click',e=>{if(!e.target.closest('.why'))closeWhy(null)});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeWhy(null)});
 
+/* Dải thống kê nhanh ở trang chủ */
+function renderHomeStats(){
+  const s=loadStats(),el=$('#homeStats');
+  if(!s.t){el.innerHTML='<div class="hs-empty"><b>Chưa có dữ liệu</b><span>Làm bài đầu tiên, tiến độ sẽ hiện ở đây.</span></div>';return}
+  const t=(b,l)=>`<div class="hs-item"><b>${b}</b><span>${l}</span></div>`;
+  el.innerHTML=t(s.t,'câu đã làm')+t(pctOf(s.c,s.t)+'%','chính xác')+t(streakOf(s.days),'ngày liên tiếp')+'<button type="button" class="hs-link" data-go="stats">Xem thống kê</button>';
+  el.querySelector('.hs-link').addEventListener('click',()=>showView('stats'));
+}
 /* Chuyển giữa trang Luyện tập và trang Thống kê */
 function showView(view){
   $('#practice').hidden=true;$('#practice').innerHTML='';
   ['home','setup','quiz','stats'].forEach(id=>{$('#'+id).hidden=id!==view});
   document.querySelectorAll('a.nav-item').forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+view));
-  if(view==='stats')renderStats();
+  if(view==='stats')renderStats();if(view==='home')renderHomeStats();
   window.scrollTo({top:0,behavior:'smooth'});
 }
 document.querySelectorAll('.brand, a.nav-item').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();showView(a.getAttribute('href').slice(1))}));
 document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.go)));
-initQuiz({$,shuffle,esc,toKana,attachKana,showView});
+initQuiz({$,shuffle,esc,toKana,attachKana,showView});renderHomeStats();
 
 /* Gắn bộ chuyển romaji -> hiragana vào ô nhập */
 function attachKana(input){
@@ -234,99 +242,6 @@ function attachKana(input){
   input.addEventListener('compositionend',()=>{composing=false;convert()});
   input.addEventListener('input',convert);
 }
-
-/* ===== Cánh hoa anh đào bay theo gió (chỉ chạy ở trang chủ) ===== */
-(function sakura(){
-  if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
-  const cv=document.createElement('canvas'),ctx=cv.getContext('2d');
-  cv.id='petals';cv.setAttribute('aria-hidden','true');
-  cv.style.cssText='position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:6';
-  document.body.appendChild(cv);
-  let W=0,H=0,dpr=1,petals=[],raf=0,last=0;
-  const rnd=(a,b)=>a+Math.random()*(b-a);
-  function resize(){
-    dpr=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;
-    cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
-    const n=Math.max(14,Math.min(34,Math.round(W/65)));
-    while(petals.length<n)petals.push(spawn(true));
-    petals.length=n;
-  }
-  function spawn(anywhere){
-    const fromTop=Math.random()<.65,p={
-      s:rnd(5,9),rot:rnd(0,6.28),spin:rnd(-.025,.025),flip:rnd(0,6.28),flipSpd:rnd(.02,.05),
-      vy:rnd(.45,1.1),vx:rnd(.5,1.3),phase:rnd(0,6.28),sway:rnd(.4,.9),a:rnd(.55,.9),
-    };
-    if(anywhere){p.x=rnd(-20,W);p.y=rnd(-20,H)}
-    else if(fromTop){p.x=rnd(-60,W);p.y=rnd(-30,-8)}
-    else{p.x=rnd(-30,-8);p.y=rnd(-20,H*.7)}
-    return p;
-  }
-  function draw(p){
-    const s=p.s;
-    ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot);ctx.scale(1,.35+.65*Math.abs(Math.cos(p.flip)));
-    const g=ctx.createLinearGradient(0,-s,0,s);g.addColorStop(0,'#ffe3ec');g.addColorStop(1,'#ff9fba');
-    ctx.globalAlpha=p.a;ctx.fillStyle=g;
-    ctx.beginPath();ctx.moveTo(0,-s);
-    ctx.bezierCurveTo(s*.95,-s*.7,s*.8,s*.55,s*.12,s);
-    ctx.lineTo(0,s*.78);ctx.lineTo(-s*.12,s);
-    ctx.bezierCurveTo(-s*.8,s*.55,-s*.95,-s*.7,0,-s);
-    ctx.fill();ctx.restore();
-  }
-  function frame(t){
-    raf=requestAnimationFrame(frame);
-    const dt=Math.min((t-(last||t))/16.67,3);last=t;
-    // gió: lúc mạnh lúc nhẹ, thổi từ trái sang phải
-    const wind=1+.7*Math.sin(t/2600)+.35*Math.sin(t/900+1.3);
-    ctx.clearRect(0,0,W,H);
-    for(let i=0;i<petals.length;i++){
-      const p=petals[i];
-      p.phase+=.025*dt;p.flip+=p.flipSpd*dt;p.rot+=(p.spin+.01*wind)*dt;
-      p.x+=(p.vx*wind+Math.sin(p.phase)*p.sway)*dt;
-      p.y+=(p.vy+.25*Math.max(wind,0)+Math.cos(p.phase*.8)*.25)*dt;
-      if(p.x>W+30||p.y>H+30||p.x<-80)petals[i]=spawn(false);else draw(p);
-    }
-  }
-  function start(){if(!raf&&!document.hidden){last=0;raf=requestAnimationFrame(frame)}}
-  function stop(){cancelAnimationFrame(raf);raf=0;ctx.clearRect(0,0,W,H)}
-  const spots=['#home','#setup','#quiz'].map($);
-  const sync=()=>{spots.some(el=>!el.hidden)?start():stop()};
-  spots.forEach(el=>new MutationObserver(sync).observe(el,{attributes:true,attributeFilter:['hidden']}));
-  document.addEventListener('visibilitychange',()=>document.hidden?cancelAnimationFrame(raf)||(raf=0):sync());
-  addEventListener('resize',resize);
-  resize();sync();
-})();
-
-/* ===== Ánh đèn lồng lấp ló trong các tầng của ngôi chùa (nền) ===== */
-(function pagodaLights(){
-  // Toạ độ tính theo % của ảnh nền japan-background.png (3344 x 1882).
-  // Nền đang để 100% 100% + fixed nên overlay fixed khớp đúng với ảnh.
-  const W=3344,H=1882;
-  const tiers=[
-    {y:291,xs:[2829,2842,2857,2871,2885]},          // tầng 1 (trên)
-    {y:340,xs:[2820,2834,2849,2864,2879,2893]},     // tầng 2
-    {y:393,xs:[2815,2833,2853,2873,2893]},          // tầng 3 (dưới)
-  ];
-  const layer=document.createElement('div');
-  layer.className='pagoda-lights';
-  layer.setAttribute('aria-hidden','true');
-  const add=(cls,x,y,delay,dur)=>{
-    const d=document.createElement('i');
-    d.className=cls;
-    d.style.left=(x/W*100)+'%';
-    d.style.top=(y/H*100)+'%';
-    d.style.setProperty('--d',delay+'s');
-    d.style.setProperty('--t',dur+'s');
-    layer.appendChild(d);
-  };
-  add('pl-glow',2857,305,0,0); // vầng sáng trăng quanh chùa (chỉ hiện ở chế độ tối)
-  tiers.forEach((t,ti)=>{
-    // quầng sáng mờ phía sau mỗi tầng
-    const cx=t.xs.reduce((a,b)=>a+b,0)/t.xs.length;
-    add('pl-halo',cx,t.y,ti*.7,4+ti);
-    t.xs.forEach((x,i)=>add('pl-lamp',x,t.y,(Math.random()*3).toFixed(2),(2.2+Math.random()*2.2).toFixed(2)));
-  });
-  document.body.appendChild(layer);
-})();
 
 /* ===== Cài đặt: chế độ sáng / tối (bầu trời đêm) ===== */
 (function themeSettings(){

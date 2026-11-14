@@ -12,6 +12,7 @@
   <link rel="icon" href="favicon.ico" sizes="any">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="stylesheet" href="style.css?v=29">
+  <link rel="stylesheet" href="modern.css?v=4">
 </head>
 
 <body>
@@ -22,7 +23,7 @@
 
       <a href="#home" class="brand">
         <span class="brand-icon"><svg class="brand-glyph" viewBox="2 2 60 60" aria-hidden="true" focusable="false"><path fill="currentColor" d="M37.73432518597237 13.444208289054203 37.69394261424017 21.924548352816156H33.897980871413395V19.70350690754517H26.104144527098832V17.68437832093518C28.72901168969182 17.40170031880978 31.273113708820404 17.038257173219982 33.413390010627 16.594048884165787L31.313496280552606 13.000000000000007C26.83103081827843 13.969181721572802 19.844845908607866 14.655685441020196 13.787460148777898 14.938363443145597C14.231668437832095 15.907545164718389 14.716259298618493 17.40170031880978 14.877789585547292 18.411264612114778C17.05844845908608 18.370882040382575 19.360255047821468 18.249734325185976 21.702444208289055 18.088204038257178V19.70350690754517H13.706695005313499V23.176408076514353H21.702444208289055V24.75132837407014H14.756641870350693V37.310308182784276H21.702444208289055V38.88522848034007H14.595111583421893V42.31774707757705H21.702444208289055V44.70031880977684L13.4643995749203 45.306057385759836L14.029755579171097 49.38469713071201C18.471838469713074 48.98087141339001 24.28692879914984 48.41551540913922 30.14240170031881 47.76939426142402C31.192348565356006 48.65781083953242 32.403825717322 50.03081827842721 33.009564293305 51.0C39.793836344314556 45.62911795961743 41.65143464399575 37.22954303931988 42.17640807651435 26.366631243358135H45.81083953241233C45.56854410201913 39.41020191285867 45.16471838469713 44.377258235919236 44.35706695005314 45.50797024442083C43.95324123273114 46.03294367693943 43.58979808714134 46.19447396386823 42.94367693942614 46.19447396386823C42.17640807651435 46.19447396386823 40.64187035069075 46.19447396386823 38.905419766206165 46.03294367693943C39.67268862911796 47.32518597236982 40.19766206163656 49.303931987247616 40.278427205100954 50.6365568544102C42.216790648246544 50.676939426142404 44.07438894792774 50.676939426142404 45.32624867162593 50.47502656748141C46.65887353878853 50.192348565356006 47.62805526036132 49.78852284803401 48.51647183846971 48.41551540913922C49.808714133900104 46.59829968119023 50.13177470775771 40.66206163655686 50.5356004250797 24.064824654622747C50.5356004250797 23.49946865037195 50.5356004250797 21.924548352816156 50.5356004250797 21.924548352816156H42.29755579171095L42.378320935175346 13.444208289054203ZM26.104144527098832 42.31774707757705H33.45377258235919V38.88522848034007H26.104144527098832V37.310308182784276H33.251859723698196V24.75132837407014H26.104144527098832V23.176408076514353H33.85759829968119V26.366631243358135H37.57279489904357C37.29011689691818 33.5951115834219 36.32093517534538 39.369819341126465 33.1710945802338 43.77151965993624L26.104144527098832 44.377258235919236ZM18.592986184909673 32.4643995749203H21.702444208289055V34.28161530286929H18.592986184909673ZM26.104144527098832 32.4643995749203H29.253985122210416V34.28161530286929H26.104144527098832ZM18.592986184909673 27.780021253985126H21.702444208289055V29.597236981934117H18.592986184909673ZM26.104144527098832 27.780021253985126H29.253985122210416V29.597236981934117H26.104144527098832Z"/></svg></span>
-        <span>Luyện chia động từ</span>
+        <span>Verb Lab</span>
       </a>
 
       <nav class="main-nav">
@@ -55,7 +56,7 @@
                 Chế độ tối
               </button>
             </div>
-            <p class="settings-note">Chế độ tối biến nền thành bầu trời đêm đầy sao.</p>
+            <p class="settings-note">Chế độ tối dịu mắt hơn khi học buổi tối.</p>
           </div>
         </div>
       </nav>
@@ -80,29 +81,35 @@
     <section id="home" class="panel home-panel">
       <div class="home-hero">
         <span class="kicker" lang="ja">日本語、はじめよう</span>
-        <h1>Hôm nay bạn muốn luyện gì?</h1>
-        <p class="hero-description">
-          Hai cách ôn tiếng Nhật N5 và N4. Chọn một chế độ và bắt đầu ngay.
-        </p>
+        <h1>Luyện tiếng Nhật,<br>mỗi ngày một chút.</h1>
+        <p class="hero-description">Chọn một chế độ, làm vài câu, xong.</p>
       </div>
 
       <div class="home-grid">
         <button type="button" class="mode-card mode-conj" data-go="setup">
-          <span class="mode-glyph" lang="ja" aria-hidden="true">活</span>
-          <span class="mode-demo" lang="ja" aria-hidden="true"><span>たべます</span><i>→</i><b>たべた</b></span>
+          <span class="mode-top">
+            <span class="mode-glyph" lang="ja" aria-hidden="true">活</span>
+            <span class="mode-badge">13 thể</span>
+          </span>
           <span class="mode-title">Chia thể động từ</span>
-          <span class="mode-desc">Đổi động từ thể ます sang 13 thể khác nhau: て, た, ない, khả năng, bị động, sai khiến…</span>
-          <span class="mode-cta">Bắt đầu chia thể</span>
+          <span class="mode-desc">Từ thể ます sang て, た, ない, khả năng, bị động, sai khiến và nhiều thể khác.</span>
+          <span class="mode-demo" lang="ja" aria-hidden="true"><span>たべます</span><i>→</i><b>たべた</b></span>
+          <span class="mode-go" aria-hidden="true">→</span>
         </button>
 
         <button type="button" class="mode-card mode-vocab" data-go="quiz">
-          <span class="mode-glyph" lang="ja" aria-hidden="true">語</span>
-          <span class="mode-demo" aria-hidden="true"><span>thầy giáo</span><i>→</i><b lang="ja">せんせい</b></span>
+          <span class="mode-top">
+            <span class="mode-glyph" lang="ja" aria-hidden="true">語</span>
+            <span class="mode-badge">560+ từ</span>
+          </span>
           <span class="mode-title">Kiểm tra từ vựng</span>
-          <span class="mode-desc">Xem nghĩa tiếng Việt, gõ lại cách đọc bằng hiragana. Chọn N5, N4 hoặc tất cả và tự đặt số lượt.</span>
-          <span class="mode-cta">Bắt đầu kiểm tra</span>
+          <span class="mode-desc">Đọc nghĩa tiếng Việt, gõ cách đọc hiragana. N5, N4 hoặc tất cả, số lượt tùy bạn.</span>
+          <span class="mode-demo" aria-hidden="true"><span>thầy giáo</span><i>→</i><b lang="ja">せんせい</b></span>
+          <span class="mode-go" aria-hidden="true">→</span>
         </button>
       </div>
+
+      <div class="home-stats" id="homeStats"></div>
     </section>
 
 
@@ -110,12 +117,12 @@
 
       <!-- TIÊU ĐỀ -->
       <div class="hero-heading">
-        <span class="kicker">Thiết lập bài luyện</span>
+        <span class="kicker">Chia thể động từ</span>
 
-        <h1>Bạn muốn luyện phần nào?</h1>
+        <h1>Chọn cấp độ, thể và số câu.</h1>
 
         <p class="hero-description">
-          Chọn cấp độ, thể chia và số lượng động từ để bắt đầu luyện tập.
+          Rồi bấm bắt đầu. Đề luôn cho ở thể ます.
         </p>
       </div>
 
@@ -211,9 +218,7 @@
       <!-- NÚT BẮT ĐẦU -->
       <div class="start-container">
         <button type="button" id="start" class="primary">
-          <span aria-hidden="true">▷</span>
           Bắt đầu luyện tập
-          <span aria-hidden="true">→</span>
         </button>
       </div>
 
@@ -225,9 +230,9 @@
 
       <div class="hero-heading">
         <span class="kicker">Kiểm tra từ vựng</span>
-        <h1>Bạn nhớ được bao nhiêu từ?</h1>
+        <h1>Thử xem bạn nhớ được bao nhiêu.</h1>
         <p class="hero-description">
-          Xem nghĩa tiếng Việt, gõ lại cách đọc bằng hiragana.
+          Đọc nghĩa tiếng Việt, gõ cách đọc hiragana.
         </p>
       </div>
 
@@ -279,7 +284,6 @@
 
       <div class="start-container">
         <button type="button" id="qStart" class="primary">
-          <span aria-hidden="true">▷</span>
           Bắt đầu kiểm tra
         </button>
       </div>
@@ -303,7 +307,7 @@
 
 
   <!-- JAVASCRIPT -->
-  <script type="module" src="app.js?v=21"></script>
+  <script type="module" src="app.js?v=22"></script>
 
 </body>
 </html>
