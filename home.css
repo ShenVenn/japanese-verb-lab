@@ -1,0 +1,132 @@
+/* =========================================================
+   TRANG CHỦ "GA TÀU"
+   Ý tưởng: 13 thể chia = 13 ga trên một tuyến tàu Nhật. Bảng giờ tàu lật chữ ra đáp án thật,
+   tàu chạy qua từng ga; ô vàng gồ gờ dưới chân là gạch dẫn đường (点字ブロック).
+   Chỉ áp dụng khi <body class="is-home">; các trang khác giữ nguyên nền ảnh.
+   ========================================================= */
+body.is-home {
+  --st-paper: #e6e9ec; --st-paper-2: #f4f6f8; --st-sign: #ffffff;
+  --st-ink: #11161b; --st-mute: #4a5560;
+  --st-line: #0b5fb0; --st-shu: #e5472b;
+  --st-yellow: #f5c400; --st-yellow-deep: #b88f00;
+  --st-board: #0d1114; --st-led: #ffb81c; --st-frame: #232a30;
+}
+html[data-theme="dark"] body.is-home {
+  --st-paper: #0b1017; --st-paper-2: #121923; --st-sign: #151c26;
+  --st-ink: #eef1f5; --st-mute: #a2adbb; --st-line: #4f93f0; --st-shu: #ff7c5e; --st-board: #06080b; --st-frame: #2b3440;
+}
+html[data-theme="minimal"] body.is-home {
+  --st-paper: #000000; --st-paper-2: #101014; --st-sign: #0b0b0e;
+  --st-ink: #eceef5; --st-mute: #8e96a8; --st-line: #7d97f2; --st-shu: #ff7c5e; --st-board: #050507; --st-frame: #1c1c22;
+}
+html body.is-home {
+  background-color: var(--st-paper) !important;
+  background-image: radial-gradient(color-mix(in srgb, var(--st-ink) 9%, transparent) 1.2px, transparent 1.6px) !important;
+  background-size: 24px 24px !important;
+  background-attachment: fixed !important;
+}
+body.is-home .night-sky, body.is-home .pagoda-lights, body.is-home #petals { display: none !important; }
+body.is-home .site-header { background: color-mix(in srgb, var(--st-paper) 80%, transparent) !important; border-bottom: 1px solid color-mix(in srgb, var(--st-ink) 12%, transparent); backdrop-filter: blur(12px); }
+body.is-home .brand { color: var(--st-ink); }
+
+#home.home-panel { width: min(1240px, 100%); margin: 0 auto; padding: 6px 0 40px; animation: none; background: none; border: 0; box-shadow: none; }
+
+/* ---------- Khối đầu trang ---------- */
+.hx { display: grid; grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr); gap: 56px; align-items: center; }
+.hx h1 {
+  margin: 0 0 20px; color: var(--st-ink); text-wrap: balance;
+  font: 800 clamp(40px, 5.2vw, 72px)/1.02 'Bricolage Grotesque', 'Be Vietnam Pro', sans-serif;
+  letter-spacing: -.04em;
+}
+.hx-sub { max-width: 42ch; margin: 0 0 30px; color: var(--st-mute); font-size: 17px; line-height: 1.65; }
+.hx-cta { display: flex; flex-wrap: wrap; gap: 14px; }
+.hx-btn { min-height: 54px; padding: 0 26px; border: 0; border-radius: 8px; font: 700 16px 'Be Vietnam Pro', sans-serif; cursor: pointer; transition: transform .12s ease, box-shadow .12s ease, background .15s ease; }
+.hx-main { background: var(--st-yellow); color: #11161b; box-shadow: 0 5px 0 var(--st-yellow-deep); }
+.hx-main:hover { transform: translateY(-1px); box-shadow: 0 6px 0 var(--st-yellow-deep); }
+.hx-main:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--st-yellow-deep); }
+.hx-alt { background: transparent; color: var(--st-ink); box-shadow: inset 0 0 0 2px var(--st-ink); }
+.hx-alt:hover { background: var(--st-ink); color: var(--st-paper); }
+.hx-btn:focus-visible, .stn:focus-visible, .ln:focus-visible { outline: 3px solid var(--st-line); outline-offset: 3px; }
+
+/* ---------- Bảng giờ tàu ---------- */
+.sb {
+  padding: 22px 22px 24px; border-radius: 14px; background: var(--st-board);
+  box-shadow: 0 0 0 7px var(--st-frame), 0 0 0 8px rgba(255, 255, 255, .12), 0 40px 60px -28px rgba(0, 0, 0, .55);
+  font-family: 'DotGothic16', 'Noto Sans JP', sans-serif;
+}
+.sb-head, .sb-verb { display: flex; align-items: baseline; gap: 12px; }
+.sb-head { padding-bottom: 14px; margin-bottom: 14px; border-bottom: 1px dashed rgba(255, 255, 255, .18); }
+.sb-tag { align-self: center; padding: 2px 8px; border-radius: 3px; background: var(--st-led); color: #0d1114; font-size: 13px; line-height: 1.5; }
+.sb-dest { color: var(--st-led); font-size: clamp(26px, 3vw, 38px); line-height: 1; text-shadow: 0 0 14px rgba(255, 184, 28, .4); }
+.sb-vi { margin-left: auto; color: #c3ccd6; font: 500 14px 'Be Vietnam Pro', sans-serif; }
+.sb-verb { margin-bottom: 18px; }
+.sb-base { color: #f1f4f7; font: 700 26px 'Noto Sans JP', sans-serif; }
+.sb-mean { color: #8f9aa6; font: 500 14px 'Be Vietnam Pro', sans-serif; }
+
+.sb-tiles { display: grid; grid-template-columns: repeat(8, 1fr); gap: 6px; }
+.sb-tile { position: relative; height: clamp(62px, 7.2vw, 104px); border-radius: 6px; perspective: 360px; background: linear-gradient(#1d2329 0 49%, #0a0d10 51% 100%); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .05); }
+.sb-tile::after { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 2px; margin-top: -1px; background: #05070a; z-index: 2; }
+.sb-face { display: grid; place-items: center; height: 100%; color: var(--st-led); font-size: clamp(26px, 3.3vw, 50px); line-height: 1; padding-bottom: .08em; text-shadow: 0 0 14px rgba(255, 184, 28, .45); backface-visibility: hidden; }
+.sb-tile.flip .sb-face { animation: flap .19s ease-in-out; }
+@keyframes flap { 0% { transform: rotateX(0); } 45% { transform: rotateX(86deg); } 55% { transform: rotateX(-86deg); } 100% { transform: rotateX(0); } }
+.sb-live { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+/* ---------- Sơ đồ tuyến ---------- */
+.st-map { margin-top: 40px; }
+.st-hint { margin: 0 0 2px; color: var(--st-mute); font-size: 14px; }
+.st-scroll { overflow-x: auto; padding: 46px 6px 10px; scrollbar-width: thin; }
+.st-line { position: relative; display: flex; min-width: 900px; margin: 0; padding: 0; list-style: none; }
+.st-line::before { content: ""; position: absolute; left: calc(100% / 26); right: calc(100% / 26); top: 11px; height: 10px; border-radius: 5px; background: var(--st-line); }
+.st-line > li { flex: 1 1 0; min-width: 0; display: flex; justify-content: center; }
+.stn { position: relative; display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 0 2px 4px; background: none; border: 0; color: var(--st-ink); cursor: pointer; }
+.stn-dot { z-index: 1; display: grid; place-items: center; width: 32px; height: 32px; border: 4px solid var(--st-line); border-radius: 50%; background: var(--st-sign); color: var(--st-ink); font: 12px 'DotGothic16', monospace; transition: transform .25s ease, background .25s ease; }
+.stn.passed .stn-dot { background: var(--st-line); color: #fff; }
+.stn.on .stn-dot { transform: scale(1.2); border-color: #11161b; background: var(--st-yellow); color: #11161b; }
+.stn-jp { display: flex; flex-direction: column; align-items: center; min-height: 6.6em; font: 600 15px/1.2 'Noto Sans JP', sans-serif; transition: color .2s ease; }
+.stn-jp b { font-weight: inherit; }
+.stn:hover .stn-jp, .stn.on .stn-jp { color: var(--st-line); }
+.stn.on .stn-jp { font-weight: 800; }
+.st-train { position: absolute; left: 0; top: -31px; display: flex; align-items: center; justify-content: center; gap: 4px; width: 48px; height: 24px; border: 2px solid #11161b; border-radius: 9px 9px 3px 3px; background: var(--st-yellow); transition: transform .9s cubic-bezier(.6, 0, .25, 1); pointer-events: none; z-index: 2; }
+.st-train i { width: 9px; height: 8px; border-radius: 2px; background: #11161b; }
+.st-train::after { content: ""; position: absolute; left: 6px; right: 6px; bottom: -6px; height: 4px; border-radius: 0 0 4px 4px; background: #11161b; }
+
+/* ---------- Gạch dẫn đường ---------- */
+.tactile { height: 26px; margin: 34px 0 40px; border-radius: 3px; background: repeating-linear-gradient(90deg, var(--st-yellow) 0 9px, var(--st-yellow-deep) 9px 11px, #ffd83a 11px 13px, var(--st-yellow) 13px 24px); box-shadow: inset 0 2px 0 rgba(255, 255, 255, .35), inset 0 -3px 0 rgba(0, 0, 0, .18); }
+
+/* ---------- Hai tuyến ---------- */
+.ln-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 22px; }
+.ln { --lc: var(--st-line); position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 20px; align-items: center; padding: 26px 28px; border: 0; border-top: 10px solid var(--lc); border-radius: 6px 6px 16px 16px; background: var(--st-sign); color: var(--st-ink); text-align: left; cursor: pointer; box-shadow: 0 22px 40px -26px rgba(0, 0, 0, .45); transition: transform .18s ease, box-shadow .18s ease; }
+.ln-b { --lc: var(--st-shu); }
+.ln:hover { transform: translateY(-4px); box-shadow: 0 28px 44px -24px rgba(0, 0, 0, .5); }
+.ln-badge { display: grid; place-items: center; width: 64px; height: 64px; border-radius: 50%; background: var(--lc); color: #fff; font: 800 34px 'Bricolage Grotesque', sans-serif; }
+.ln-jp { display: block; color: var(--st-mute); font: 600 13px 'Noto Sans JP', sans-serif; }
+.ln-name { display: block; margin: 2px 0 8px; font: 800 27px/1.12 'Bricolage Grotesque', 'Be Vietnam Pro', sans-serif; letter-spacing: -.025em; }
+.ln-desc { display: block; max-width: 46ch; color: var(--st-mute); font-size: 14.5px; line-height: 1.6; }
+.ln-end { display: grid; justify-items: center; line-height: 1; }
+.ln-end b { font: 400 52px 'DotGothic16', monospace; color: var(--lc); }
+.ln-end small { margin-top: 6px; color: var(--st-mute); font-size: 13px; }
+.ln-flash { width: 128px; height: 82px; perspective: 700px; }
+.lf-card { position: relative; display: block; width: 100%; height: 100%; transform-style: preserve-3d; animation: lf 5.6s ease-in-out infinite; }
+.lf-front, .lf-back { position: absolute; inset: 0; display: grid; place-items: center; border-radius: 10px; backface-visibility: hidden; }
+.lf-front { border: 2px solid var(--lc); background: var(--st-paper-2); color: var(--st-ink); font: 700 16px 'Be Vietnam Pro', sans-serif; }
+.lf-back { background: var(--lc); color: #fff; font: 700 22px 'Noto Sans JP', sans-serif; transform: rotateY(180deg); }
+@keyframes lf { 0%, 40% { transform: rotateY(0); } 50%, 90% { transform: rotateY(180deg); } 100% { transform: rotateY(360deg); } }
+
+/* ---------- Màn hình nhỏ ---------- */
+@media (max-width: 960px) {
+  .hx { grid-template-columns: 1fr; gap: 34px; }
+  .ln-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .sb { padding: 16px 14px 18px; }
+  .sb-tiles { gap: 4px; }
+  .sb-vi { display: none; }
+  .ln { grid-template-columns: auto minmax(0, 1fr); padding: 22px 20px; }
+  .ln-end, .ln-flash { grid-column: 1 / -1; justify-self: start; }
+  .ln-badge { width: 52px; height: 52px; font-size: 28px; }
+  .hx-btn { flex: 1 1 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lf-card { animation: none; }
+  .st-train, .stn-dot, .hx-btn, .ln { transition: none; }
+}

@@ -1,5 +1,6 @@
 import { forms, verbs, conjugate, answerFor, toRomaji, normalize, skipForms, kana } from './conjugation.js?v=4';
 import { initQuiz } from './quiz.js?v=3';
+import { initHome } from './home.js?v=3';
 /* ===== Gõ romaji -> tự đổi sang hiragana (không cần bật bộ gõ tiếng Nhật của Windows) ===== */
 const KANA_MAP = (() => {
   const m = {};
@@ -209,6 +210,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeWhy(null)});
 function showView(view){
   $('#practice').hidden=true;$('#practice').innerHTML='';
   ['home','setup','quiz','stats'].forEach(id=>{$('#'+id).hidden=id!==view});
+  document.body.classList.toggle('is-home',view==='home');
   document.querySelectorAll('a.nav-item').forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+view));
   if(view==='stats')renderStats();
   window.scrollTo({top:0,behavior:'smooth'});
@@ -216,6 +218,7 @@ function showView(view){
 document.querySelectorAll('.brand, a.nav-item').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();showView(a.getAttribute('href').slice(1))}));
 document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.go)));
 initQuiz({$,shuffle,esc,toKana,attachKana,showView});
+initHome({$,shuffle});
 
 /* Gắn bộ chuyển romaji -> hiragana vào ô nhập */
 function attachKana(input){

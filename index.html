@@ -12,10 +12,14 @@
   <link rel="icon" href="favicon.ico" sizes="any">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="stylesheet" href="style.css?v=29">
-  <link rel="stylesheet" href="modern.css?v=8">
+  <link rel="stylesheet" href="modern.css?v=9">
+  <link rel="stylesheet" href="home.css?v=2">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=DotGothic16&display=swap">
 </head>
 
-<body>
+<body class="is-home">
 
   <!-- THANH ĐIỀU HƯỚNG -->
   <header class="site-header">
@@ -83,29 +87,63 @@
 
     <!-- TRANG CHỦ: chọn chế độ -->
     <section id="home" class="panel home-panel">
-      <div class="home-hero">
-        <span class="kicker" lang="ja">日本語、はじめよう</span>
-        <h1>Hôm nay bạn muốn luyện gì?</h1>
-        <p class="hero-description">
-          Hai cách ôn tiếng Nhật N5 và N4. Chọn một chế độ và bắt đầu ngay.
-        </p>
+
+      <div class="hx">
+        <div class="hx-copy">
+          <h1>Đi hết 13 ga của động từ tiếng Nhật.</h1>
+          <p class="hx-sub">Lên tàu ở thể ます, xuống ở て, た, ない, khả năng, bị động… Mỗi ga một câu hỏi, đi tới đâu nhớ tới đó.</p>
+          <div class="hx-cta">
+            <button type="button" class="hx-btn hx-main" data-go="setup">Bắt đầu chia thể</button>
+            <button type="button" class="hx-btn hx-alt" data-go="quiz">Kiểm tra từ vựng</button>
+          </div>
+        </div>
+
+        <!-- Bảng giờ tàu: tự đổi chữ theo từng thể -->
+        <div class="sb" id="sb">
+          <div class="sb-head">
+            <span class="sb-tag" lang="ja">行先</span>
+            <span class="sb-dest" id="sbDest" lang="ja">ます形</span>
+            <span class="sb-vi" id="sbVi">Thể lịch sự</span>
+          </div>
+          <div class="sb-verb">
+            <span class="sb-tag" lang="ja">原形</span>
+            <span class="sb-base" id="sbBase" lang="ja">食べる</span>
+            <span class="sb-mean" id="sbMean">ăn</span>
+          </div>
+          <div class="sb-tiles" id="sbTiles" lang="ja" aria-hidden="true"></div>
+          <p class="sb-live" id="sbLive" aria-live="polite"></p>
+        </div>
       </div>
 
-      <div class="home-grid">
-        <button type="button" class="mode-card mode-conj" data-go="setup">
-          <span class="mode-glyph" lang="ja" aria-hidden="true">活</span>
-          <span class="mode-demo" lang="ja" aria-hidden="true"><span>たべます</span><i>→</i><b>たべた</b></span>
-          <span class="mode-title">Chia thể động từ</span>
-          <span class="mode-desc">Đổi động từ thể ます sang 13 thể khác nhau: て, た, ない, khả năng, bị động, sai khiến…</span>
-          <span class="mode-cta">Bắt đầu chia thể</span>
+      <!-- Sơ đồ tuyến: 13 ga = 13 thể -->
+      <div class="st-map" id="stMap">
+        <p class="st-hint">Chạm vào một ga để xem động từ đổi thành gì.</p>
+        <div class="st-scroll"><ol class="st-line" id="stLine"></ol></div>
+      </div>
+
+      <div class="tactile" aria-hidden="true"></div>
+
+      <div class="ln-grid">
+        <button type="button" class="ln ln-a" data-go="setup">
+          <span class="ln-badge" aria-hidden="true">A</span>
+          <span class="ln-body">
+            <span class="ln-jp" lang="ja">動詞活用線</span>
+            <span class="ln-name">Chia thể động từ</span>
+            <span class="ln-desc">Đề cho sẵn thể ます, bạn gõ thể được yêu cầu. Chọn thể, cấp độ, số câu; thích thì để máy bốc ngẫu nhiên.</span>
+          </span>
+          <span class="ln-end"><b>13</b><small>ga</small></span>
         </button>
 
-        <button type="button" class="mode-card mode-vocab" data-go="quiz">
-          <span class="mode-glyph" lang="ja" aria-hidden="true">語</span>
-          <span class="mode-demo" aria-hidden="true"><span>thầy giáo</span><i>→</i><b lang="ja">せんせい</b></span>
-          <span class="mode-title">Kiểm tra từ vựng</span>
-          <span class="mode-desc">Xem nghĩa tiếng Việt, gõ lại cách đọc bằng hiragana. Chọn N5, N4 hoặc tất cả và tự đặt số lượt.</span>
-          <span class="mode-cta">Bắt đầu kiểm tra</span>
+        <button type="button" class="ln ln-b" data-go="quiz">
+          <span class="ln-badge" aria-hidden="true">B</span>
+          <span class="ln-body">
+            <span class="ln-jp" lang="ja">単語確認線</span>
+            <span class="ln-name">Kiểm tra từ vựng</span>
+            <span class="ln-desc">Thấy nghĩa tiếng Việt, gõ cách đọc hiragana.</span>
+          </span>
+          <span class="ln-flash" aria-hidden="true">
+            <span class="lf-card"><span class="lf-front">thầy giáo</span><span class="lf-back" lang="ja">せんせい</span></span>
+          </span>
         </button>
       </div>
     </section>
@@ -308,7 +346,7 @@
 
 
   <!-- JAVASCRIPT -->
-  <script type="module" src="app.js?v=23"></script>
+  <script type="module" src="app.js?v=24"></script>
 
 </body>
 </html>

@@ -24,7 +24,7 @@ Tab **Thống kê** lưu kết quả từng câu vào `localStorage` của trìn
 
 Ở màn kết quả, mỗi câu sai có dấu chấm than trắng trong vòng tròn đỏ hồng. Rê chuột (hoặc chạm/nhấn) để xem nguyên nhân sai, quy tắc chia, nhóm động từ và nghĩa tiếng Việt. Nghĩa tiếng Việt nằm ở cột thứ 4 của mảng `verbs` trong `conjugation.js`.
 
-## Trang chủ
+## Trang chủ "Ga tàu"
 
 Khi mở web sẽ thấy trang chủ với 2 lựa chọn: **Chia thể động từ** và **Kiểm tra từ vựng**. Bấm logo ở góc trái để quay về trang chủ.
 
@@ -41,3 +41,10 @@ Chọn bảng từ (N5, N4, tất cả), số lượt (10 / 20 / 30 hoặc tự 
 - Kết quả kiểm tra từ vựng chưa được tính vào tab Thống kê.
 
 Lưu ý: vì dùng ES module, hãy mở web qua một server (ví dụ `python -m http.server`) hoặc đăng lên GitHub Pages; mở thẳng file `index.html` bằng `file://` có thể bị trình duyệt chặn.
+
+### Trang chủ kiểu ga tàu (`home.js`, `home.css`)
+
+- 13 thể chia là 13 "ga" trên một tuyến. Bảng giờ tàu kiểu bảng lật chữ tự chạy qua từng ga và hiện đáp án thật (dùng chính bộ chia động từ của app). Chạm vào một ga để xem ngay thể đó; chạm xong bảng sẽ giữ yên khoảng 7 giây.
+- Chỉ trang chủ dùng nền "nhà ga" (bê tông, gạch vàng dẫn đường, bảng LED). Các trang còn lại vẫn dùng nền ảnh như cũ, và ba chế độ giao diện (sáng, tối, tối giản buổi đêm) đều có bản của riêng trang chủ.
+- Muốn đổi danh sách động từ chạy trên bảng, sửa mảng `SHOW` trong `home.js` (mỗi động từ tối đa 8 ký tự kana ở mọi thể).
+- Font: Bricolage Grotesque (tiêu đề) và DotGothic16 (bảng chữ chấm) nạp từ Google Fonts; khi offline sẽ dùng font hệ thống.
