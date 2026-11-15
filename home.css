@@ -175,3 +175,71 @@ html body.is-home main { padding-bottom: 0; }
 html[data-theme="minimal"]:root body.is-home main { padding: clamp(8px, 2vh, 22px) 20px 0; }
 html[data-theme="minimal"]:root body.is-home footer { position: fixed; right: 16px; bottom: 12px; margin: 0; align-self: auto; }
 html[data-theme="minimal"]:root body.is-home .site-header { height: 60px; flex-basis: 60px; }
+
+/* =========================================================
+   CÂN ĐỐI THEO MÀN HÌNH: trang chủ luôn chiếm đúng chiều cao cửa sổ,
+   khối trên cùng giãn ra, các khối khác co giãn theo chiều cao (vh)
+   ========================================================= */
+body.is-home { --hdr: 60px; --dot: clamp(30px, 4vh, 42px); }
+html body.is-home main { padding-bottom: 0; }
+#home.home-panel {
+  width: min(1480px, 100%);
+  min-height: calc(100dvh - var(--hdr) - clamp(8px, 2vh, 22px) - 14px);
+  padding-bottom: 46px;               /* chừa chỗ cho nhãn nhỏ ở góc dưới */
+  display: flex; flex-direction: column; justify-content: space-between;
+}
+.hx { flex: 1 1 auto; align-content: center; padding-block: clamp(4px, 1.6vh, 24px); }
+.hx h1 { font-size: clamp(30px, min(5.4vw, 7.6vh), 104px); }
+.hx-sub { max-width: 46ch; font-size: clamp(14.5px, 2.1vh, 21px); }
+.hx-btn { min-height: clamp(44px, 6.4vh, 66px); padding: 0 clamp(22px, 2.2vw, 34px); font-size: clamp(15px, 2vh, 19px); }
+
+.sb { padding: clamp(14px, 2.6vh, 32px) clamp(14px, 1.9vw, 30px); }
+.sb-dest { font-size: clamp(22px, min(3vw, 5vh), 52px); }
+.sb-base { font-size: clamp(20px, 3.4vh, 34px); }
+.sb-tile { height: clamp(46px, min(7.4vw, 11.5vh), 150px); }
+.sb-face { font-size: clamp(24px, min(3.4vw, 6.4vh), 80px); }
+.sb-note { font-size: clamp(12.5px, 1.6vh, 15px); }
+
+.st-map { margin-top: 0; }
+.st-scroll { padding-top: calc(var(--dot) + 10px); }
+.st-line::before { top: calc(var(--dot) / 2 - 5px); }
+.stn-dot { width: var(--dot); height: var(--dot); font-size: clamp(12px, 1.6vh, 16px); }
+.st-train { top: calc(1px - var(--dot)); width: clamp(48px, 5.6vh, 62px); height: clamp(24px, 2.9vh, 30px); }
+.stn-jp { min-height: 5em; font-size: clamp(13px, 1.75vh, 19px); }
+
+.tactile { height: clamp(12px, 1.6vh, 18px); margin: clamp(8px, 2vh, 24px) 0 clamp(10px, 2.2vh, 26px); }
+
+.ln { padding: clamp(10px, 2.4vh, 30px) clamp(20px, 1.8vw, 32px); }
+.ln-badge { width: clamp(42px, 6.4vh, 76px); height: clamp(42px, 6.4vh, 76px); font-size: clamp(22px, 3.6vh, 42px); }
+.ln-name { font-size: clamp(19px, 3.1vh, 34px); }
+.ln-jp { font-size: clamp(12px, 1.5vh, 15px); }
+.ln-desc { font-size: clamp(13.5px, 1.75vh, 17px); }
+.ln-end b { font-size: clamp(34px, 5.4vh, 64px); }
+.ln-flash { width: clamp(104px, 13vh, 150px); height: clamp(50px, 8vh, 92px); }
+.lf-front { font-size: clamp(14px, 2vh, 20px); }
+.lf-back { font-size: clamp(20px, 3vh, 30px); }
+
+@media (max-width: 960px) {
+  #home.home-panel { min-height: 0; display: block; }
+  .st-scroll { padding-top: 40px; }
+}
+
+/* chừa đáy vừa đủ; màn hình thấp / hẹp thì nén thêm để vẫn vừa một trang */
+#home.home-panel { padding-bottom: clamp(24px, 3.6vh, 44px); min-height: calc(100dvh - var(--hdr) - clamp(8px, 2vh, 22px)); }
+@media (max-height: 780px) {
+  .hx h1 { font-size: clamp(30px, min(4.8vw, 6.6vh), 60px); }
+  .hx-sub { margin-bottom: 12px; }
+  .sb-tile { height: clamp(42px, min(6.4vw, 9vh), 70px); }
+  .stn-jp { min-height: 4.6em; }
+  .ln { padding-block: 8px; }
+  .ln-desc { line-height: 1.35; }
+}
+@media (max-width: 1100px) and (min-width: 961px) {
+  .hx { gap: 24px; }
+  .hx-sub { font-size: 14px; }
+  .ln-desc { display: none; }
+  .ln-name { margin-bottom: 0; }
+}
+/* nhãn nhỏ ở góc dưới đè lên thẻ khi màn hình thấp: ẩn ở trang chủ */
+body.is-home footer { display: none !important; }
+#home.home-panel { padding-bottom: clamp(14px, 2.4vh, 30px); }
