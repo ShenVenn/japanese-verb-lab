@@ -98,7 +98,7 @@ body.is-home .brand { color: var(--st-ink); }
 .ln { --lc: var(--st-line); position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 20px; align-items: center; padding: 26px 28px; border: 0; border-top: 10px solid var(--lc); border-radius: 6px 6px 16px 16px; background: var(--st-sign); color: var(--st-ink); text-align: left; cursor: pointer; box-shadow: 0 22px 40px -26px rgba(0, 0, 0, .45); transition: transform .18s ease, box-shadow .18s ease; }
 .ln-b { --lc: var(--st-shu); }
 .ln:hover { transform: translateY(-4px); box-shadow: 0 28px 44px -24px rgba(0, 0, 0, .5); }
-.ln-badge { display: grid; place-items: center; width: 64px; height: 64px; border-radius: 50%; background: var(--lc); color: #fff; font: 800 34px 'Bricolage Grotesque', sans-serif; }
+
 .ln-jp { display: block; color: var(--st-mute); font: 600 13px 'Noto Sans JP', sans-serif; }
 .ln-name { display: block; margin: 2px 0 8px; font: 800 27px/1.12 'Bricolage Grotesque', 'Be Vietnam Pro', sans-serif; letter-spacing: -.025em; }
 .ln-desc { display: block; max-width: 46ch; color: var(--st-mute); font-size: 14.5px; line-height: 1.6; }
@@ -123,7 +123,7 @@ body.is-home .brand { color: var(--st-ink); }
   .sb-vi { display: none; }
   .ln { grid-template-columns: auto minmax(0, 1fr); padding: 22px 20px; }
   .ln-end, .ln-flash { grid-column: 1 / -1; justify-self: start; }
-  .ln-badge { width: 52px; height: 52px; font-size: 28px; }
+  
   .hx-btn { flex: 1 1 100%; }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -159,7 +159,7 @@ html body.is-home main { padding-top: clamp(8px, 2vh, 22px); padding-bottom: 12p
 
 .ln-grid { gap: 18px; }
 .ln { padding: clamp(10px, 2.2vh, 18px) 22px; gap: 16px; border-top-width: 8px; }
-.ln-badge { width: clamp(42px, 6vh, 54px); height: clamp(42px, 6vh, 54px); font-size: clamp(22px, 3.4vh, 30px); }
+
 .ln-name { margin: 0 0 4px; font-size: clamp(19px, 3vh, 24px); }
 .ln-desc { font-size: 13.5px; line-height: 1.45; }
 .ln-end b { font-size: clamp(34px, 5vh, 46px); }
@@ -210,7 +210,7 @@ html body.is-home main { padding-bottom: 0; }
 .tactile { height: clamp(12px, 1.6vh, 18px); margin: clamp(8px, 2vh, 24px) 0 clamp(10px, 2.2vh, 26px); }
 
 .ln { padding: clamp(10px, 2.4vh, 30px) clamp(20px, 1.8vw, 32px); }
-.ln-badge { width: clamp(42px, 6.4vh, 76px); height: clamp(42px, 6.4vh, 76px); font-size: clamp(22px, 3.6vh, 42px); }
+
 .ln-name { font-size: clamp(19px, 3.1vh, 34px); }
 .ln-jp { font-size: clamp(12px, 1.5vh, 15px); }
 .ln-desc { font-size: clamp(13.5px, 1.75vh, 17px); }
@@ -243,3 +243,28 @@ html body.is-home main { padding-bottom: 0; }
 /* nhãn nhỏ ở góc dưới đè lên thẻ khi màn hình thấp: ẩn ở trang chủ */
 body.is-home footer { display: none !important; }
 #home.home-panel { padding-bottom: clamp(14px, 2.4vh, 30px); }
+
+/* =========================================================
+   Chỉnh chữ tiêu đề, câu phụ, thẻ tuyến
+   ========================================================= */
+/* Đổi font tiêu đề ở đây: thay tên font đầu tiên (đều hỗ trợ tiếng Việt).
+   Gợi ý: 'Plus Jakarta Sans' (gọn, hiện đại) · 'Lexend' (rộng, dễ đọc) · 'Fraunces' (có chân, mềm, sang) */
+body.is-home { --hx-font: 'Plus Jakarta Sans', 'Be Vietnam Pro', 'Bricolage Grotesque', sans-serif; }
+.hx h1 { font-family: var(--hx-font); font-weight: 800; letter-spacing: -.025em; line-height: 1.08; }
+.ln-name { font-family: var(--hx-font); font-weight: 800; letter-spacing: -.015em; }
+
+/* câu phụ: mỗi ý một dòng, "Mỗi…" luôn mở đầu dòng mới */
+.hx-sub span { display: block; text-wrap: pretty; }
+
+/* thẻ tuyến: bỏ vòng tròn A/B, thay bằng chữ kanji lớn ở góc trên */
+.ln { overflow: hidden; grid-template-columns: minmax(0, 1fr) auto; }
+.ln > .ln-body, .ln > .ln-end, .ln > .ln-flash { position: relative; z-index: 1; }
+.ln-glyph {
+  position: absolute; top: clamp(-22px, -2vh, -8px); right: clamp(8px, 1.4vw, 24px); z-index: 0;
+  color: var(--lc); opacity: .13; pointer-events: none; user-select: none;
+  font: 800 clamp(96px, 17vh, 190px)/1 'Noto Sans JP', sans-serif;
+}
+.ln-jp { margin-bottom: clamp(5px, .9vh, 9px); }
+.ln-name { margin-bottom: clamp(4px, .8vh, 8px); }
+@media (max-width: 560px) { .ln { grid-template-columns: minmax(0, 1fr); } .ln-glyph { font-size: 110px; } }
+.hx-sub { max-width: 60ch; } .hx-sub span { text-wrap: balance; }
