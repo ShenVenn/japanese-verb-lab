@@ -268,3 +268,21 @@ body.is-home { --hx-font: 'Plus Jakarta Sans', 'Be Vietnam Pro', 'Bricolage Grot
 .ln-name { margin-bottom: clamp(4px, .8vh, 8px); }
 @media (max-width: 560px) { .ln { grid-template-columns: minmax(0, 1fr); } .ln-glyph { font-size: 110px; } }
 .hx-sub { max-width: 60ch; } .hx-sub span { text-wrap: balance; }
+
+/* =========================================================
+   Tiêu đề đúng 2 dòng + font mới; chữ kanji chuyển sang góc trái
+   ========================================================= */
+/* Đổi font: thay tên đầu tiên (đều có tiếng Việt). Gợi ý: 'Montserrat' · 'Lexend' · 'Fraunces' · 'Plus Jakarta Sans' */
+body.is-home { --hx-font: 'Montserrat', 'Plus Jakarta Sans', 'Be Vietnam Pro', sans-serif; }
+.hx-copy { container-type: inline-size; }
+.hx h1 { font-family: var(--hx-font); font-weight: 800; letter-spacing: -.02em; line-height: 1.12; font-size: min(7.3cqw, 7.4vh, 84px); }
+.hx h1 span { display: block; white-space: nowrap; }
+.ln-name { font-family: var(--hx-font); font-weight: 800; letter-spacing: -.01em; }
+@media (max-width: 960px) { .hx h1 { font-size: min(7.6cqw, 54px); } }
+
+.ln-glyph { right: auto; left: clamp(6px, 1vw, 18px); top: 50%; transform: translateY(-50%); opacity: .11; font-size: clamp(110px, 20vh, 220px); }
+.ln-body { padding-left: clamp(0px, 1vw, 8px); }
+/* kanji nằm riêng ở góc trái, chữ của thẻ dịch sang phải để không đè lên nhau */
+.ln-glyph { top: 50%; left: clamp(8px, 1.2vw, 22px); font-size: clamp(84px, 13.5vh, 160px); opacity: .17; }
+.ln-body { padding-left: clamp(70px, 10.5vh, 130px); }
+@media (max-width: 560px) { .ln-body { padding-left: 76px; } .ln-glyph { font-size: 84px; } }
