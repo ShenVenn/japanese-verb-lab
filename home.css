@@ -286,3 +286,40 @@ body.is-home { --hx-font: 'Montserrat', 'Plus Jakarta Sans', 'Be Vietnam Pro', s
 .ln-glyph { top: 50%; left: clamp(8px, 1.2vw, 22px); font-size: clamp(84px, 13.5vh, 160px); opacity: .17; }
 .ln-body { padding-left: clamp(70px, 10.5vh, 130px); }
 @media (max-width: 560px) { .ln-body { padding-left: 76px; } .ln-glyph { font-size: 84px; } }
+
+/* =========================================================
+   KANJI GÓC TRÁI: một cột riêng, to, viền nét, cắt mép thẻ cho có chất tranh thư pháp
+   ========================================================= */
+.ln { --gs: clamp(120px, 21vh, 250px); --gw: calc(var(--gs) * .74); grid-template-columns: var(--gw) minmax(0, 1fr) auto; column-gap: clamp(14px, 1.6vw, 28px); }
+.ln-glyph {
+  position: relative; top: auto; left: auto; right: auto; transform: none; z-index: 0;
+  display: grid; place-items: center; width: var(--gw); height: 100%; min-height: 0;
+  margin-left: calc(var(--gs) * -.2);
+  font: 800 var(--gs)/1 'Noto Sans JP', sans-serif; opacity: 1;
+  color: color-mix(in srgb, var(--lc) 15%, transparent);
+  -webkit-text-stroke: 2px color-mix(in srgb, var(--lc) 58%, transparent);
+  pointer-events: none; user-select: none; overflow: visible;
+}
+.ln-body { padding-left: 0; }
+@media (max-width: 560px) {
+  .ln { --gs: 96px; grid-template-columns: 56px minmax(0, 1fr); }
+  .ln-end, .ln-flash { grid-column: 1 / -1; }
+  .ln-glyph { height: 76px; }
+}
+/* kanji không được làm cao thẻ: để nó tràn quanh điểm giữa, thẻ cắt phần thừa */
+.ln { --gw: calc(var(--gs) * .68); }
+.ln-glyph { height: 0; align-self: center; margin-left: calc(var(--gs) * -.27); }
+@media (max-width: 560px) { .ln-glyph { height: 0; } }
+/* căn kanji đúng giữa theo chiều dọc, nét mảnh hơn, cột chữ rộng hơn */
+.ln { --gs: clamp(110px, 19vh, 230px); --gw: calc(var(--gs) * .6); column-gap: clamp(12px, 1.2vw, 22px); }
+.ln-glyph { place-items: start center; margin-top: calc(var(--gs) * -.5); margin-left: calc(var(--gs) * -.3);
+  color: color-mix(in srgb, var(--lc) 13%, transparent); -webkit-text-stroke: 1.2px color-mix(in srgb, var(--lc) 50%, transparent); }
+.ln-name { white-space: nowrap; }
+@media (max-width: 560px) { .ln-name { white-space: normal; } }
+/* căn tâm bằng transform (margin âm làm lệch ô lưới) */
+.ln-glyph { place-items: start center; margin: 0; transform: translate(calc(var(--gs) * -.16), calc(var(--gs) * -.5)); }
+/* nét mảnh, nhạt, cách xa chữ hơn */
+.ln { --gs: clamp(100px, 17vh, 210px); --gw: calc(var(--gs) * .56); column-gap: clamp(16px, 1.6vw, 28px); }
+.ln-glyph { font-weight: 700; transform: translate(calc(var(--gs) * -.27), calc(var(--gs) * -.5));
+  color: color-mix(in srgb, var(--lc) 9%, transparent); -webkit-text-stroke: 1px color-mix(in srgb, var(--lc) 42%, transparent); }
+.ln-body { padding-left: clamp(8px, 1vw, 18px); }
