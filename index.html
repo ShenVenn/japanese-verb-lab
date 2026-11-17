@@ -13,7 +13,7 @@
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="stylesheet" href="style.css?v=29">
   <link rel="stylesheet" href="modern.css?v=9">
-  <link rel="stylesheet" href="home.css?v=18">
+  <link rel="stylesheet" href="home.css?v=21">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Plus+Jakarta+Sans:wght@700;800&family=Montserrat:wght@700;800&family=DotGothic16&display=swap">
@@ -65,6 +65,18 @@
               </button>
             </div>
             <p class="settings-note">Chế độ tối biến nền thành bầu trời đêm đầy sao. Tối giản buổi đêm bỏ ảnh nền: nền đen phẳng, gọn.</p>
+
+            <p class="settings-title settings-title-2">Kiểu trang chia thể</p>
+            <div class="theme-switch" role="radiogroup" aria-label="Kiểu trang chia thể">
+              <button type="button" role="radio" data-ui-choice="station" aria-checked="true">
+                <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="14" rx="3"/><path d="M5 11h14M9 21l2-4M15 21l-2-4"/></svg>
+                Ga tàu (mới)
+              </button>
+              <button type="button" role="radio" data-ui-choice="classic" aria-checked="false">
+                <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c3 4 6 5 6 9a6 6 0 0 1-12 0c0-4 3-5 6-9Z"/></svg>
+                Cổ điển (kiểu cũ)
+              </button>
+            </div>
           </div>
         </div>
       </nav>
@@ -153,13 +165,22 @@
 
       <!-- TIÊU ĐỀ -->
       <div class="hero-heading">
-        <span class="kicker">Thiết lập bài luyện</span>
+        <div class="hero-copy">
+          <span class="kicker">Thiết lập bài luyện</span>
 
-        <h1>Bạn muốn luyện phần nào?</h1>
+          <h1>Bạn muốn luyện phần nào?</h1>
 
-        <p class="hero-description">
-          Chọn cấp độ, thể chia và số lượng động từ để bắt đầu luyện tập.
-        </p>
+          <p class="hero-description">
+            Chọn cấp độ, thể chia và số lượng động từ để bắt đầu luyện tập.
+          </p>
+        </div>
+
+        <!-- Bảng vé (chỉ hiện ở kiểu "Ga tàu"): tóm tắt lựa chọn, cập nhật liên tục -->
+        <div class="tk" aria-hidden="true">
+          <div class="tk-cell"><span class="tk-k" lang="ja">級</span><b class="tk-v" id="tkLevel">--</b><small>Cấp độ</small></div>
+          <div class="tk-cell"><span class="tk-k" lang="ja">形</span><b class="tk-v" id="tkForms">0</b><small>Thể đã chọn</small></div>
+          <div class="tk-cell"><span class="tk-k" lang="ja">数</span><b class="tk-v" id="tkCount">10</b><small>Số câu</small></div>
+        </div>
       </div>
 
 
@@ -171,7 +192,7 @@
 
           <h2>
             <span class="section-icon"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" ><path d="M12 2.8 2.6 7.9 12 13l9.4-5.1z" fill="currentColor"/><path d="m3.2 12.1 8.8 4.8 8.8-4.8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="m3.2 16.4 8.8 4.8 8.8-4.8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-            1. Cấp độ &amp; động từ
+            <span class="stn-old-num">1. </span><span class="stp" aria-hidden="true">01</span>Cấp độ &amp; động từ
           </h2>
 
           <div id="levelChoices" class="level-columns"></div>
@@ -191,7 +212,7 @@
           <div class="forms-head">
             <h2>
               <span class="section-icon"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" ><path d="M12 6.6C9.9 5 6.9 4.4 2.8 4.8v13.6c4.1-.4 7.1.2 9.2 1.8 2.1-1.6 5.1-2.2 9.2-1.8V4.8c-4.1-.4-7.1.2-9.2 1.8Z" fill="currentColor"/><path d="M12 7v12.6" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg></span>
-              2. Chọn thể cần chia
+              <span class="stn-old-num">2. </span><span class="stp" aria-hidden="true">02</span>Chọn thể cần chia
             </h2>
             <button type="button" id="randBtn" class="rand-btn" aria-expanded="false" aria-controls="randBar" aria-label="Chọn thể ngẫu nhiên">
               <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="4"/><circle cx="8.5" cy="8.5" r="1" fill="currentColor"/><circle cx="15.5" cy="8.5" r="1" fill="currentColor"/><circle cx="12" cy="12" r="1" fill="currentColor"/><circle cx="8.5" cy="15.5" r="1" fill="currentColor"/><circle cx="15.5" cy="15.5" r="1" fill="currentColor"/></svg>
@@ -226,7 +247,7 @@
 
           <h2>
             <span class="section-icon"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" ><circle cx="12" cy="13.4" r="7.6" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M9.6 2.4h4.8M12 2.6v3.2M18.6 6.2l1.6 1.6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M12 9.4v4.4l2.6 1.8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-            3. Số lượng động từ
+            <span class="stn-old-num">3. </span><span class="stp" aria-hidden="true">03</span>Số lượng động từ
           </h2>
 
           <div class="count-buttons" id="countChoices">
@@ -346,7 +367,7 @@
 
 
   <!-- JAVASCRIPT -->
-  <script type="module" src="app.js?v=24"></script>
+  <script type="module" src="app.js?v=25"></script>
 
 </body>
 </html>

@@ -4,30 +4,30 @@
    tàu chạy qua từng ga; ô vàng gồ gờ dưới chân là gạch dẫn đường (点字ブロック).
    Chỉ áp dụng khi <body class="is-home">; các trang khác giữ nguyên nền ảnh.
    ========================================================= */
-body.is-home {
+body.is-home, body.is-stn {
   --st-paper: #e6e9ec; --st-paper-2: #f4f6f8; --st-sign: #ffffff;
   --st-ink: #11161b; --st-mute: #4a5560;
   --st-line: #0b5fb0; --st-shu: #e5472b;
   --st-yellow: #f5c400; --st-yellow-deep: #b88f00;
   --st-board: #0d1114; --st-led: #ffb81c; --st-frame: #232a30;
 }
-html[data-theme="dark"] body.is-home {
+html[data-theme="dark"] body.is-home, html[data-theme="dark"] body.is-stn {
   --st-paper: #0b1017; --st-paper-2: #121923; --st-sign: #151c26;
   --st-ink: #eef1f5; --st-mute: #a2adbb; --st-line: #4f93f0; --st-shu: #ff7c5e; --st-board: #06080b; --st-frame: #2b3440;
 }
-html[data-theme="minimal"] body.is-home {
+html[data-theme="minimal"] body.is-home, html[data-theme="minimal"] body.is-stn {
   --st-paper: #000000; --st-paper-2: #101014; --st-sign: #0b0b0e;
   --st-ink: #eceef5; --st-mute: #8e96a8; --st-line: #7d97f2; --st-shu: #ff7c5e; --st-board: #050507; --st-frame: #1c1c22;
 }
-html body.is-home {
+html body.is-home, html body.is-stn {
   background-color: var(--st-paper) !important;
   background-image: radial-gradient(color-mix(in srgb, var(--st-ink) 9%, transparent) 1.2px, transparent 1.6px) !important;
   background-size: 24px 24px !important;
   background-attachment: fixed !important;
 }
-body.is-home .night-sky, body.is-home .pagoda-lights, body.is-home #petals { display: none !important; }
-body.is-home .site-header { background: color-mix(in srgb, var(--st-paper) 80%, transparent) !important; border-bottom: 1px solid color-mix(in srgb, var(--st-ink) 12%, transparent); backdrop-filter: blur(12px); }
-body.is-home .brand { color: var(--st-ink); }
+body.is-home .night-sky, body.is-home .pagoda-lights, body.is-home #petals, body.is-stn .night-sky, body.is-stn .pagoda-lights, body.is-stn #petals { display: none !important; }
+body.is-home .site-header, body.is-stn .site-header { background: color-mix(in srgb, var(--st-paper) 80%, transparent) !important; border-bottom: 1px solid color-mix(in srgb, var(--st-ink) 12%, transparent); backdrop-filter: blur(12px); }
+body.is-home .brand, body.is-stn .brand { color: var(--st-ink); }
 
 #home.home-panel { width: min(1240px, 100%); margin: 0 auto; padding: 6px 0 40px; animation: none; background: none; border: 0; box-shadow: none; }
 
@@ -323,3 +323,86 @@ body.is-home { --hx-font: 'Montserrat', 'Plus Jakarta Sans', 'Be Vietnam Pro', s
 .ln-glyph { font-weight: 700; transform: translate(calc(var(--gs) * -.27), calc(var(--gs) * -.5));
   color: color-mix(in srgb, var(--lc) 9%, transparent); -webkit-text-stroke: 1px color-mix(in srgb, var(--lc) 42%, transparent); }
 .ln-body { padding-left: clamp(8px, 1vw, 18px); }
+
+/* =========================================================
+   TRANG CHIA THỂ KIỂU "GA TÀU" (bật mặc định; "Cổ điển" chọn trong Cài đặt)
+   Chỉ áp dụng khi <body class="is-stn">. Mỗi khung là một biển ga: dải màu trên cùng,
+   số ga trong vòng tròn, ô chọn số câu như ô lật chữ của bảng giờ tàu.
+   ========================================================= */
+.stp, .tk { display: none; }
+body.is-stn .stp { display: inline-grid; }
+body.is-stn .stn-old-num, body.is-stn #setup .section-icon, body.is-stn #setup .panel-art { display: none !important; }
+
+html body.is-stn main { align-items: flex-start; padding: clamp(8px, 2vh, 22px) 20px 0; }
+body.is-stn #setup { --hx-font: 'Montserrat', 'Plus Jakarta Sans', 'Be Vietnam Pro', sans-serif; width: min(1240px, 100%); margin: 0 auto; padding: 0 0 clamp(14px, 2.4vh, 28px); background: none; border: 0; box-shadow: none; }
+
+/* --- tiêu đề + bảng vé --- */
+body.is-stn #setup .hero-heading { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 32px; align-items: end; margin: 0 0 clamp(12px, 2.4vh, 26px); }
+body.is-stn #setup .kicker { margin: 0 0 clamp(8px, 1.4vh, 14px); padding: 3px 11px; border: 0; border-radius: 3px; background: var(--st-yellow); color: #11161b; box-shadow: none; font: 400 13px 'DotGothic16', 'Noto Sans JP', sans-serif; letter-spacing: 0; }
+body.is-stn #setup h1 { margin: 0 0 8px; color: var(--st-ink); text-shadow: none; font: 800 clamp(28px, min(4.2vw, 6.2vh), 58px)/1.1 var(--hx-font); letter-spacing: -.02em; }
+body.is-stn #setup .hero-description { margin: 0; color: var(--st-mute); text-shadow: none; font-size: clamp(14px, 1.9vh, 17px); }
+body.is-stn .tk { display: grid; grid-auto-flow: column; gap: clamp(14px, 2vw, 30px); padding: clamp(10px, 1.8vh, 16px) clamp(16px, 2vw, 26px); border-radius: 12px; background: var(--st-board); box-shadow: 0 0 0 5px var(--st-frame), 0 0 0 6px rgba(255, 255, 255, .12), 0 26px 40px -24px rgba(0, 0, 0, .55); font-family: 'DotGothic16', 'Noto Sans JP', sans-serif; }
+.tk-cell { display: grid; justify-items: center; gap: 2px; min-width: clamp(60px, 7vw, 100px); }
+.tk-k { padding: 0 7px; border-radius: 3px; background: var(--st-led); color: #0d1114; font-size: 12px; line-height: 1.5; }
+.tk-v { color: var(--st-led); font: 400 clamp(26px, 4.4vh, 44px)/1.1 'DotGothic16', monospace; text-shadow: 0 0 12px rgba(255, 184, 28, .4); }
+.tk-cell small { color: #9aa5b1; font: 500 11.5px 'Be Vietnam Pro', sans-serif; }
+
+/* --- ba biển ga --- */
+body.is-stn #setup .setup-grid { gap: clamp(12px, 1.6vw, 20px); height: clamp(320px, calc(100dvh - 355px), 660px); }
+body.is-stn #setup .choice-panel { --pc: var(--st-line); display: flex; flex-direction: column; padding: clamp(14px, 2.4vh, 24px) clamp(16px, 1.6vw, 24px); border: 0; border-top: 9px solid var(--pc); border-radius: 6px 6px 16px 16px; background: var(--st-sign); box-shadow: 0 24px 40px -28px rgba(0, 0, 0, .5); color: var(--st-ink); backdrop-filter: none; overflow: hidden; }
+body.is-stn #setup .choice-panel-forms { --pc: var(--st-yellow); }
+body.is-stn #setup .choice-panel-count { --pc: var(--st-shu); }
+body.is-stn #setup .choice-panel h2 { margin: 0 0 clamp(10px, 2vh, 18px); display: flex; align-items: center; gap: 10px; color: var(--st-ink); font: 800 clamp(16px, 2.4vh, 20px)/1.2 var(--hx-font); letter-spacing: -.01em; text-shadow: none; }
+body.is-stn #setup .forms-head { margin-bottom: clamp(10px, 2vh, 18px); }
+body.is-stn #setup .forms-head h2 { margin: 0 !important; }
+.stp { place-items: center; flex: 0 0 auto; width: 34px; height: 34px; border: 4px solid var(--pc); border-radius: 50%; background: var(--st-sign); color: var(--st-ink); font: 400 13px 'DotGothic16', monospace; }
+body.is-stn #setup .muted { color: var(--st-mute); font-size: clamp(12px, 1.6vh, 13.5px); }
+
+/* --- hàng lựa chọn --- */
+body.is-stn #setup .level, body.is-stn #setup .form { border: 2px solid color-mix(in srgb, var(--st-ink) 14%, transparent); border-radius: 10px; background: var(--st-paper-2); box-shadow: inset 6px 0 0 var(--pc); color: var(--st-ink); transition: border-color .15s ease, background .15s ease, transform .15s ease; }
+body.is-stn #setup .level { padding-left: 22px; }
+body.is-stn #setup .form { padding-left: 20px; }
+body.is-stn #setup .level:hover, body.is-stn #setup .form:hover { border-color: var(--st-ink); transform: none; }
+body.is-stn #setup .level b, body.is-stn #setup .form b { color: var(--st-ink); }
+body.is-stn #setup .level small, body.is-stn #setup .form small { color: var(--st-mute); }
+body.is-stn #setup .level.selected, body.is-stn #setup .form.selected { border-color: var(--st-ink); background: color-mix(in srgb, var(--st-yellow) 24%, var(--st-sign)); box-shadow: inset 6px 0 0 var(--st-ink); }
+body.is-stn #setup .level::after { border-color: color-mix(in srgb, var(--st-ink) 30%, transparent); background: transparent; }
+body.is-stn #setup .level.selected::after { border-color: var(--st-ink); background: var(--st-yellow); }
+body.is-stn #setup .form em { border-radius: 4px; background: var(--st-ink); color: var(--st-sign); font: 400 12px 'DotGothic16', sans-serif; }
+body.is-stn #setup .form input[type="checkbox"] { accent-color: var(--st-line); }
+body.is-stn #setup .forms { scrollbar-color: color-mix(in srgb, var(--st-ink) 30%, transparent) transparent; }
+
+/* --- số câu: ô lật chữ --- */
+body.is-stn #setup .count-buttons { gap: clamp(8px, 1vw, 12px); }
+body.is-stn #setup .count-buttons button { height: clamp(52px, 9vh, 84px); border: 0; border-radius: 8px; background: linear-gradient(var(--st-board) 0 49%, #000 51% 100%); color: var(--st-led); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .08); font: 400 clamp(28px, 4.8vh, 46px)/1 'DotGothic16', monospace; text-shadow: 0 0 12px rgba(255, 184, 28, .4); transition: transform .12s ease, filter .15s ease; }
+body.is-stn #setup .count-buttons button:hover { transform: translateY(-2px); filter: brightness(1.2); }
+body.is-stn #setup .count-buttons button.selected { background: var(--st-led); color: #0d1114; text-shadow: none; }
+
+/* --- nút ngẫu nhiên --- */
+body.is-stn #setup .rand-btn { border: 0; border-radius: 6px; background: transparent; box-shadow: inset 0 0 0 2px var(--st-ink); color: var(--st-ink); }
+body.is-stn #setup .rand-btn[aria-expanded="true"] { background: var(--st-ink); color: var(--st-sign); }
+body.is-stn #setup .rand-bar { border: 2px dashed color-mix(in srgb, var(--st-ink) 30%, transparent); border-radius: 8px; background: var(--st-paper-2); color: var(--st-ink); }
+body.is-stn #setup .rand-nums button { width: 30px; height: 30px; border: 0; border-radius: 5px; background: var(--st-board); color: var(--st-led); font: 400 16px 'DotGothic16', monospace; box-shadow: none; }
+body.is-stn #setup .rand-nums button.on { background: var(--st-led); color: #0d1114; }
+
+/* --- nút bắt đầu + gạch dẫn đường --- */
+body.is-stn #setup .start-container { display: flex; align-items: center; gap: clamp(14px, 2vw, 28px); margin-top: clamp(12px, 2.4vh, 24px); }
+body.is-stn #setup .start-container::after { content: ""; flex: 1; height: 14px; border-radius: 3px; background: repeating-linear-gradient(90deg, var(--st-yellow) 0 9px, var(--st-yellow-deep) 9px 11px, #ffd83a 11px 13px, var(--st-yellow) 13px 24px); box-shadow: inset 0 2px 0 rgba(255, 255, 255, .35), inset 0 -3px 0 rgba(0, 0, 0, .18); }
+body.is-stn #setup #start.primary { width: auto; min-width: min(320px, 100%); max-width: none; min-height: clamp(46px, 6.6vh, 60px); margin: 0; padding: 0 34px; border: 0; border-radius: 8px; background: var(--st-yellow) !important; color: #11161b !important; box-shadow: 0 5px 0 var(--st-yellow-deep) !important; font: 800 clamp(15px, 2vh, 18px) 'Be Vietnam Pro', sans-serif; filter: none; }
+body.is-stn #setup #start.primary span { display: none; }
+body.is-stn #setup #start.primary:hover { transform: translateY(-1px); box-shadow: 0 6px 0 var(--st-yellow-deep) !important; }
+body.is-stn #setup #start.primary:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--st-yellow-deep) !important; }
+
+/* --- cài đặt: tiêu đề nhóm thứ hai --- */
+.settings-title-2 { margin-top: 16px; }
+
+@media (max-width: 960px) {
+  body.is-stn #setup .hero-heading { grid-template-columns: 1fr; gap: 16px; }
+  body.is-stn .tk { justify-self: start; }
+  body.is-stn #setup .setup-grid { height: auto; }
+  body.is-stn #setup .start-container::after { display: none; }
+  body.is-stn #setup #start.primary { width: 100%; }
+}
+html[data-theme="minimal"]:root body.is-stn main { padding: clamp(8px, 2vh, 22px) 20px 0; }
+html[data-theme="minimal"]:root body.is-stn footer { position: fixed; right: 16px; bottom: 12px; margin: 0; align-self: auto; }
+html[data-theme="minimal"]:root body.is-stn .site-header { height: 60px; flex-basis: 60px; }

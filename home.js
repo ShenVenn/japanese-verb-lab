@@ -74,4 +74,19 @@ export function initHome({ $, shuffle }) {
   addEventListener('resize', () => go(si));
   // Lần đầu: đợi font nạp xong để tàu đứng đúng chỗ
   (document.fonts?.ready || Promise.resolve()).then(() => go(0));
+
+  /* ===== Kiểu trang chia thể: "Ga tàu" (mới) hoặc "Cổ điển" (lưu trong Cài đặt) ===== */
+  const root = document.documentElement, UIKEY = 'verbLabUi';
+  const syncStn = () => document.body.classList.toggle('is-stn', !$('#setup').hidden && root.getAttribute('data-ui') !== 'classic');
+  function applyUi(ui, save) {
+    if (ui !== 'classic') ui = 'station';
+    root.setAttribute('data-ui', ui);
+    document.querySelectorAll('[data-ui-choice]').forEach(b => b.setAttribute('aria-checked', String(b.dataset.uiChoice === ui)));
+    if (save) { try { localStorage.setItem(UIKEY, ui); } catch (e) {} }
+    syncStn();
+  }
+  let savedUi = null; try { savedUi = localStorage.getItem(UIKEY); } catch (e) {}
+  applyUi(savedUi, false);
+  document.querySelectorAll('[data-ui-choice]').forEach(b => b.addEventListener('click', () => applyUi(b.dataset.uiChoice, true)));
+  new MutationObserver(syncStn).observe($('#setup'), { attributes: true, attributeFilter: ['hidden'] });
 }

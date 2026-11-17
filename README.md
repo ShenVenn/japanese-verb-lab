@@ -48,3 +48,9 @@ Lưu ý: vì dùng ES module, hãy mở web qua một server (ví dụ `python -
 - Chỉ trang chủ dùng nền "nhà ga" (bê tông, gạch vàng dẫn đường, bảng LED). Các trang còn lại vẫn dùng nền ảnh như cũ, và ba chế độ giao diện (sáng, tối, tối giản buổi đêm) đều có bản của riêng trang chủ.
 - Muốn đổi danh sách động từ chạy trên bảng, sửa mảng `SHOW` trong `home.js` (mỗi động từ tối đa 8 ký tự kana ở mọi thể).
 - Font: Bricolage Grotesque (tiêu đề) và DotGothic16 (bảng chữ chấm) nạp từ Google Fonts; khi offline sẽ dùng font hệ thống.
+
+### Trang chia thể kiểu "Ga tàu" và kiểu "Cổ điển"
+
+- Mặc định trang **Chia thể** dùng thiết kế ga tàu giống trang chủ: ba biển ga (cấp độ, thể, số câu), bảng vé LED tóm tắt lựa chọn, ô số câu như ô lật chữ, nút vàng và gạch dẫn đường.
+- Muốn dùng kiểu cũ (ảnh nền, hoa anh đào): **Cài đặt, mục "Kiểu trang chia thể", chọn "Cổ điển (kiểu cũ)"**. Lựa chọn được lưu trong trình duyệt.
+- Kiểu ga tàu chỉ áp dụng cho trang thiết lập chia thể; trang kiểm tra từ vựng và màn hình làm bài giữ nguyên.
