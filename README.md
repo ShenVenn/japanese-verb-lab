@@ -54,3 +54,10 @@ Lưu ý: vì dùng ES module, hãy mở web qua một server (ví dụ `python -
 - Mặc định trang **Chia thể** dùng thiết kế ga tàu giống trang chủ: ba biển ga (cấp độ, thể, số câu), bảng vé LED tóm tắt lựa chọn, ô số câu như ô lật chữ, nút vàng và gạch dẫn đường.
 - Muốn dùng kiểu cũ (ảnh nền, hoa anh đào): **Cài đặt, mục "Kiểu trang chia thể", chọn "Cổ điển (kiểu cũ)"**. Lựa chọn được lưu trong trình duyệt.
 - Kiểu ga tàu chỉ áp dụng cho trang thiết lập chia thể; trang kiểm tra từ vựng và màn hình làm bài giữ nguyên.
+
+#### Trang chia thể "Quầy bán vé" (kiểu Ga tàu, bản 2)
+
+- Bên trái là **sơ đồ 13 ga**: chạm vào ga để chọn / bỏ chọn thể (ga đã chọn đặc màu xanh, ga N4 viền đứt). Rê chuột hoặc chạm vào ga để xem bảng LED hiện tên thể và ví dụ thật (ví dụ たべます → たべて). Có nút **Chọn tất cả / Bỏ chọn hết** và nút **Ngẫu nhiên**.
+- Bên phải là **tấm vé có đường xé**: cấp độ, số câu và nút bắt đầu.
+- Trang luôn vừa đúng chiều cao cửa sổ (kể cả khi font nạp xong làm chữ rộng hơn): phần thừa tự co, nút bắt đầu không bao giờ bị cuộn mất.
+- Kiểu cũ (ba cột, danh sách thể có hộp tick) vẫn dùng được: Cài đặt, "Kiểu trang chia thể", "Cổ điển".

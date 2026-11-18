@@ -13,7 +13,7 @@
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="stylesheet" href="style.css?v=29">
   <link rel="stylesheet" href="modern.css?v=9">
-  <link rel="stylesheet" href="home.css?v=21">
+  <link rel="stylesheet" href="home.css?v=25">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Plus+Jakarta+Sans:wght@700;800&family=Montserrat:wght@700;800&family=DotGothic16&display=swap">
@@ -192,7 +192,7 @@
 
           <h2>
             <span class="section-icon"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" ><path d="M12 2.8 2.6 7.9 12 13l9.4-5.1z" fill="currentColor"/><path d="m3.2 12.1 8.8 4.8 8.8-4.8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="m3.2 16.4 8.8 4.8 8.8-4.8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-            <span class="stn-old-num">1. </span><span class="stp" aria-hidden="true">01</span>Cấp độ &amp; động từ
+            <span class="stn-old-num">1. </span><span class="stp" aria-hidden="true">02</span>Cấp độ &amp; động từ
           </h2>
 
           <div id="levelChoices" class="level-columns"></div>
@@ -212,7 +212,7 @@
           <div class="forms-head">
             <h2>
               <span class="section-icon"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" ><path d="M12 6.6C9.9 5 6.9 4.4 2.8 4.8v13.6c4.1-.4 7.1.2 9.2 1.8 2.1-1.6 5.1-2.2 9.2-1.8V4.8c-4.1-.4-7.1.2-9.2 1.8Z" fill="currentColor"/><path d="M12 7v12.6" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg></span>
-              <span class="stn-old-num">2. </span><span class="stp" aria-hidden="true">02</span>Chọn thể cần chia
+              <span class="stn-old-num">2. </span><span class="stp" aria-hidden="true">01</span>Chọn thể cần chia
             </h2>
             <button type="button" id="randBtn" class="rand-btn" aria-expanded="false" aria-controls="randBar" aria-label="Chọn thể ngẫu nhiên">
               <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="4"/><circle cx="8.5" cy="8.5" r="1" fill="currentColor"/><circle cx="15.5" cy="8.5" r="1" fill="currentColor"/><circle cx="12" cy="12" r="1" fill="currentColor"/><circle cx="8.5" cy="15.5" r="1" fill="currentColor"/><circle cx="15.5" cy="15.5" r="1" fill="currentColor"/></svg>
@@ -230,6 +230,21 @@
               <button type="button" data-n="6">6</button>
             </div>
             <span>thể</span>
+          </div>
+
+          <!-- Sơ đồ tuyến (kiểu "Ga tàu"): chạm vào ga để chọn / bỏ chọn thể -->
+          <div class="fm-wrap">
+            <div class="fm-scroll"><div class="fm-line" id="formMap" role="group" aria-label="Chạm vào ga để chọn hoặc bỏ chọn thể"></div></div>
+            <div class="fm-tools"><span>Chạm vào ga để chọn / bỏ chọn</span><button type="button" id="fmAll">Chọn tất cả</button><button type="button" id="fmNone">Bỏ chọn hết</button></div>
+            <div class="fd" id="formDetail" aria-live="polite">
+              <div class="fd-main">
+                <span class="fd-tag" lang="ja">行先</span>
+                <b class="fd-jp" id="fdJp" lang="ja">—</b>
+                <span class="fd-st" id="fdSt"></span>
+              </div>
+              <p class="fd-vi" id="fdVi"></p>
+              <div class="fd-ex" lang="ja"><span id="fdFrom"></span><i>→</i><b id="fdTo"></b></div>
+            </div>
           </div>
 
           <p class="muted">
@@ -367,7 +382,7 @@
 
 
   <!-- JAVASCRIPT -->
-  <script type="module" src="app.js?v=25"></script>
+  <script type="module" src="app.js?v=28"></script>
 
 </body>
 </html>
