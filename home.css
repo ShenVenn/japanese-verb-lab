@@ -417,8 +417,8 @@ html[data-theme="minimal"]:root body.is-stn .site-header { height: 60px; flex-ba
 body.is-stn .fm-wrap { display: flex; }
 body.is-stn #setup #formChoices, body.is-stn #setup .choice-panel-forms > .muted { display: none; }
 
-html body.is-stn { height: 100dvh; overflow: hidden; display: flex; flex-direction: column; }
-html body.is-stn main { flex: 1 1 auto; min-height: 0; align-items: stretch; padding: clamp(8px, 2vh, 22px) 20px clamp(10px, 1.8vh, 18px); }
+html body.is-stn:has(#setup:not([hidden])) { height: 100dvh; overflow: hidden; display: flex; flex-direction: column; }
+html body.is-stn:has(#setup:not([hidden])) main { flex: 1 1 auto; min-height: 0; align-items: stretch; padding: clamp(8px, 2vh, 22px) 20px clamp(10px, 1.8vh, 18px); }
 body.is-stn #setup {
   display: grid; height: 100%; min-height: 0; align-self: stretch; padding: 0;
   grid-template-columns: minmax(0, 1.75fr) minmax(290px, .85fr);
@@ -494,13 +494,13 @@ body.is-stn #setup .start-container::after { flex: none; height: 20px; backgroun
 body.is-stn #setup .choice-panel-count > h2::after, body.is-stn #setup .start-container > #start::after { display: none; }
 
 @media (max-width: 960px) {
-  html body.is-stn { height: auto; overflow: auto; }
+  html body.is-stn:has(#setup:not([hidden])) { height: auto; overflow: auto; }
   body.is-stn #setup { display: block; height: auto; }
   body.is-stn #setup .setup-grid { display: grid; gap: 14px; }
   body.is-stn #setup .choice-panel-forms, body.is-stn #setup .choice-panel-level, body.is-stn #setup .choice-panel-count { grid-column: auto; grid-row: auto; }
   body.is-stn #setup h1 { white-space: normal; }
 }
-@media (max-height: 560px) { html body.is-stn { height: auto; overflow: auto; } body.is-stn #setup { height: auto; } }
+@media (max-height: 560px) { html body.is-stn:has(#setup:not([hidden])) { height: auto; overflow: auto; } body.is-stn #setup { height: auto; } }
 
 /* --- tinh chỉnh v2 --- */
 body.is-stn #setup { width: min(1480px, 100%); margin: 0 auto; }
@@ -517,3 +517,74 @@ body.is-stn #setup .choice-panel-count::after, body.is-stn #setup .start-contain
   background: radial-gradient(circle 10px at 0 10px, var(--st-paper) 97%, transparent 100%), radial-gradient(circle 10px at 100% 10px, var(--st-paper) 97%, transparent 100%);
 }
 body.is-stn #setup .choice-panel-count { border: 0 !important; box-shadow: none !important; }
+
+/* =========================================================
+   MÀN LÀM BÀI CHIA THỂ kiểu "Ga tàu"
+   Đề hiện trên bảng LED: động từ ở thể ます (chữ chấm màu hổ phách) và "điểm đến" là thể cần chia.
+   Phía trên là tuyến tiến độ: mỗi câu là một ga, ga hiện tại sáng vàng.
+   ========================================================= */
+.pb, .rb { display: contents; }
+.rt { display: none; }
+body.is-stn .rt { display: flex; }
+
+body.is-stn #practice { width: min(1000px, 100%); margin: 0 auto; }
+body.is-stn #practice .practice-card, body.is-stn #practice .result-card {
+  display: flex; flex-direction: column; gap: clamp(12px, 2.4vh, 22px); max-width: none; margin: 0; padding: 0;
+  background: none; border: 0; box-shadow: none; backdrop-filter: none; color: var(--st-ink);
+}
+
+/* tuyến tiến độ */
+body.is-stn #practice .progress { display: flex; align-items: center; gap: clamp(12px, 2vw, 28px); margin: 0; padding: 12px 20px; border: 0; border-radius: 10px; background: var(--st-sign); box-shadow: 0 18px 34px -26px rgba(0, 0, 0, .5); color: var(--st-ink); font: 700 14px 'Be Vietnam Pro', sans-serif; }
+body.is-stn #practice .progress > span:first-child { flex: 0 0 auto; }
+.rt { position: relative; flex: 1 1 auto; align-items: center; justify-content: space-between; min-width: 0; height: 22px; }
+.rt::before { content: ""; position: absolute; left: 6px; right: 6px; top: 50%; height: 6px; margin-top: -3px; border-radius: 3px; background: color-mix(in srgb, var(--st-line) 28%, transparent); }
+.rt i { position: relative; flex: 0 0 auto; width: 12px; height: 12px; border: 3px solid var(--st-line); border-radius: 50%; background: var(--st-sign); }
+.rt i.done { background: var(--st-line); }
+.rt i.now { width: 20px; height: 20px; border-color: #11161b; background: var(--st-yellow); box-shadow: 0 0 0 4px color-mix(in srgb, var(--st-yellow) 35%, transparent); }
+
+/* bảng LED */
+body.is-stn #practice .pb, body.is-stn #practice .rb {
+  display: grid; gap: clamp(10px, 2vh, 18px); padding: clamp(18px, 3.2vh, 34px) clamp(20px, 2.6vw, 42px); border-radius: 14px; background: var(--st-board);
+  box-shadow: 0 0 0 7px var(--st-frame), 0 0 0 8px rgba(255, 255, 255, .12), 0 34px 54px -30px rgba(0, 0, 0, .55);
+  font-family: 'DotGothic16', 'Noto Sans JP', sans-serif;
+}
+body.is-stn #practice .kicker { justify-self: start; margin: 0; padding: 2px 10px; border: 0; border-radius: 3px; background: var(--st-led); color: #0d1114; box-shadow: none; font: 400 13px 'DotGothic16', 'Noto Sans JP', sans-serif; letter-spacing: .04em; }
+body.is-stn #practice .pb h2, body.is-stn #practice .rb h2 { margin: 0; color: #e9eef3; text-shadow: none; font: 700 clamp(20px, 3.4vh, 32px)/1.25 'Be Vietnam Pro', sans-serif; letter-spacing: -.01em; }
+body.is-stn #practice .pb h2 span { color: var(--st-led); }
+body.is-stn #practice .source { display: flex; align-items: baseline; gap: 6px 22px; flex-wrap: wrap; margin: 0; padding: clamp(10px, 2vh, 18px) 0 0; border: 0; border-top: 1px dashed rgba(255, 255, 255, .2); border-radius: 0; background: none; box-shadow: none; }
+body.is-stn #practice .source b { color: var(--st-led); font: 400 clamp(44px, 10.5vh, 108px)/1.05 'DotGothic16', 'Noto Sans JP', monospace; letter-spacing: .03em; text-shadow: 0 0 18px rgba(255, 184, 28, .45); }
+body.is-stn #practice .source small { color: #aab4bf; font: 600 clamp(18px, 3vh, 28px) 'Noto Sans JP', sans-serif; }
+
+/* ô nhập + nút */
+body.is-stn #practice .answer-label { margin: 0; color: var(--st-ink); font: 700 14px 'Be Vietnam Pro', sans-serif; }
+body.is-stn #practice .answer-row { display: flex; gap: 14px; margin: 0; }
+body.is-stn #practice .answer-row input { flex: 1 1 auto; min-width: 0; height: clamp(54px, 8vh, 72px); padding: 0 20px; border: 2px solid var(--st-ink); border-radius: 10px; background: var(--st-sign); color: var(--st-ink); box-shadow: none; font: 700 clamp(20px, 3vh, 28px) 'Noto Sans JP', 'Be Vietnam Pro', sans-serif; }
+body.is-stn #practice .answer-row input:focus { outline: 0; border-color: var(--st-line); box-shadow: 0 0 0 4px color-mix(in srgb, var(--st-line) 28%, transparent); }
+body.is-stn #practice .answer-row input::placeholder { color: var(--st-mute); font-weight: 500; font-size: .7em; }
+body.is-stn #practice .answer-row .primary, body.is-stn #practice .result-actions .primary { flex: 0 0 auto; min-height: clamp(54px, 8vh, 72px); padding: 0 30px; border: 0; border-radius: 10px; background: var(--st-yellow) !important; color: #11161b !important; box-shadow: 0 5px 0 var(--st-yellow-deep) !important; font: 800 clamp(15px, 2vh, 18px) 'Be Vietnam Pro', sans-serif; filter: none; transition: transform .12s ease, box-shadow .12s ease; }
+body.is-stn #practice .answer-row .primary:hover, body.is-stn #practice .result-actions .primary:hover { transform: translateY(-1px); box-shadow: 0 6px 0 var(--st-yellow-deep) !important; }
+body.is-stn #practice .answer-row .primary:active, body.is-stn #practice .result-actions .primary:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--st-yellow-deep) !important; }
+body.is-stn #practice .result-actions .primary.review { background: var(--st-ink) !important; color: var(--st-paper) !important; box-shadow: 0 5px 0 color-mix(in srgb, var(--st-ink) 45%, transparent) !important; }
+body.is-stn #practice .enter-hint { margin: 0; color: var(--st-mute); }
+body.is-stn #practice .input-error { margin: 0; color: var(--st-shu); }
+
+/* kết quả */
+body.is-stn #practice .rb .summary { margin: 0; color: #c9d2db; font: 500 15px 'Be Vietnam Pro', sans-serif; }
+body.is-stn #practice .result-list { display: grid; gap: 10px; margin: 0; }
+body.is-stn #practice .result { --rc: var(--st-line); border: 0; border-radius: 10px; background: var(--st-sign); box-shadow: inset 7px 0 0 var(--rc), 0 12px 24px -20px rgba(0, 0, 0, .45); color: var(--st-ink); }
+body.is-stn #practice .result.correct { --rc: #138a5b; }
+body.is-stn #practice .result.incorrect { --rc: var(--st-shu); }
+body.is-stn #practice .result b, body.is-stn #practice .result > span, body.is-stn #practice .result .to { color: var(--st-ink); }
+body.is-stn #practice .result small, body.is-stn #practice .result .user-answer { color: var(--st-mute); }
+body.is-stn #practice .result .ans strong { color: var(--st-ink); }
+body.is-stn #practice .result-actions { display: flex; gap: 14px; flex-wrap: wrap; margin: 0; }
+
+@media (max-width: 700px) {
+  body.is-stn #practice .progress { flex-wrap: wrap; }
+  body.is-stn #practice .answer-row { flex-direction: column; }
+  body.is-stn #practice .answer-row .primary { width: 100%; }
+}
+/* màn làm bài / kết quả: canh giữa theo chiều dọc cho cân đối */
+html body.is-stn:not(:has(#setup:not([hidden]))) main { align-items: center; padding-top: 18px; padding-bottom: 28px; }
+body.is-stn #practice .result { padding-left: 22px; }
+body.is-stn #practice .practice-card, body.is-stn #practice .result-card { gap: clamp(18px, 3vh, 28px); }

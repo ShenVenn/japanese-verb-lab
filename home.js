@@ -77,7 +77,8 @@ export function initHome({ $, shuffle }) {
 
   /* ===== Kiểu trang chia thể: "Ga tàu" (mới) hoặc "Cổ điển" (lưu trong Cài đặt) ===== */
   const root = document.documentElement, UIKEY = 'verbLabUi';
-  const syncStn = () => document.body.classList.toggle('is-stn', !$('#setup').hidden && root.getAttribute('data-ui') !== 'classic');
+  const inVerbPractice = () => { const p = $('#practice'); return !p.hidden && !!p.querySelector('.practice-card:not(.quiz-card), .result-card') && !p.querySelector('.quiz-card, .result.vocab'); };
+  const syncStn = () => document.body.classList.toggle('is-stn', root.getAttribute('data-ui') !== 'classic' && (!$('#setup').hidden || inVerbPractice()));
   function applyUi(ui, save) {
     if (ui !== 'classic') ui = 'station';
     root.setAttribute('data-ui', ui);
@@ -89,4 +90,5 @@ export function initHome({ $, shuffle }) {
   applyUi(savedUi, false);
   document.querySelectorAll('[data-ui-choice]').forEach(b => b.addEventListener('click', () => applyUi(b.dataset.uiChoice, true)));
   new MutationObserver(syncStn).observe($('#setup'), { attributes: true, attributeFilter: ['hidden'] });
+  new MutationObserver(syncStn).observe($('#practice'), { attributes: true, attributeFilter: ['hidden'], childList: true });
 }
