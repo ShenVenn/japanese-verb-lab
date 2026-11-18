@@ -588,3 +588,48 @@ body.is-stn #practice .result-actions { display: flex; gap: 14px; flex-wrap: wra
 html body.is-stn:not(:has(#setup:not([hidden]))) main { align-items: center; padding-top: 18px; padding-bottom: 28px; }
 body.is-stn #practice .result { padding-left: 22px; }
 body.is-stn #practice .practice-card, body.is-stn #practice .result-card { gap: clamp(18px, 3vh, 28px); }
+
+/* =========================================================
+   Dòng "Verb Lab · ..." : chữ dọc, nằm sát mép trên bên phải,
+   ngay dưới thanh ngang; không khung, không nền bọc quanh.
+   ========================================================= */
+html body footer,
+html body.is-home footer,
+html body.is-stn footer,
+html[data-theme="minimal"]:root footer,
+html[data-theme="minimal"]:root body.is-home footer,
+html[data-theme="minimal"]:root body.is-stn footer {
+  display: block !important;
+  position: fixed;
+  top: 76px;
+  right: 3px;
+  bottom: auto;
+  left: auto;
+  z-index: 4;
+  width: auto;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  align-self: auto;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  writing-mode: vertical-rl;
+  text-align: left;
+  white-space: nowrap;
+  font-size: 10.5px;
+  letter-spacing: .03em;
+  color: color-mix(in srgb, var(--st-ink, #5d7282) 70%, transparent);
+  pointer-events: none;
+  user-select: none;
+}
+html[data-theme="dark"] body footer { color: #9db0cf; background: none; border: 0; }
+@media (max-width: 800px) {
+  html body footer,
+  html body.is-home footer,
+  html body.is-stn footer,
+  html[data-theme="minimal"]:root footer { top: 84px; right: 2px; font-size: 10px; }
+}
